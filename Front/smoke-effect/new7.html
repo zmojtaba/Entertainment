@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Particles Reveal Ocean</title>
+<script src="https://cdn.jsdelivr.net/npm/tsparticles@2/tsparticles.bundle.min.js"></script>
+<style>
+  body, html {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    overflow: hidden;
+    background: url('https://images.unsplash.com/photo-1507525428034-b723cf961d3e') no-repeat center center/cover;
+  }
+
+  /* لایه سفید */
+  #overlay {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background: white;
+    pointer-events: none;
+  }
+
+  #tsparticles {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+  }
+</style>
+</head>
+<body>
+  <div id="overlay"></div>
+  <div id="tsparticles"></div>
+
+  <canvas id="maskCanvas"></canvas>
+
+  <script>
+    const maskCanvas = document.getElementById("maskCanvas");
+    const ctx = maskCanvas.getContext("2d");
+
+    function resizeMask() {
+      maskCanvas.width = innerWidth;
+      maskCanvas.height = innerHeight;
+      maskCanvas.style.position = "absolute";
+      maskCanvas.style.top = "0";
+      maskCanvas.style.left = "0";
+      maskCanvas.style.pointerEvents = "none";
+    }
+
+    resizeMask();
+    window.addEventListener("resize", resizeMask);
+
+    tsParticles.load("tsparticles", {
+      particles: {
+        number: { value: 50 },
+        move: { enable: true, speed: 2 },
+        size: { value: 20 },
+        color: { value: "#ff0000" }
+      },
+      interactivity: {
+        events: { onHover: { enable: true, mode: "bubble" } },
+        modes: {
+          bubble: {
+            distance: 120,
+            size: 150,
+            duration: 0.3,
+            opacity: 1
+          }
+        }
+      }
+    }).then((engine) => {
+      const particles = engine.particles;
+
+      function animateMask() {
+        ctx.clearRect(0, 0, maskCanvas.width, maskCanvas.height);
+
+        ctx.globalCompositeOperation = "destination-out";
+
+        particles.array.forEach(p => {
+          if (p.bubble.inRange) {
+            const r = p.bubble.radius > p.size.value ? p.bubble.radius : p.size.value;
+            ctx.beginPath();
+            ctx.arc(p.position.x, p.position.y, r, 0, Math.PI * 2);
+            ctx.fill();
+          }
+        });
+
+        ctx.globalCompositeOperation = "source-over";
+
+        requestAnimationFrame(animateMask);
+      }
+
+      animateMask();
+    });
+  </script>
+</body>
+</html>

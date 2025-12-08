@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="fa">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Particle Slider with Parallax</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html, body { width: 100%; height: 100%; font-family: Arial, sans-serif; overflow: hidden; }
+
+    .slider {
+      position: relative;
+      width: 100%;
+      height: 100vh;
+      background: url('https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=1950&q=80') no-repeat center center/cover;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      color: white;
+      overflow: hidden;
+    }
+
+    .slider h1 {
+      font-size: 4rem;
+      z-index: 10;
+      text-shadow: 2px 2px 15px rgba(0,0,0,0.6);
+      position: relative;
+    }
+
+    #particles-js {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      top: 0;
+      left: 0;
+      z-index: 0;
+    }
+
+    @media (max-width: 768px) {
+      .slider h1 { font-size: 2.5rem; }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="slider">
+    <h1>Particle Slider</h1>
+    <div id="particles-js"></div>
+  </div>
+
+  <!-- particles.js library -->
+  <script src="https://cdn.jsdelivr.net/npm/particles.js@2.0.0/particles.min.js"></script>
+  <script>
+    // تنظیمات particles.js
+    particlesJS("particles-js", {
+      "particles": {
+        "number": { "value": 120, "density": { "enable": true, "value_area": 800 } },
+        "color": { "value": ["#ffffff","#ff4c4c","#00ffff","#ffcc00"] },
+        "shape": { "type": "circle" },
+        "opacity": { "value": 0.7, "random": true, "anim": { "enable": true, "speed": 1, "opacity_min": 0.3, "sync": false } },
+        "size": { "value": 3, "random": true, "anim": { "enable": true, "speed": 4, "size_min": 0.5, "sync": false } },
+        "line_linked": { "enable": true, "distance": 150, "color": "#ffffff", "opacity": 0.4, "width": 1 },
+        "move": { "enable": true, "speed": 2, "direction": "none", "random": true, "straight": false, "out_mode": "out", "bounce": false }
+      },
+      "interactivity": {
+        "detect_on": "canvas",
+        "events": {
+          "onhover": { "enable": true, "mode": "repulse" },
+          "onclick": { "enable": true, "mode": "push" },
+          "resize": true
+        },
+        "modes": {
+          "grab": { "distance": 200, "line_linked": { "opacity": 1 } },
+          "bubble": { "distance": 250, "size": 8, "duration": 2, "opacity": 0.8, "speed": 3 },
+          "repulse": { "distance": 120, "duration": 0.4 },
+          "push": { "particles_nb": 4 },
+          "remove": { "particles_nb": 2 }
+        }
+      },
+      "retina_detect": true
+    });
+
+    // افکت پارالاکس موس روی پس‌زمینه
+    const slider = document.querySelector('.slider');
+    window.addEventListener('mousemove', (e) => {
+      const x = (e.clientX / window.innerWidth - 0.5) * 30; // میزان حرکت افقی
+      const y = (e.clientY / window.innerHeight - 0.5) * 30; // میزان حرکت عمودی
+      slider.style.backgroundPosition = `${50 - x}% ${50 - y}%`;
+    });
+  </script>
+
+</body>
+</html>

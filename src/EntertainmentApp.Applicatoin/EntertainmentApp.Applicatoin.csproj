@@ -7,13 +7,12 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="MediatR" Version="14.0.0" />
-    <PackageReference Include="MediatR.Extensions.Microsoft.DependencyInjection" Version="11.1.0" />
-    <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="10.0.0" />
+
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\EntertainmentApp.Domain\EntertainmentApp.Domain.csproj" />
+    <ProjectReference Include="..\EntertainmentApp.Shared\EntertainmentApp.Shared.csproj" />
   </ItemGroup>
 
 </Project>
