@@ -1,7 +1,9 @@
 using BuildingBlocks.Behaviors;
 using BuildingBlocks.Exceptions.Handler;
+using EntertainmentApp.Infrastructure;
 using Microsoft.AspNetCore.Http.Features;
 using Microsoft.AspNetCore.HttpOverrides;
+using Microsoft.Extensions.FileProviders;
 using Microsoft.OpenApi.Models;
 
 
@@ -14,23 +16,20 @@ namespace EntertainmentApp.API
         public static void Main(string[] args)
         {
             var builder = WebApplication.CreateBuilder(args);
+            builder.WebHost.UseKestrel(o => o.Limits.MaxRequestBodySize = null);
 
-            builder.Services.Configure<FormOptions>(o =>
-            {
-                o.ValueLengthLimit = int.MaxValue;
-                o.MultipartBodyLengthLimit = int.MaxValue;
-                o.MemoryBufferThreshold = int.MaxValue;
-            });
+
 
             // Configure Kestrel (the server) to allow large bodies (e.g., 500MB)
             builder.WebHost.ConfigureKestrel(serverOptions =>
             {
-                serverOptions.Limits.MaxRequestBodySize = 524_288_000; // 500 MB
+                serverOptions.Limits.MaxRequestBodySize = 1_024_288_000; // 500 MB
             });
 
             builder.Services.AddControllers();
 
             builder.Services.AddEndpointsApiExplorer();
+            builder.WebHost.UseUrls("http://0.0.0.0:5030");
 
             //builder.Services.AddSwaggerGen();
             builder.Services.AddSwaggerGen(c =>
@@ -63,8 +62,19 @@ namespace EntertainmentApp.API
     });
             });
 
+            builder.Services.Configure<FormOptions>(x =>
+            {
+                x.ValueLengthLimit = int.MaxValue;
+                x.MultipartBodyLengthLimit = int.MaxValue;
+                x.MultipartBoundaryLengthLimit = int.MaxValue;
+                x.MultipartHeadersCountLimit = int.MaxValue;
+                x.MultipartHeadersLengthLimit = int.MaxValue;
+            });
 
             builder.Services.AddApplication();
+            builder.Services.AddInfrastructure(builder.Configuration);
+
+
             var MyAllowSpecificOrigins = "_myAllowSpecificOrigins";
             builder.Services.AddCors(options =>
             {
@@ -97,7 +107,12 @@ namespace EntertainmentApp.API
             }
 
             app.MapControllers();
-            app.UseStaticFiles();
+            app.UseStaticFiles(new StaticFileOptions
+            {
+                FileProvider = new PhysicalFileProvider("C://EnternainmentMedia"),
+                RequestPath = "/media",
+                ServeUnknownFileTypes = true // Optional, use carefully
+            });
 
             app.UseForwardedHeaders(new ForwardedHeadersOptions
             {

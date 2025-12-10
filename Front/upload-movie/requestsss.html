@@ -1,0 +1,33 @@
+<form id="uploadForm">
+  <input type="file" id="video" accept="video/*" />
+  <button type="submit">Upload</button>
+</form>
+
+
+<video controls width="800">
+  <source src="http://192.168.61.107:5030/videos/memento.mp4" type="video/mp4" />
+</video>
+<script>
+  document.getElementById("uploadForm").addEventListener("submit", async (e) => {
+    e.preventDefault();
+
+    const fileInput = document.getElementById("video");
+    const file = fileInput.files[0];
+
+    if (!file) {
+      alert("Select a file");
+      return;
+    }
+
+    const formData = new FormData();
+    formData.append("file", file); // ← key name doesn't matter for your server
+
+    await fetch("http://localhost:5030/api/movie", {
+      method: "POST",
+      body: formData
+      // DO NOT set Content-Type manually
+    });
+
+    alert("Upload started");
+  });
+</script>
