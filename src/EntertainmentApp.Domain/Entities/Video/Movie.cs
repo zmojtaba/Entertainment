@@ -5,7 +5,8 @@
         public string Title { get; private set; }
         public string Description { get; private set; }
         public List<Genre> Genres { get; private set; } = new List<Genre>();
-        public List<string> Language { get; private set; } = new List<string>();
+        public List<string> Languages { get; private set; } = new List<string>();
+        public List<string> Countries { get; private set; } = new List<string>();
         public int AgeGroup { get; private set; }
         public List<Director> Directors { get; private set; } = new List<Director>();
         public List<Actor> Actors { get; private set; } = new List<Actor>();
@@ -22,7 +23,7 @@
             Title = title;
             PublishedDate = publishedDate;
             Description = description;
-            Language = language;
+            Languages = language;
             AgeGroup = ageGroup;
             ImageUrl = imageUrl;
             StreamUrl = moviePath;

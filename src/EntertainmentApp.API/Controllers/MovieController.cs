@@ -1,6 +1,8 @@
 ﻿using EntertainmentApp.API.Attributes;
 using EntertainmentApp.API.Helpers;
+using EntertainmentApp.Applicatoin.Common.Models;
 using EntertainmentApp.Applicatoin.Interfaces.Media;
+using EntertainmentApp.Infrastructure.Services;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.WebUtilities;
@@ -37,7 +39,6 @@ namespace EntertainmentApp.API.Controllers
 
         public async Task<IActionResult> UploadMovieAsync()
         {
-            // 1. Validate Content Type (Fast check before spinning up services)
             if (!MultipartRequestHelper.IsMultipartContentType(Request.ContentType))
             {
                 return BadRequest("Request is not multipart.");
@@ -45,9 +46,33 @@ namespace EntertainmentApp.API.Controllers
 
             try
             {
-                // 2. Stream the file to disk (Infrastructure Concern)
-                // We pass Request.Body directly to keep memory usage low
-                var uploadResult = await _mediaService.UploadAsync(Request.Body, Request.ContentType, "video");
+                var uploadResult =  await _mediaService.UploadAsync(Request.Body, Request.ContentType);
+
+                if (uploadResult == null)
+                {
+                    return BadRequest("Form Data is required");
+                }
+                var validator = new MovieUploadResultValidator();
+                var validationResult = await validator.ValidateAsync(uploadResult);
+
+
+
+                if (!validationResult.IsValid)
+                {
+                    var errorResponse = validationResult.Errors.Select(e => new
+                    {
+                        Field = e.PropertyName,
+                        Error = e.ErrorMessage
+                    });
+                    return BadRequest(errorResponse);
+
+                }
+
+
+
+                
+
+
 
                 // 3. Dispatch CQRS Command (Application/Business Concern)
                 //var command = new CreateMovieCommand
@@ -61,7 +86,7 @@ namespace EntertainmentApp.API.Controllers
 
                 return Ok(uploadResult);
             }
-            catch (System.Exception ex)
+            catch (Exception ex)
             {
                 // Log error
                 return StatusCode(500, $"Internal server error: {ex.Message}");

@@ -13,8 +13,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace EntertainmentApp.Infrastructure.Migrations
 {
     [DbContext(typeof(ApplicationDBContext))]
-    [Migration("20251210170235_iiiinit")]
-    partial class iiiinit
+    [Migration("20251211103111_init")]
+    partial class init
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -125,15 +125,15 @@ namespace EntertainmentApp.Infrastructure.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "2273877c-1b24-4c4b-8217-a5f702bf0ca3",
+                            Id = "52845c5b-a33d-4bb8-985f-0e0511611c84",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "47f9f068-cb21-48dc-9486-cf12f62e70d1",
+                            ConcurrencyStamp = "8088fe34-2394-4191-a17b-5b3687eb8c73",
                             EmailConfirmed = false,
                             LockoutEnabled = false,
                             NormalizedUserName = "ADMIN",
-                            PasswordHash = "AQAAAAIAAYagAAAAECmiBrqmnepvY2lDo3rkvLuxgAuLhjn7K1iRbQ/NWfCqxZbuMW0EJ4Z7WTrq2SMmFw==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEOHQQ4lmMQUkyfVPW4lltiJ6qEICpxr3pgLztz/lcpZrQ51xDZmOd/GY90BufkmVXA==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "c0202aa7-7f17-4c5f-9e9c-02334eb0ead3",
+                            SecurityStamp = "d750f7aa-6045-40d4-9773-d58a39ec7399",
                             TwoFactorEnabled = false,
                             UserName = "admin"
                         });
@@ -229,6 +229,10 @@ namespace EntertainmentApp.Infrastructure.Migrations
                     b.Property<int>("AgeGroup")
                         .HasColumnType("integer");
 
+                    b.Property<List<string>>("Countries")
+                        .IsRequired()
+                        .HasColumnType("text[]");
+
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("timestamp with time zone");
 
@@ -243,7 +247,7 @@ namespace EntertainmentApp.Infrastructure.Migrations
                     b.Property<decimal>("ImdbRating")
                         .HasColumnType("numeric");
 
-                    b.Property<List<string>>("Language")
+                    b.Property<List<string>>("Languages")
                         .IsRequired()
                         .HasColumnType("text[]");
 
@@ -313,13 +317,13 @@ namespace EntertainmentApp.Infrastructure.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "3c5cb05b-aec9-4601-9125-25e07b1e9d13",
+                            Id = "06e68534-9485-491d-a43e-6620360dc9e4",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         },
                         new
                         {
-                            Id = "62d6d7ea-895e-4208-abc1-44ede90fb696",
+                            Id = "2dea7a53-55cc-40bd-8168-d3a715e26713",
                             Name = "User",
                             NormalizedName = "USER"
                         });
@@ -414,8 +418,8 @@ namespace EntertainmentApp.Infrastructure.Migrations
                     b.HasData(
                         new
                         {
-                            UserId = "2273877c-1b24-4c4b-8217-a5f702bf0ca3",
-                            RoleId = "3c5cb05b-aec9-4601-9125-25e07b1e9d13"
+                            UserId = "52845c5b-a33d-4bb8-985f-0e0511611c84",
+                            RoleId = "06e68534-9485-491d-a43e-6620360dc9e4"
                         });
                 });
 

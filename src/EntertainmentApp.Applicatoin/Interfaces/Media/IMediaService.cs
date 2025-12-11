@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using EntertainmentApp.Applicatoin.Common.Models;
+using Microsoft.AspNetCore.Http;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,7 +16,7 @@ namespace EntertainmentApp.Applicatoin.Interfaces.Media
     }
     public interface IMediaService
     {
-        Task<FileUploadResult> UploadAsync(Stream bodyStream, string contentType, string category);
+        Task<MediaUploadResult> UploadAsync(Stream bodyStream, string contentType);
     }
 }
 

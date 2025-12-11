@@ -1,8 +1,10 @@
 ﻿using EntertainmentApp.API.Helpers;
+using EntertainmentApp.Applicatoin.Common.Models;
 using EntertainmentApp.Applicatoin.Interfaces.Media;
 using MediatR;
 using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.Net.Http.Headers;
+using System.Text.Json;
 
 namespace EntertainmentApp.Infrastructure.Services
 {
@@ -14,63 +16,159 @@ namespace EntertainmentApp.Infrastructure.Services
             _configuration = configuration;
         }
 
-        public Task<string> NormalizeFileName(string fileName)
+        public async Task<MediaUploadResult> UploadAsync( Stream bodyStream, string contentType )
         {
-            string invalidChars = new string(Path.GetInvalidFileNameChars()) + new string(Path.GetInvalidPathChars());
-            return Task.FromResult(string.Join("_", fileName.Split(invalidChars.ToCharArray(), StringSplitOptions.RemoveEmptyEntries)).TrimEnd('.'));
-        }
+            var mediaUploadResult = new MediaUploadResult();
+            string baseMediaPath = _configuration["BaseStoragePath"] ?? "C://EntertainmentMedia";
 
-        //private readonly string STORAGE_PATH = @"C:\MyVideoStorage";
-        public async Task<FileUploadResult> UploadAsync(Stream bodyStream, string contentType, string category)
-        {
-            string baseMediaPath = _configuration["BaseStoragePath"] ?? "C://EnternainmentMedia";
-            //string baseMediaPath = @"C:\MyVideoStorage";
-            // 1. Prepare Boundary
-            var boundary = MultipartRequestHelper.GetBoundary(MediaTypeHeaderValue.Parse(contentType), lengthLimit: 70_000);
+            var boundary = MultipartRequestHelper.GetBoundary(
+                MediaTypeHeaderValue.Parse(contentType),
+                70_000);
+
             var reader = new MultipartReader(boundary, bodyStream);
+            MultipartSection section;
 
-            var section = await reader.ReadNextSectionAsync();
-            string savedFilePath = "";
-            string originalFileName = "";
+            string tempPath = Path.Combine(baseMediaPath, "temp");
+            string streamPath = null;
+            string streamFileName = null;
+            string posterFileName = null;
+            string posterPath = null;
 
-            while (section != null)
+            while ((section = await reader.ReadNextSectionAsync()) != null)
             {
-                var hasContentDispositionHeader = ContentDispositionHeaderValue.TryParse(section.ContentDisposition, out var contentDisposition);
+                if (!ContentDispositionHeaderValue.TryParse(
+                    section.ContentDisposition, out var disposition))
+                    continue;
 
-                if (hasContentDispositionHeader && MultipartRequestHelper.HasFileContentDisposition(contentDisposition))
+                // FILE
+                if (MultipartRequestHelper.HasFileContentDisposition(disposition))
                 {
-                    // sanitize the filename
-                    originalFileName = HeaderUtilities.RemoveQuotes(contentDisposition.FileName).Value;
-                    var trustedFileName = Path.GetFileName(originalFileName);
+                    string name = HeaderUtilities.RemoveQuotes(disposition.Name).Value;
+                    string fileName = Path.GetFileName(HeaderUtilities.RemoveQuotes(disposition.FileName).Value);
 
-                    // Ensure directory exists
-                    if (!Directory.Exists(baseMediaPath))
+                    //var fileExtention = Path.GetExtension(safeName);
+
+                    if (!Directory.Exists(tempPath) ) Directory.CreateDirectory(tempPath);
+
+                    string storagePath = Path.Combine(tempPath, fileName);
+
+                    if (name.Equals("media", StringComparison.OrdinalIgnoreCase))
                     {
-                        Directory.CreateDirectory(baseMediaPath);
+                        streamPath = storagePath;
+                        streamFileName = fileName;
                     }
 
-                    savedFilePath = Path.Combine(baseMediaPath, trustedFileName);
-
-                    using (var targetStream = File.Create(savedFilePath))
+                    else if (name.Equals("poster", StringComparison.OrdinalIgnoreCase))
                     {
-                        // Copies chunk by chunk (RAM efficient)
-                        await section.Body.CopyToAsync(targetStream);
+                        posterPath = storagePath;
+                        posterFileName = fileName;
                     }
+
+                        using var target = File.Create(storagePath);
+                    await section.Body.CopyToAsync(target);
                 }
+                // FORM FIELD
+                else if (MultipartRequestHelper.HasFormDataContentDisposition(disposition))
+                {
+                    using var reader2 = new StreamReader(section.Body);
+                    var value = await reader2.ReadToEndAsync();
+                    var key = HeaderUtilities.RemoveQuotes(disposition.Name).Value;
 
-                section = await reader.ReadNextSectionAsync();
+                    MapToDto(mediaUploadResult, key, value);
+                }
             }
 
-            if (string.IsNullOrEmpty(savedFilePath))
+            if (streamPath == null || posterPath == null )
+                throw new Exception("Video file missing");
+
+
+
+            string mediaDirectory = Path.Combine(baseMediaPath, "video", "movie", CleanFileName(mediaUploadResult.Title));
+            if (!Directory.Exists(mediaDirectory))
             {
-                throw new Exception("No file was found in the multipart request.");
+
+                Directory.CreateDirectory(mediaDirectory);
+            }
+            string newStreamPath = Path.Combine(mediaDirectory, streamFileName);
+            string newPosterPath = Path.Combine(mediaDirectory, posterFileName);
+            mediaUploadResult.StreamUrl = newStreamPath;
+            mediaUploadResult.ImageUrl = newPosterPath;
+
+            try
+            {
+
+                File.Move(streamPath, newStreamPath, overwrite: true);
+                File.Move(posterPath, newPosterPath, overwrite: true);
+
+                return mediaUploadResult;
+            }
+            catch (Exception ex)
+            {
+                Directory.Delete(mediaDirectory, recursive: true);
+                File.Delete(streamPath);
+                File.Delete(posterPath);
+                throw;
             }
 
-            return new FileUploadResult
-            {
-                LocalFilePath = savedFilePath,
-                OriginalFileName = originalFileName
-            };
+            
         }
+
+        private static string CleanFileName(string name)
+        {
+            foreach (var c in Path.GetInvalidFileNameChars())
+            {
+                name = name.Replace(c.ToString(), "");
+            }
+            return name;
+        }
+        //private static List<string> GenerateMediaPath()
+        //{
+        //    return "";
+        //}
+        private static void MapToDto(MediaUploadResult dto, string key, string value)
+        {
+            switch (key)
+            {
+                case "Title":
+                    dto.Title = value;
+                    break;
+
+                case "Description":
+                    dto.Description = value;
+                    break;
+
+                case "AgeGroup":
+                    dto.AgeGroup = int.Parse(value);
+                    break;
+
+                case "ImdbRating":
+                    dto.ImdbRating = decimal.Parse(value);
+                    break;
+                case "PublishedDate":
+                    dto.PublishedDate = int.Parse(value);
+                    break;
+
+                case "Genres":
+                    dto.Genres = JsonSerializer.Deserialize<List<string>>(value);
+                    break;
+
+                case "Directors":
+                    dto.Directors = JsonSerializer.Deserialize<List<string>>(value);
+                    break;
+
+                case "Actors":
+                    dto.Actors= JsonSerializer.Deserialize<List<string>>(value);
+                    break;
+                case "Languages":
+                    dto.Languages = JsonSerializer.Deserialize<List<string>>(value);
+                    break;
+
+                case "Countries":
+                    dto.Countries = JsonSerializer.Deserialize<List<string>>(value);
+                    break;
+            }
+        }
+
+
     }
 }
