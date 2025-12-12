@@ -1,8 +1,8 @@
-﻿using BuildingBlocks.CQRS;
+﻿using EntertainmentApp.Shared.CQRS;
 using FluentValidation;
 using MediatR;
 
-namespace BuildingBlocks.Behaviors;
+namespace EntertainmentApp.Shared.Behaviors;
 public class ValidationBehavior<TRequest, TResponse>
     (IEnumerable<IValidator<TRequest>> validators)
     : IPipelineBehavior<TRequest, TResponse>

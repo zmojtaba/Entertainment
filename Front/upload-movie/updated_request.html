@@ -64,15 +64,15 @@ document.getElementById("uploadForm").addEventListener("submit", async (e) => {
   fd.append("Title", document.getElementById("title").value);
   fd.append("Description", document.getElementById("description").value);
   fd.append("PublishedDate", 16);
-  fd.append("AgeGroup", 16);
+  fd.append("AgeGroup", 10);
   fd.append("ImdbRating", 8.6);
-  fd.append("Languages", JSON.stringify(["Sundanese"]));
-  fd.append("Countries", JSON.stringify(["Iran", "Iraq"]));
+  fd.append("Languages", JSON.stringify(["sundanese"]));
+  fd.append("Countries", JSON.stringify(["iran", "Iraq"]));
   fd.append("Actors", JSON.stringify(["Drama", "Thriller"])); // Note: These look like genres, but matching your code
   fd.append("Genres", JSON.stringify(["Drama", "Thriller"]));
   fd.append("Directors", JSON.stringify(["Christopher Nolan", "jim carry"]));
 
-  await fetch("http://localhost:5030/api/movie", {
+  await fetch("http://localhost:5030/api/video/movie", {
     method: "POST",
     body: fd
   });

@@ -1,4 +1,5 @@
 ﻿using EntertainmentApp.Applicatoin.Interfaces.Media;
+using EntertainmentApp.Applicatoin.Interfaces.Video;
 using EntertainmentApp.Domain.Entities.Account;
 using EntertainmentApp.Infrastructure.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -14,6 +15,7 @@ namespace EntertainmentApp.Infrastructure
         {
 
             services.AddScoped<IMediaService, MediaService>();
+            services.AddScoped<IMovieRepository, MovieRepository>();
 
             // Use MySQL
             var connectionString = configuration.GetConnectionString("DefaultConnection") ?? "Server=localhost;Port=3306;Database=BookStoreDb;User=root;Password=password;";

@@ -19,15 +19,15 @@ namespace EntertainmentApp.Infrastructure.Migrations
                 name: "Actors",
                 columns: table => new
                 {
-                    Id = table.Column<Guid>(type: "uuid", nullable: false),
                     Name = table.Column<string>(type: "character varying(150)", maxLength: 150, nullable: false),
                     ImagePath = table.Column<string>(type: "text", nullable: true),
+                    Id = table.Column<Guid>(type: "uuid", nullable: false),
                     CreatedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
                     UpdatedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Actors", x => x.Id);
+                    table.PrimaryKey("PK_Actors", x => x.Name);
                 });
 
             migrationBuilder.CreateTable(
@@ -74,51 +74,44 @@ namespace EntertainmentApp.Infrastructure.Migrations
                 name: "Directors",
                 columns: table => new
                 {
-                    Id = table.Column<Guid>(type: "uuid", nullable: false),
                     Name = table.Column<string>(type: "character varying(150)", maxLength: 150, nullable: false),
                     ImagePath = table.Column<string>(type: "text", nullable: true),
+                    Id = table.Column<Guid>(type: "uuid", nullable: false),
                     CreatedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
                     UpdatedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Directors", x => x.Id);
+                    table.PrimaryKey("PK_Directors", x => x.Name);
                 });
 
             migrationBuilder.CreateTable(
                 name: "Genres",
                 columns: table => new
                 {
-                    Id = table.Column<Guid>(type: "uuid", nullable: false),
                     Title = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: false),
+                    Id = table.Column<Guid>(type: "uuid", nullable: false),
                     CreatedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
                     UpdatedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Genres", x => x.Id);
+                    table.PrimaryKey("PK_Genres", x => x.Title);
                 });
 
             migrationBuilder.CreateTable(
-                name: "Movies",
+                name: "Media",
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uuid", nullable: false),
-                    Title = table.Column<string>(type: "character varying(200)", maxLength: 200, nullable: false),
-                    Description = table.Column<string>(type: "text", nullable: false),
-                    Languages = table.Column<List<string>>(type: "text[]", nullable: false),
-                    Countries = table.Column<List<string>>(type: "text[]", nullable: false),
-                    AgeGroup = table.Column<int>(type: "integer", nullable: false),
-                    ImageUrl = table.Column<string>(type: "text", nullable: false),
                     StreamUrl = table.Column<string>(type: "text", nullable: false),
-                    ImdbRating = table.Column<decimal>(type: "numeric", nullable: false),
-                    PublishedDate = table.Column<long>(type: "bigint", nullable: false),
+                    PosterImageUrl = table.Column<string>(type: "text", nullable: false),
                     CreatedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
                     UpdatedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Movies", x => x.Id);
+                    table.PrimaryKey("PK_Media", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -228,20 +221,47 @@ namespace EntertainmentApp.Infrastructure.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Movies",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uuid", nullable: false),
+                    Title = table.Column<string>(type: "character varying(200)", maxLength: 200, nullable: false),
+                    Description = table.Column<string>(type: "text", nullable: false),
+                    Languages = table.Column<List<string>>(type: "text[]", nullable: false),
+                    Countries = table.Column<List<string>>(type: "text[]", nullable: false),
+                    AgeGroup = table.Column<int>(type: "integer", nullable: false),
+                    ImdbRating = table.Column<decimal>(type: "numeric", nullable: false),
+                    PublishedDate = table.Column<int>(type: "integer", nullable: false),
+                    MediaId = table.Column<Guid>(type: "uuid", nullable: false),
+                    CreatedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    UpdatedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Movies", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Movies_Media_MediaId",
+                        column: x => x.MediaId,
+                        principalTable: "Media",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "ActorMovie",
                 columns: table => new
                 {
-                    ActorsId = table.Column<Guid>(type: "uuid", nullable: false),
+                    ActorsName = table.Column<string>(type: "character varying(150)", nullable: false),
                     MoviesId = table.Column<Guid>(type: "uuid", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_ActorMovie", x => new { x.ActorsId, x.MoviesId });
+                    table.PrimaryKey("PK_ActorMovie", x => new { x.ActorsName, x.MoviesId });
                     table.ForeignKey(
-                        name: "FK_ActorMovie_Actors_ActorsId",
-                        column: x => x.ActorsId,
+                        name: "FK_ActorMovie_Actors_ActorsName",
+                        column: x => x.ActorsName,
                         principalTable: "Actors",
-                        principalColumn: "Id",
+                        principalColumn: "Name",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_ActorMovie_Movies_MoviesId",
@@ -255,17 +275,17 @@ namespace EntertainmentApp.Infrastructure.Migrations
                 name: "DirectorMovie",
                 columns: table => new
                 {
-                    DirectorsId = table.Column<Guid>(type: "uuid", nullable: false),
+                    DirectorsName = table.Column<string>(type: "character varying(150)", nullable: false),
                     MoviesId = table.Column<Guid>(type: "uuid", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_DirectorMovie", x => new { x.DirectorsId, x.MoviesId });
+                    table.PrimaryKey("PK_DirectorMovie", x => new { x.DirectorsName, x.MoviesId });
                     table.ForeignKey(
-                        name: "FK_DirectorMovie_Directors_DirectorsId",
-                        column: x => x.DirectorsId,
+                        name: "FK_DirectorMovie_Directors_DirectorsName",
+                        column: x => x.DirectorsName,
                         principalTable: "Directors",
-                        principalColumn: "Id",
+                        principalColumn: "Name",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_DirectorMovie_Movies_MoviesId",
@@ -279,17 +299,17 @@ namespace EntertainmentApp.Infrastructure.Migrations
                 name: "GenreMovie",
                 columns: table => new
                 {
-                    GenresId = table.Column<Guid>(type: "uuid", nullable: false),
+                    GenresTitle = table.Column<string>(type: "character varying(100)", nullable: false),
                     MoviesId = table.Column<Guid>(type: "uuid", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_GenreMovie", x => new { x.GenresId, x.MoviesId });
+                    table.PrimaryKey("PK_GenreMovie", x => new { x.GenresTitle, x.MoviesId });
                     table.ForeignKey(
-                        name: "FK_GenreMovie_Genres_GenresId",
-                        column: x => x.GenresId,
+                        name: "FK_GenreMovie_Genres_GenresTitle",
+                        column: x => x.GenresTitle,
                         principalTable: "Genres",
-                        principalColumn: "Id",
+                        principalColumn: "Title",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_GenreMovie_Movies_MoviesId",
@@ -304,19 +324,19 @@ namespace EntertainmentApp.Infrastructure.Migrations
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
                 values: new object[,]
                 {
-                    { "06e68534-9485-491d-a43e-6620360dc9e4", null, "Admin", "ADMIN" },
-                    { "2dea7a53-55cc-40bd-8168-d3a715e26713", null, "User", "USER" }
+                    { "4b03e21e-88de-4674-9f10-5a0245d3f1ad", null, "User", "USER" },
+                    { "b20be581-5258-4d4d-a887-8db51759390c", null, "Admin", "ADMIN" }
                 });
 
             migrationBuilder.InsertData(
                 table: "AspNetUsers",
                 columns: new[] { "Id", "AccessFailedCount", "ConcurrencyStamp", "Email", "EmailConfirmed", "LockoutEnabled", "LockoutEnd", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "RefreshToken", "SecurityStamp", "TwoFactorEnabled", "UserName" },
-                values: new object[] { "52845c5b-a33d-4bb8-985f-0e0511611c84", 0, "8088fe34-2394-4191-a17b-5b3687eb8c73", null, false, false, null, null, "ADMIN", "AQAAAAIAAYagAAAAEOHQQ4lmMQUkyfVPW4lltiJ6qEICpxr3pgLztz/lcpZrQ51xDZmOd/GY90BufkmVXA==", null, false, null, "d750f7aa-6045-40d4-9773-d58a39ec7399", false, "admin" });
+                values: new object[] { "6280f0d1-4fe0-4a89-ae84-3401cd5ef1e5", 0, "cf8e7063-cf65-4f5e-9e8b-fab9e3f6506b", null, false, false, null, null, "ADMIN", "AQAAAAIAAYagAAAAEKQLQrut2FegD/EZ/Fpzq9I4P/deZ9kETQDg8q/haCKOJQZUPofOfIevo3Als7E8BA==", null, false, null, "238b8fe4-14fc-4c41-a3ca-3be4bf9273e9", false, "admin" });
 
             migrationBuilder.InsertData(
                 table: "AspNetUserRoles",
                 columns: new[] { "RoleId", "UserId" },
-                values: new object[] { "06e68534-9485-491d-a43e-6620360dc9e4", "52845c5b-a33d-4bb8-985f-0e0511611c84" });
+                values: new object[] { "b20be581-5258-4d4d-a887-8db51759390c", "6280f0d1-4fe0-4a89-ae84-3401cd5ef1e5" });
 
             migrationBuilder.CreateIndex(
                 name: "IX_ActorMovie_MoviesId",
@@ -389,6 +409,12 @@ namespace EntertainmentApp.Infrastructure.Migrations
                 unique: true);
 
             migrationBuilder.CreateIndex(
+                name: "IX_Movies_MediaId",
+                table: "Movies",
+                column: "MediaId",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Movies_Title_PublishedDate",
                 table: "Movies",
                 columns: new[] { "Title", "PublishedDate" },
@@ -439,6 +465,9 @@ namespace EntertainmentApp.Infrastructure.Migrations
 
             migrationBuilder.DropTable(
                 name: "Movies");
+
+            migrationBuilder.DropTable(
+                name: "Media");
         }
     }
 }

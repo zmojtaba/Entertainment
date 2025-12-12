@@ -1,4 +1,4 @@
-﻿namespace BuildingBlocks.Exceptions;
+﻿namespace EntertainmentApp.Shared.Exceptions;
 public class InternalServerException : Exception
 {
     public InternalServerException(string message) : base(message)

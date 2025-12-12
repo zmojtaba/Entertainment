@@ -1,6 +1,5 @@
-using BuildingBlocks.Behaviors;
-using BuildingBlocks.Exceptions.Handler;
 using EntertainmentApp.Infrastructure;
+using EntertainmentApp.Shared.Exceptions.Handler;
 using Microsoft.AspNetCore.Http.Features;
 using Microsoft.AspNetCore.HttpOverrides;
 using Microsoft.Extensions.FileProviders;
@@ -25,8 +24,14 @@ namespace EntertainmentApp.API
             {
                 serverOptions.Limits.MaxRequestBodySize = 1_024_288_000; // 500 MB
             });
+            builder.Services.AddControllers().AddJsonOptions(options =>
+            {
+                options.JsonSerializerOptions.ReferenceHandler = System.Text.Json.Serialization.ReferenceHandler.IgnoreCycles;
+                options.JsonSerializerOptions.DefaultIgnoreCondition =
+                    System.Text.Json.Serialization.JsonIgnoreCondition.WhenWritingNull;
+            });
 
-            builder.Services.AddControllers();
+
 
             builder.Services.AddEndpointsApiExplorer();
             builder.WebHost.UseUrls("http://0.0.0.0:5030");

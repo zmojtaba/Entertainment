@@ -17,10 +17,11 @@ namespace EntertainmentApp.Applicatoin.Common.Models
         public int AgeGroup { get;  set; }
         public List<string> Directors { get;  set; } = new List<string>();
         public List<string> Actors { get;  set; } = new List<string>();
-        //public IFormFile Image { get; private set; }
         public decimal ImdbRating { get;  set; }
-        public long PublishedDate { get; set; }
-        public string ImageUrl { get;  set; }
+        public int PublishedDate { get; set; }
+        public string PosterImageUrl { get;  set; }
+        public string PosterImageFileName { get; set; }
         public string StreamUrl { get;  set; }
+        public string StreamFileName { get; set; }
     }
 }

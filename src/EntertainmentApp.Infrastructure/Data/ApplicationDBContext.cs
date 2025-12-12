@@ -18,6 +18,7 @@ namespace EntertainmentApp.Infrastructure.Data
 
         public DbSet<ApplicationUser> ApplicationUsers { get; set; }
         public DbSet<Movie> Movies { get; set; }
+        public DbSet<Media> Media { get; set; }
         public DbSet<Genre> Genres { get; set; }
         public DbSet<Director> Directors { get; set; }  
         public DbSet<Actor> Actors { get; set; }
@@ -59,7 +60,6 @@ namespace EntertainmentApp.Infrastructure.Data
                 UserId = adminUser.Id
             });
 
-
             builder.Entity<Movie>(entity =>
             {
                 entity.HasKey(e => e.Id);
@@ -68,12 +68,13 @@ namespace EntertainmentApp.Infrastructure.Data
                 entity.HasMany(e => e.Genres).WithMany(g => g.Movies);
                 entity.HasMany(e => e.Actors).WithMany(a => a.Movies);
                 entity.HasMany(e => e.Directors).WithMany(d => d.Movies);
-
+                entity.HasOne(e => e.Media).WithOne(Media => Media.Movie).HasForeignKey<Movie>(m => m.MediaId)
+                        .OnDelete(DeleteBehavior.Cascade); ;
             });
 
             builder.Entity<Genre>(entity =>
             {
-                entity.HasKey(e => e.Id);
+                entity.HasKey(e => e.Title);
                 entity.Property(e => e.Title).IsRequired().HasMaxLength(100);
                 entity.HasIndex(e => e.Title).IsUnique();
 
@@ -81,14 +82,14 @@ namespace EntertainmentApp.Infrastructure.Data
 
             builder.Entity<Actor>(entity =>
             {
-                entity.HasKey(e => e.Id);
+                entity.HasKey(e => e.Name);
                 entity.Property(e => e.Name).IsRequired().HasMaxLength(150);
                 entity.HasIndex(e => e.Name).IsUnique();
             });
 
             builder.Entity<Director>(entity =>
             {
-                entity.HasKey(e => e.Id);
+                entity.HasKey(e => e.Name);
                 entity.Property(e => e.Name).IsRequired().HasMaxLength(150);
                 entity.HasIndex(e => e.Name).IsUnique();
             });

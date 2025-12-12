@@ -16,7 +16,9 @@ namespace EntertainmentApp.Applicatoin.Interfaces.Media
     }
     public interface IMediaService
     {
-        Task<MediaUploadResult> UploadAsync(Stream bodyStream, string contentType);
+        public Task<MediaUploadResult> UploadAsync(Stream bodyStream, string contentType, string category, string subCategory);
+        public Task DeleteMediaFilesAsync(string streamUrl, string posterUrl, bool addBaseAddress=false);
+        public Task DeleteMediaDirecoryAsync(string mediaDirectory, bool addBaseAddress = false);
     }
 }
 

@@ -1,5 +1,4 @@
-﻿
-using BuildingBlocks.Behaviors;
+﻿using EntertainmentApp.Shared.Behaviors;
 
 namespace EntertainmentApp.Applicatoin
 {
@@ -13,9 +12,13 @@ namespace EntertainmentApp.Applicatoin
             services.AddMediatR(cfg =>
             {
                 cfg.RegisterServicesFromAssembly(Assembly.GetExecutingAssembly());
+                cfg.AddOpenBehavior(typeof(MovieValidationCleanupBehavior<,>));
                 cfg.AddOpenBehavior(typeof(ValidationBehavior<,>));
                 cfg.AddOpenBehavior(typeof(LoggingBehavior<,>));
+                
             });
+
+
 
             services.AddValidatorsFromAssembly(Assembly.GetExecutingAssembly());
 

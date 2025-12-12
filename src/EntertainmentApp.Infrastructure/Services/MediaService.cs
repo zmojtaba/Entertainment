@@ -1,9 +1,13 @@
 ﻿using EntertainmentApp.API.Helpers;
+using EntertainmentApp.Applicatoin.Common.Constants;
 using EntertainmentApp.Applicatoin.Common.Models;
 using EntertainmentApp.Applicatoin.Interfaces.Media;
+using EntertainmentApp.Shared.Exceptions;
 using MediatR;
+using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.Net.Http.Headers;
+using System.Data;
 using System.Text.Json;
 
 namespace EntertainmentApp.Infrastructure.Services
@@ -16,7 +20,7 @@ namespace EntertainmentApp.Infrastructure.Services
             _configuration = configuration;
         }
 
-        public async Task<MediaUploadResult> UploadAsync( Stream bodyStream, string contentType )
+        public async Task<MediaUploadResult> UploadAsync( Stream bodyStream, string contentType, string category, string subCategory )
         {
             var mediaUploadResult = new MediaUploadResult();
             string baseMediaPath = _configuration["BaseStoragePath"] ?? "C://EntertainmentMedia";
@@ -36,6 +40,7 @@ namespace EntertainmentApp.Infrastructure.Services
 
             while ((section = await reader.ReadNextSectionAsync()) != null)
             {
+
                 if (!ContentDispositionHeaderValue.TryParse(
                     section.ContentDisposition, out var disposition))
                     continue;
@@ -48,20 +53,35 @@ namespace EntertainmentApp.Infrastructure.Services
 
                     //var fileExtention = Path.GetExtension(safeName);
 
+                    if (!IsValidExtension(Path.GetExtension(fileName))) throw new BadRequestException("File is not in valid format");
+
                     if (!Directory.Exists(tempPath) ) Directory.CreateDirectory(tempPath);
 
                     string storagePath = Path.Combine(tempPath, fileName);
 
                     if (name.Equals("media", StringComparison.OrdinalIgnoreCase))
                     {
+                        if (!IsValidExtension(fileName, category))
+                        {
+                            if (File.Exists(posterPath)) File.Delete(posterPath);
+                            throw new BadRequestException($"Invalid video file extension. Supported extensions are: {string.Join(", ", ValidExtensionList.VideoExtension)}");
+                        }
+
                         streamPath = storagePath;
-                        streamFileName = fileName;
+                        streamFileName = Guid.NewGuid().ToString("N") + "_" + fileName;
                     }
 
                     else if (name.Equals("poster", StringComparison.OrdinalIgnoreCase))
                     {
+                        if (!IsValidExtension(fileName, "image"))
+                        {
+                            if (File.Exists(streamPath)) File.Delete(streamPath);
+                            throw new BadRequestException($"Invalid poster file extension. Supported extensions are: {string.Join(", ", ValidExtensionList.ImageExtension)}");
+
+                        }
+
                         posterPath = storagePath;
-                        posterFileName = fileName;
+                        posterFileName = Guid.NewGuid().ToString("N") + "_" + fileName;
                     }
 
                         using var target = File.Create(storagePath);
@@ -79,11 +99,13 @@ namespace EntertainmentApp.Infrastructure.Services
             }
 
             if (streamPath == null || posterPath == null )
-                throw new Exception("Video file missing");
+                throw new Exception("Video file missing try again.");
 
-
-
-            string mediaDirectory = Path.Combine(baseMediaPath, "video", "movie", CleanFileName(mediaUploadResult.Title));
+            //var TitleGuid = 
+            //string TitlePath = CleanFileName(mediaUploadResult.Title) + "_" + Guid.NewGuid().ToString("N");
+            //************************ if category was music then should pass singer insted of title
+            string servePath = GenerateServePath(mediaUploadResult.Title, category, subCategory);
+            string mediaDirectory = Path.Combine(baseMediaPath, servePath);
             if (!Directory.Exists(mediaDirectory))
             {
 
@@ -91,12 +113,13 @@ namespace EntertainmentApp.Infrastructure.Services
             }
             string newStreamPath = Path.Combine(mediaDirectory, streamFileName);
             string newPosterPath = Path.Combine(mediaDirectory, posterFileName);
-            mediaUploadResult.StreamUrl = newStreamPath;
-            mediaUploadResult.ImageUrl = newPosterPath;
+            mediaUploadResult.StreamUrl = Path.Combine(servePath, streamFileName);
+            mediaUploadResult.PosterImageUrl = Path.Combine(servePath, posterFileName);
+            mediaUploadResult.StreamFileName = streamFileName;
+            mediaUploadResult.PosterImageFileName = posterFileName;
 
             try
             {
-
                 File.Move(streamPath, newStreamPath, overwrite: true);
                 File.Move(posterPath, newPosterPath, overwrite: true);
 
@@ -104,13 +127,73 @@ namespace EntertainmentApp.Infrastructure.Services
             }
             catch (Exception ex)
             {
-                Directory.Delete(mediaDirectory, recursive: true);
-                File.Delete(streamPath);
-                File.Delete(posterPath);
+
+                DeleteMediaDirecoryAsync(mediaDirectory);
+                //Directory.Delete(mediaDirectory, recursive: true);
+                DeleteMediaFilesAsync(streamPath, posterPath);
+                //File.Delete(streamPath);
+                //File.Delete(posterPath);
                 throw;
             }
 
             
+        }
+
+        public Task DeleteMediaFilesAsync(string streamUrl, string posterUrl, bool addBaseAddress = false)
+        {
+            if (addBaseAddress)
+            {
+                streamUrl = Path.Combine(_configuration["BaseStoragePath"], streamUrl);
+                posterUrl = Path.Combine(_configuration["BaseStoragePath"], posterUrl);
+            }
+            // delete file from disk / cloud storage
+            if (File.Exists(streamUrl)) File.Delete(streamUrl);
+            if (File.Exists(posterUrl)) File.Delete(posterUrl);
+
+            return Task.CompletedTask;
+        }
+
+        public Task DeleteMediaDirecoryAsync(string mediaDirectory, bool addBaseAddress = false)
+        {
+            if (addBaseAddress) mediaDirectory = Path.Combine(_configuration["BaseStoragePath"], mediaDirectory);
+            if (Directory.Exists(mediaDirectory)) Directory.Delete(mediaDirectory, recursive: true);
+            return Task.CompletedTask;
+        }
+
+        private static string GenerateServePath(string title, string category, string subcategory)
+        {
+            string TitlePath = CleanFileName(title) + "_" + Guid.NewGuid().ToString("N");
+            if (category.Equals("music", StringComparison.OrdinalIgnoreCase))
+            {
+                //title should be singer here.
+                TitlePath = CleanFileName(title);
+            }
+            return Path.Combine(category, subcategory, TitlePath);
+            
+        }
+
+        private static bool IsValidExtension(string fileName, string category)
+        {
+            string extension = Path.GetExtension(fileName);
+            if (category.Equals("video", StringComparison.OrdinalIgnoreCase)) return ValidExtensionList.VideoExtension.Contains(extension, StringComparer.OrdinalIgnoreCase);
+            if (category.Equals("music", StringComparison.OrdinalIgnoreCase)) return ValidExtensionList.AudioExtension.Contains(extension, StringComparer.OrdinalIgnoreCase);
+            if (category.Equals("magazine", StringComparison.OrdinalIgnoreCase)) return ValidExtensionList.BookExtension.Contains(extension, StringComparer.OrdinalIgnoreCase);
+            if (category.Equals("image", StringComparison.OrdinalIgnoreCase)) return ValidExtensionList.ImageExtension.Contains(extension, StringComparer.OrdinalIgnoreCase);
+            if (category.Equals("story", StringComparison.OrdinalIgnoreCase)) return ValidExtensionList.BookExtension.Contains(extension, StringComparer.OrdinalIgnoreCase) ||
+                    ValidExtensionList.AudioExtension.Contains(extension, StringComparer.OrdinalIgnoreCase);
+            return false;
+
+        }
+
+        private static bool IsValidExtension(string extension)
+        {
+            if (
+                ValidExtensionList.BookExtension.Contains(extension, StringComparer.OrdinalIgnoreCase) ||
+                ValidExtensionList.AudioExtension.Contains(extension, StringComparer.OrdinalIgnoreCase) ||
+                ValidExtensionList.VideoExtension.Contains(extension, StringComparer.OrdinalIgnoreCase) ||
+                ValidExtensionList.ImageExtension.Contains(extension, StringComparer.OrdinalIgnoreCase)
+                ) return true;
+            return false;
         }
 
         private static string CleanFileName(string name)
@@ -121,10 +204,7 @@ namespace EntertainmentApp.Infrastructure.Services
             }
             return name;
         }
-        //private static List<string> GenerateMediaPath()
-        //{
-        //    return "";
-        //}
+
         private static void MapToDto(MediaUploadResult dto, string key, string value)
         {
             switch (key)
