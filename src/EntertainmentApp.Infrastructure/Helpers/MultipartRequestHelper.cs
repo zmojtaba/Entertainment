@@ -1,4 +1,4 @@
-﻿using Microsoft.Net.Http.Headers;
+﻿
 namespace EntertainmentApp.API.Helpers
 {
     public static class MultipartRequestHelper

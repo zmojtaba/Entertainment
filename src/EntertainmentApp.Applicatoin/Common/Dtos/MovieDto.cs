@@ -1,11 +1,4 @@
-﻿using EntertainmentApp.Domain.Entities.Shared;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace EntertainmentApp.Applicatoin.Dtos
+﻿namespace EntertainmentApp.Applicatoin.Common.Dtos
 {
 
     public class DirectorDto
@@ -21,10 +14,9 @@ namespace EntertainmentApp.Applicatoin.Dtos
         public string? ImagePath { get; set; }
     }
 
-    public class MediaDto
+    public class GenreDto
     {
-        public string StreamUrl { get;  set; }
-        public string PosterImageUrl { get;  set; }
+        public string Title { get; set; }
     }
 
 
@@ -38,12 +30,13 @@ namespace EntertainmentApp.Applicatoin.Dtos
         public List<string> Language { get;  set; } 
         public List<string> Countries { get; set; }
         public int AgeGroup { get;  set; }
+        public string StreamUrl { get; set; }
+        public string PosterImageUrl { get; set; }
 
 
         public List<string> Genres { get;  set; }
         public List<DirectorDto> Directors { get;  set; } = new();
         public List<ActorDto> Actors { get;  set; } = new();
-        public MediaDto Media { get; set; }
 
 
     }

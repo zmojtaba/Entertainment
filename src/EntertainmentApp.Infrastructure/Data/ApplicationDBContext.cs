@@ -18,7 +18,6 @@ namespace EntertainmentApp.Infrastructure.Data
 
         public DbSet<ApplicationUser> ApplicationUsers { get; set; }
         public DbSet<Movie> Movies { get; set; }
-        public DbSet<Media> Media { get; set; }
         public DbSet<Genre> Genres { get; set; }
         public DbSet<Director> Directors { get; set; }  
         public DbSet<Actor> Actors { get; set; }
@@ -68,8 +67,8 @@ namespace EntertainmentApp.Infrastructure.Data
                 entity.HasMany(e => e.Genres).WithMany(g => g.Movies);
                 entity.HasMany(e => e.Actors).WithMany(a => a.Movies);
                 entity.HasMany(e => e.Directors).WithMany(d => d.Movies);
-                entity.HasOne(e => e.Media).WithOne(Media => Media.Movie).HasForeignKey<Movie>(m => m.MediaId)
-                        .OnDelete(DeleteBehavior.Cascade); ;
+                //entity.HasOne(e => e.Media).WithOne(Media => Media.Movie).HasForeignKey<Media>(m => m.MovieId)
+                //        .OnDelete(DeleteBehavior.Cascade);
             });
 
             builder.Entity<Genre>(entity =>

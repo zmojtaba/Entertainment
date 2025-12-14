@@ -1,13 +1,5 @@
 ﻿
-using EntertainmentApp.Applicatoin.Common.Constants;
-using EntertainmentApp.Applicatoin.Interfaces.Media;
-using EntertainmentApp.Applicatoin.Interfaces.Video;
-using EntertainmentApp.Domain.Entities.Shared;
-using EntertainmentApp.Domain.Entities.Video;
-using EntertainmentApp.Shared.CQRS;
-using EntertainmentApp.Shared.Exceptions;
-using MediatR;
-using Microsoft.EntityFrameworkCore;
+
 
 namespace EntertainmentApp.Applicatoin.Features.Movies.Command
 {
@@ -41,29 +33,36 @@ namespace EntertainmentApp.Applicatoin.Features.Movies.Command
                 RuleFor(x => x.Description).NotEmpty().WithMessage("Description is required");
                 RuleFor(x => x.PublishedDate).NotNull().WithMessage("Published Date is required").GreaterThan(0).WithMessage("Publishe Date must be grather than zero");
                 RuleFor(x => x.AgeGroup).NotNull().WithMessage("Age group is required").GreaterThan(0).WithMessage("Age group can not be negetive");
+
+
                 RuleFor(x => x.Genres)
-                                .NotNull().NotEmpty().WithMessage("At least one Genre is required");
+                                .NotNull().WithMessage("Genre is required");
+                RuleForEach(x => x.Genres).NotEmpty().WithMessage("Genre can not contains empty string");
 
 
                 RuleFor(x => x.Actors)
-                    .NotNull().NotEmpty().WithMessage("At least one Actor is required");
+                    .NotNull().WithMessage("Actor is required");
+                RuleForEach(x => x.Actors).NotEmpty().WithMessage("Actor can not contains empty string");
 
 
                 RuleFor(x => x.Directors)
-                    .NotNull().NotEmpty().WithMessage("At least one Director is required");
+                    .NotNull().WithMessage("Director is required");
+                RuleForEach(x => x.Directors).NotEmpty().WithMessage("Director can not contains empty string");
 
 
 
                 RuleFor(x => x.Languages)
-                    .NotNull().NotEmpty().WithMessage("At least one Language is required");
+                    .NotNull().WithMessage("Language is required");
                 RuleForEach(x => x.Languages)
+                    .NotEmpty().WithMessage("Language can not contains empty string")
                     .Must(l => LanguageList.Languages.Contains(l, StringComparer.OrdinalIgnoreCase))
                     .WithMessage("Language {PropertyValue} is not supported.");
 
 
                 RuleFor(x => x.Countries)
-                    .NotNull().NotEmpty().WithMessage("At least one country is required");
+                    .NotNull().NotEmpty().WithMessage("Country is required");
                 RuleForEach(x => x.Countries)
+                    .NotEmpty().WithMessage("Country can not contains empty string")
                     .Must(c => CountryList.Countries.Contains(c, StringComparer.OrdinalIgnoreCase))
                     .WithMessage("Country {PropertyValue} is not valid.");
 
@@ -89,7 +88,7 @@ namespace EntertainmentApp.Applicatoin.Features.Movies.Command
 
             public async Task<Movie> Handle(CreateMovieCommand command, CancellationToken cancellationToken)
             {
-                Media media = new Media(command.StreamUrl, command.PosterImageUrl);
+
                 Movie movie = new Movie(
                     command.Title,
                     command.Description,
@@ -102,9 +101,11 @@ namespace EntertainmentApp.Applicatoin.Features.Movies.Command
                         .Any( c => c.Equals(x, StringComparison.OrdinalIgnoreCase) )).ToList(),
                     command.AgeGroup,
                     command.ImdbRating,
-                    command.PublishedDate
+                    command.PublishedDate,
+                    command.StreamUrl, 
+                    command.PosterImageUrl
+
                     );
-                movie.SetMedia( media );
 
                 foreach (string g in command.Genres)
                 {
@@ -138,8 +139,8 @@ namespace EntertainmentApp.Applicatoin.Features.Movies.Command
                     await _movieRepo.AddMovieAsync(movie);
                 }catch (DbUpdateException ex)
                 {
-                    await _mediaService.DeleteMediaFilesAsync(media.StreamUrl, media.PosterImageUrl, true);
-                    await _mediaService.DeleteMediaDirecoryAsync(Path.GetDirectoryName(media.StreamUrl), true);
+                    await _mediaService.DeleteMediaFilesAsync(movie.StreamUrl, movie.PosterImageUrl, true);
+                    await _mediaService.DeleteMediaDirecoryAsync(Path.GetDirectoryName(movie.StreamUrl), true);
                     if (ex.InnerException.Message.IndexOf("duplicate key value violates unique constraint", StringComparison.OrdinalIgnoreCase) >= 0)
                         throw new BadRequestException("Movie with this Title and Pusblish Date is already exists");
                     throw;

@@ -1,14 +1,4 @@
-﻿using EntertainmentApp.API.Helpers;
-using EntertainmentApp.Applicatoin.Common.Constants;
-using EntertainmentApp.Applicatoin.Common.Models;
-using EntertainmentApp.Applicatoin.Interfaces.Media;
-using EntertainmentApp.Shared.Exceptions;
-using MediatR;
-using Microsoft.AspNetCore.Http.HttpResults;
-using Microsoft.AspNetCore.WebUtilities;
-using Microsoft.Net.Http.Headers;
-using System.Data;
-using System.Text.Json;
+﻿
 
 namespace EntertainmentApp.Infrastructure.Services
 {
@@ -160,9 +150,23 @@ namespace EntertainmentApp.Infrastructure.Services
             return Task.CompletedTask;
         }
 
+
+        public Task<string> MoveMediaDirectory(string sourceDir,  string title, string category, string subcategory, bool addBaseAddress = false)
+        {
+            string generateServPath = GenerateServePath(title, category, subcategory);
+            string destinationDir = Path.Combine(_configuration["BaseStoragePath"], generateServPath);
+            //if (!Directory.Exists(destinationDir)) Directory.CreateDirectory(destinationDir);
+            if (addBaseAddress) sourceDir = Path.Combine(_configuration["BaseStoragePath"], sourceDir);
+
+            Directory.Move(sourceDir, destinationDir);
+            return Task.FromResult(generateServPath);
+
+        }
+
+
         private static string GenerateServePath(string title, string category, string subcategory)
         {
-            string TitlePath = CleanFileName(title) + "_" + Guid.NewGuid().ToString("N");
+            string TitlePath = CleanFileName(title.Trim()) + "_" + Guid.NewGuid().ToString("N");
             if (category.Equals("music", StringComparison.OrdinalIgnoreCase))
             {
                 //title should be singer here.

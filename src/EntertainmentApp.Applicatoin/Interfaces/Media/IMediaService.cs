@@ -1,10 +1,4 @@
-﻿using EntertainmentApp.Applicatoin.Common.Models;
-using Microsoft.AspNetCore.Http;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿
 
 namespace EntertainmentApp.Applicatoin.Interfaces.Media
 {
@@ -19,6 +13,7 @@ namespace EntertainmentApp.Applicatoin.Interfaces.Media
         public Task<MediaUploadResult> UploadAsync(Stream bodyStream, string contentType, string category, string subCategory);
         public Task DeleteMediaFilesAsync(string streamUrl, string posterUrl, bool addBaseAddress=false);
         public Task DeleteMediaDirecoryAsync(string mediaDirectory, bool addBaseAddress = false);
+        public Task<string> MoveMediaDirectory(string sourceDir, string title, string category, string subcategory, bool addBaseAddress = false);
     }
 }
 

@@ -100,10 +100,17 @@ namespace EntertainmentApp.Infrastructure.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Media",
+                name: "Movies",
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uuid", nullable: false),
+                    Title = table.Column<string>(type: "character varying(200)", maxLength: 200, nullable: false),
+                    Description = table.Column<string>(type: "text", nullable: false),
+                    Languages = table.Column<List<string>>(type: "text[]", nullable: false),
+                    Countries = table.Column<List<string>>(type: "text[]", nullable: false),
+                    AgeGroup = table.Column<int>(type: "integer", nullable: false),
+                    ImdbRating = table.Column<decimal>(type: "numeric", nullable: false),
+                    PublishedDate = table.Column<int>(type: "integer", nullable: false),
                     StreamUrl = table.Column<string>(type: "text", nullable: false),
                     PosterImageUrl = table.Column<string>(type: "text", nullable: false),
                     CreatedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
@@ -111,7 +118,7 @@ namespace EntertainmentApp.Infrastructure.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Media", x => x.Id);
+                    table.PrimaryKey("PK_Movies", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -221,33 +228,6 @@ namespace EntertainmentApp.Infrastructure.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Movies",
-                columns: table => new
-                {
-                    Id = table.Column<Guid>(type: "uuid", nullable: false),
-                    Title = table.Column<string>(type: "character varying(200)", maxLength: 200, nullable: false),
-                    Description = table.Column<string>(type: "text", nullable: false),
-                    Languages = table.Column<List<string>>(type: "text[]", nullable: false),
-                    Countries = table.Column<List<string>>(type: "text[]", nullable: false),
-                    AgeGroup = table.Column<int>(type: "integer", nullable: false),
-                    ImdbRating = table.Column<decimal>(type: "numeric", nullable: false),
-                    PublishedDate = table.Column<int>(type: "integer", nullable: false),
-                    MediaId = table.Column<Guid>(type: "uuid", nullable: false),
-                    CreatedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
-                    UpdatedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Movies", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_Movies_Media_MediaId",
-                        column: x => x.MediaId,
-                        principalTable: "Media",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "ActorMovie",
                 columns: table => new
                 {
@@ -324,19 +304,19 @@ namespace EntertainmentApp.Infrastructure.Migrations
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
                 values: new object[,]
                 {
-                    { "4b03e21e-88de-4674-9f10-5a0245d3f1ad", null, "User", "USER" },
-                    { "b20be581-5258-4d4d-a887-8db51759390c", null, "Admin", "ADMIN" }
+                    { "5ce52a15-a14c-4412-a1bd-5d6cf7ea6d56", null, "Admin", "ADMIN" },
+                    { "7cdd1b54-117c-4384-9046-ea2d8375fffb", null, "User", "USER" }
                 });
 
             migrationBuilder.InsertData(
                 table: "AspNetUsers",
                 columns: new[] { "Id", "AccessFailedCount", "ConcurrencyStamp", "Email", "EmailConfirmed", "LockoutEnabled", "LockoutEnd", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "RefreshToken", "SecurityStamp", "TwoFactorEnabled", "UserName" },
-                values: new object[] { "6280f0d1-4fe0-4a89-ae84-3401cd5ef1e5", 0, "cf8e7063-cf65-4f5e-9e8b-fab9e3f6506b", null, false, false, null, null, "ADMIN", "AQAAAAIAAYagAAAAEKQLQrut2FegD/EZ/Fpzq9I4P/deZ9kETQDg8q/haCKOJQZUPofOfIevo3Als7E8BA==", null, false, null, "238b8fe4-14fc-4c41-a3ca-3be4bf9273e9", false, "admin" });
+                values: new object[] { "945ea091-cd01-4f18-b28a-bc3db07385d3", 0, "0ef15c86-2806-425b-9eea-a843eccda9b4", null, false, false, null, null, "ADMIN", "AQAAAAIAAYagAAAAEDZzwEw5kYko4Xto22oWr81ozbkzXL/Ssh/Y/mwrHZ6Os1RW38v4elJBPGZcTl/9cw==", null, false, null, "accdafe8-85fe-46df-a512-cd553a37424d", false, "admin" });
 
             migrationBuilder.InsertData(
                 table: "AspNetUserRoles",
                 columns: new[] { "RoleId", "UserId" },
-                values: new object[] { "b20be581-5258-4d4d-a887-8db51759390c", "6280f0d1-4fe0-4a89-ae84-3401cd5ef1e5" });
+                values: new object[] { "5ce52a15-a14c-4412-a1bd-5d6cf7ea6d56", "945ea091-cd01-4f18-b28a-bc3db07385d3" });
 
             migrationBuilder.CreateIndex(
                 name: "IX_ActorMovie_MoviesId",
@@ -409,12 +389,6 @@ namespace EntertainmentApp.Infrastructure.Migrations
                 unique: true);
 
             migrationBuilder.CreateIndex(
-                name: "IX_Movies_MediaId",
-                table: "Movies",
-                column: "MediaId",
-                unique: true);
-
-            migrationBuilder.CreateIndex(
                 name: "IX_Movies_Title_PublishedDate",
                 table: "Movies",
                 columns: new[] { "Title", "PublishedDate" },
@@ -465,9 +439,6 @@ namespace EntertainmentApp.Infrastructure.Migrations
 
             migrationBuilder.DropTable(
                 name: "Movies");
-
-            migrationBuilder.DropTable(
-                name: "Media");
         }
     }
 }

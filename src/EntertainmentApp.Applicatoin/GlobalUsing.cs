@@ -2,3 +2,17 @@
 global using System.Reflection;
 global using FluentValidation;
 global using MediatR;
+global using EntertainmentApp.Applicatoin.Common.Dtos;
+global using EntertainmentApp.Applicatoin.Interfaces.Video;
+global using EntertainmentApp.Shared.CQRS;
+global using EntertainmentApp.Applicatoin.Common.Constants;
+global using EntertainmentApp.Applicatoin.Interfaces.Media;
+global using EntertainmentApp.Domain.Entities.Shared;
+global using EntertainmentApp.Domain.Entities.Video;
+global using EntertainmentApp.Shared.Exceptions;
+global using Microsoft.EntityFrameworkCore;
+global using EntertainmentApp.Shared.Behaviors;
+global using EntertainmentApp.Applicatoin.Features.Movies.Command;
+global using Microsoft.Extensions.Configuration;
+global using EntertainmentApp.Applicatoin.Common.Models;
+global using EntertainmentApp.Applicatoin.Common.Mappers;

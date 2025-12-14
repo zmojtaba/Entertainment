@@ -1,11 +1,7 @@
-﻿using EntertainmentApp.Applicatoin.Interfaces.Media;
-using EntertainmentApp.Applicatoin.Interfaces.Video;
-using EntertainmentApp.Domain.Entities.Account;
-using EntertainmentApp.Infrastructure.Services;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.IdentityModel.Tokens;
+﻿
+
+
+using EntertainmentApp.Infrastructure.Repository;
 
 namespace EntertainmentApp.Infrastructure
 {
