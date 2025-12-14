@@ -7,10 +7,6 @@ using System.Threading.Tasks;
 
 namespace EntertainmentApp.Applicatoin.Dtos
 {
-    //public class MovieGenreDto
-    //{
-    //    string
-    //}
 
     public class DirectorDto
     {
