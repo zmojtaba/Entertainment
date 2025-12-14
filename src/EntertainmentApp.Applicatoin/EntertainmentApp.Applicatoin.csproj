@@ -7,8 +7,12 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="Features\Media\" />
-    <Folder Include="Validators\" />
+    <Compile Remove="Features\Media\**" />
+    <Compile Remove="Validators\**" />
+    <EmbeddedResource Remove="Features\Media\**" />
+    <EmbeddedResource Remove="Validators\**" />
+    <None Remove="Features\Media\**" />
+    <None Remove="Validators\**" />
   </ItemGroup>
 
   <ItemGroup>

@@ -1,9 +1,4 @@
-﻿using MediatR;
-using FluentValidation;
-using EntertainmentApp.Applicatoin.Features.Movies.Command;
-using EntertainmentApp.Applicatoin.Interfaces.Media;
-using Microsoft.Extensions.Configuration;
-
+﻿
 namespace EntertainmentApp.Shared.Behaviors
 {
     public class MovieValidationCleanupBehavior<TRequest, TResponse>

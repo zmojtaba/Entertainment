@@ -10,10 +10,8 @@
         public decimal ImdbRating { get; private set; }
         public int PublishedDate { get; private set; }
 
-
-        public Guid MediaId { get; private set; }     // FK
-        public Media Media { get; private set; }
-
+        public string StreamUrl { get; private set; }
+        public string PosterImageUrl { get; private set; }
 
         public List<Genre> Genres { get; private set; } = new List<Genre>();
         public List<Director> Directors { get; private set; } = new List<Director>();
@@ -28,7 +26,9 @@
             List<string> countries,
             int ageGroup,
             decimal imdbRating,
-            int publishedDate)
+            int publishedDate,
+            string streamUrl,
+            string posterImageUrl)
         {
             SetTitle(title);
             SetDescription(description);
@@ -37,7 +37,21 @@
             SetAgeGroup(ageGroup);
             SetImdbRating(imdbRating);
             SetPublishedDate(publishedDate);
+            SetStreamUrl(streamUrl);
+            SetPosterImageUrl(posterImageUrl);
         }
+
+        //public void UpdateDetails(Movie movie)
+        //{
+        //    SetTitle(movie.Title);
+        //    SetDescription(movie.Description);
+        //    SetLanguages(movie.Languages);
+        //    SetCountries(movie.Countries);
+        //    SetAgeGroup(movie.AgeGroup);
+        //    SetImdbRating(movie.ImdbRating);
+        //    SetPublishedDate(movie.PublishedDate);
+
+        //}
 
         // ------------------------------
         // Setters (Encapsulated Changes)
@@ -102,18 +116,29 @@
         // ------------------------------
         // Media Relationship
         // ------------------------------
-        public void SetMedia(Media media)
+        public void SetStreamUrl(string streamUrl)
         {
-            if (media == null)
-                throw new DomainException("Media cannot be null.");
+            if (string.IsNullOrWhiteSpace(streamUrl))
+                throw new DomainException("Stream url cannot be null.");
 
-            Media = media;
-            MediaId = media.Id;
+            StreamUrl = streamUrl.Trim();
+        }
+
+        public void SetPosterImageUrl(string posterImageUrl)
+        {
+            if (string.IsNullOrWhiteSpace(posterImageUrl))
+                throw new DomainException("Poster image url cannot be null");
+            PosterImageUrl = posterImageUrl.Trim();
         }
 
         // ------------------------------
         // Add/Remove Logic
         // ------------------------------
+
+        public void RemoveGenres()
+        {
+            Genres = new();
+        }
 
         public void AddGenre(Genre genre)
         {
@@ -123,6 +148,8 @@
             Genres.Add(genre);
         }
 
+
+        public void RemoveDirectors() => Directors = new();
         public void AddDirector(Director director)
         {
             if (director == null)
@@ -131,6 +158,7 @@
             Directors.Add(director);
         }
 
+        public void RemoveActors() => Actors = new();
         public void AddActor(Actor actor)
         {
             if (actor == null)
@@ -138,6 +166,6 @@
 
             Actors.Add(actor);
         }
-
+    
     }
 }

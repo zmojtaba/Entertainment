@@ -1,6 +1,4 @@
-﻿using Microsoft.AspNetCore.Mvc.Filters;
-using Microsoft.AspNetCore.Mvc.ModelBinding;
-
+﻿
 namespace EntertainmentApp.API.Attributes
 {
     [AttributeUsage(AttributeTargets.Class | AttributeTargets.Method)]

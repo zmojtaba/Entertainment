@@ -13,7 +13,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace EntertainmentApp.Infrastructure.Migrations
 {
     [DbContext(typeof(ApplicationDBContext))]
-    [Migration("20251212134624_init")]
+    [Migration("20251214092923_init")]
     partial class init
     {
         /// <inheritdoc />
@@ -125,15 +125,15 @@ namespace EntertainmentApp.Infrastructure.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "6280f0d1-4fe0-4a89-ae84-3401cd5ef1e5",
+                            Id = "945ea091-cd01-4f18-b28a-bc3db07385d3",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "cf8e7063-cf65-4f5e-9e8b-fab9e3f6506b",
+                            ConcurrencyStamp = "0ef15c86-2806-425b-9eea-a843eccda9b4",
                             EmailConfirmed = false,
                             LockoutEnabled = false,
                             NormalizedUserName = "ADMIN",
-                            PasswordHash = "AQAAAAIAAYagAAAAEKQLQrut2FegD/EZ/Fpzq9I4P/deZ9kETQDg8q/haCKOJQZUPofOfIevo3Als7E8BA==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEDZzwEw5kYko4Xto22oWr81ozbkzXL/Ssh/Y/mwrHZ6Os1RW38v4elJBPGZcTl/9cw==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "238b8fe4-14fc-4c41-a3ca-3be4bf9273e9",
+                            SecurityStamp = "accdafe8-85fe-46df-a512-cd553a37424d",
                             TwoFactorEnabled = false,
                             UserName = "admin"
                         });
@@ -214,31 +214,6 @@ namespace EntertainmentApp.Infrastructure.Migrations
                     b.ToTable("Genres");
                 });
 
-            modelBuilder.Entity("EntertainmentApp.Domain.Entities.Shared.Media", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid");
-
-                    b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("timestamp with time zone");
-
-                    b.Property<string>("PosterImageUrl")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<string>("StreamUrl")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<DateTime?>("UpdatedAt")
-                        .HasColumnType("timestamp with time zone");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Media");
-                });
-
             modelBuilder.Entity("EntertainmentApp.Domain.Entities.Video.Movie", b =>
                 {
                     b.Property<Guid>("Id")
@@ -266,11 +241,16 @@ namespace EntertainmentApp.Infrastructure.Migrations
                         .IsRequired()
                         .HasColumnType("text[]");
 
-                    b.Property<Guid>("MediaId")
-                        .HasColumnType("uuid");
+                    b.Property<string>("PosterImageUrl")
+                        .IsRequired()
+                        .HasColumnType("text");
 
                     b.Property<int>("PublishedDate")
                         .HasColumnType("integer");
+
+                    b.Property<string>("StreamUrl")
+                        .IsRequired()
+                        .HasColumnType("text");
 
                     b.Property<string>("Title")
                         .IsRequired()
@@ -281,9 +261,6 @@ namespace EntertainmentApp.Infrastructure.Migrations
                         .HasColumnType("timestamp with time zone");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("MediaId")
-                        .IsUnique();
 
                     b.HasIndex("Title", "PublishedDate")
                         .IsUnique();
@@ -334,13 +311,13 @@ namespace EntertainmentApp.Infrastructure.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "b20be581-5258-4d4d-a887-8db51759390c",
+                            Id = "5ce52a15-a14c-4412-a1bd-5d6cf7ea6d56",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         },
                         new
                         {
-                            Id = "4b03e21e-88de-4674-9f10-5a0245d3f1ad",
+                            Id = "7cdd1b54-117c-4384-9046-ea2d8375fffb",
                             Name = "User",
                             NormalizedName = "USER"
                         });
@@ -435,8 +412,8 @@ namespace EntertainmentApp.Infrastructure.Migrations
                     b.HasData(
                         new
                         {
-                            UserId = "6280f0d1-4fe0-4a89-ae84-3401cd5ef1e5",
-                            RoleId = "b20be581-5258-4d4d-a887-8db51759390c"
+                            UserId = "945ea091-cd01-4f18-b28a-bc3db07385d3",
+                            RoleId = "5ce52a15-a14c-4412-a1bd-5d6cf7ea6d56"
                         });
                 });
 
@@ -487,17 +464,6 @@ namespace EntertainmentApp.Infrastructure.Migrations
                         .HasForeignKey("MoviesId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-                });
-
-            modelBuilder.Entity("EntertainmentApp.Domain.Entities.Video.Movie", b =>
-                {
-                    b.HasOne("EntertainmentApp.Domain.Entities.Shared.Media", "Media")
-                        .WithOne("Movie")
-                        .HasForeignKey("EntertainmentApp.Domain.Entities.Video.Movie", "MediaId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Media");
                 });
 
             modelBuilder.Entity("GenreMovie", b =>
@@ -563,12 +529,6 @@ namespace EntertainmentApp.Infrastructure.Migrations
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
-            modelBuilder.Entity("EntertainmentApp.Domain.Entities.Shared.Media", b =>
-                {
-                    b.Navigation("Movie")
                         .IsRequired();
                 });
 #pragma warning restore 612, 618

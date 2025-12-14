@@ -126,8 +126,6 @@ namespace EntertainmentApp.API
                        ForwardedHeaders.XForwardedHost
             });
 
-
-
             app.Run();
         }
     }

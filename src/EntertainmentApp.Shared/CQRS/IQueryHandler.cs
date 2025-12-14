@@ -1,6 +1,4 @@
-﻿using MediatR;
-
-namespace EntertainmentApp.Shared.CQRS;
+﻿namespace EntertainmentApp.Shared.CQRS;
 public interface IQueryHandler<in TQuery, TResponse>
     : IRequestHandler<TQuery, TResponse>
     where TQuery : IQuery<TResponse>

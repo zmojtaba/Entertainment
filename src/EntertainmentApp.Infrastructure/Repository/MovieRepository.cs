@@ -1,8 +1,4 @@
-﻿using EntertainmentApp.Applicatoin.Interfaces.Video;
-using EntertainmentApp.Domain.Entities.Shared;
-using EntertainmentApp.Domain.Entities.Video;
-
-namespace EntertainmentApp.Infrastructure.Services
+﻿namespace EntertainmentApp.Infrastructure.Repository
 {
     public class MovieRepository : IMovieRepository
     {
@@ -24,6 +20,11 @@ namespace EntertainmentApp.Infrastructure.Services
             return genre;
         }
 
+        public async Task<List<Genre>> GetMovieGenresAsync()
+        {
+            return await _context.Genres.Where(g => g.Movies.Any()).ToListAsync(); 
+        }
+
         public async Task<Director?> GetDirectorAsync(string directorName)
         {
             return await _context.Directors.FindAsync(directorName);
@@ -37,9 +38,22 @@ namespace EntertainmentApp.Infrastructure.Services
             return director;
         }
 
+        public async Task<List<Director>> GetAllDirector()
+        {
+            return await _context.Directors.ToListAsync();
+        }
+
+
+
+
         public async Task<Actor?> GetActorAsync(string actorName)
         {
             return await _context.Actors.FindAsync(actorName);
+        }
+
+        public async Task<List<Actor>> GetAllActorsAsync()
+        {
+            return await _context.Actors.ToListAsync();
         }
 
         public async Task<Actor> AddActorAsync(Actor actor)
@@ -55,5 +69,38 @@ namespace EntertainmentApp.Infrastructure.Services
             await _context.SaveChangesAsync();
             return movie;
         }
+
+        public async Task<List<Movie>> GetAllMoviesAsync()
+        {
+            return await _context.Movies
+                .Include(m => m.Genres)
+                .Include(m => m.Actors)
+                .Include(m => m.Directors)
+                .ToListAsync();
+        }
+
+        public async Task<Movie?> GetMovieByIdAsync(Guid id)
+        {
+            return await _context.Movies
+                .Include(m => m.Genres)
+                .Include(m => m.Actors)
+                .Include(m => m.Directors)
+                .FirstOrDefaultAsync(m => m.Id == id);
+        }
+
+        public async Task DeleteMovieAsync(Movie movie)
+        {
+            _context.Movies.Remove(movie);
+            await _context.SaveChangesAsync();
+        }
+
+        public async Task<Movie> UpdateMovieAsync(Movie movie)
+        {
+            _context.Movies.Update(movie);
+            await _context.SaveChangesAsync();
+            return movie;
+        }
+
+
     }
 }
