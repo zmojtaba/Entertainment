@@ -10,7 +10,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace EntertainmentApp.Infrastructure.Migrations
 {
     /// <inheritdoc />
-    public partial class iniit : Migration
+    public partial class init : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -68,6 +68,23 @@ namespace EntertainmentApp.Infrastructure.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_AspNetUsers", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Corus",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uuid", nullable: false),
+                    Title = table.Column<string>(type: "text", nullable: false),
+                    Country = table.Column<string>(type: "text", nullable: false),
+                    City = table.Column<string>(type: "text", nullable: false),
+                    StreamUrl = table.Column<string>(type: "text", nullable: false),
+                    CreatedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    UpdatedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Corus", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -440,19 +457,19 @@ namespace EntertainmentApp.Infrastructure.Migrations
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
                 values: new object[,]
                 {
-                    { "9c1931a3-7e0c-48d1-bfb9-aa43ad3e21e3", null, "User", "USER" },
-                    { "cd0a29e3-5d95-4dd6-9450-1e4f532e8798", null, "Admin", "ADMIN" }
+                    { "942dfb92-7782-4763-aa3f-83c9bb661f94", null, "User", "USER" },
+                    { "db6b29db-5a42-44e8-ab69-aecf10028036", null, "Admin", "ADMIN" }
                 });
 
             migrationBuilder.InsertData(
                 table: "AspNetUsers",
                 columns: new[] { "Id", "AccessFailedCount", "ConcurrencyStamp", "Email", "EmailConfirmed", "LockoutEnabled", "LockoutEnd", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "RefreshToken", "SecurityStamp", "TwoFactorEnabled", "UserName" },
-                values: new object[] { "09152a0e-9018-4e12-ab1c-a86afc8216d3", 0, "6aba226e-3419-46e9-834f-7cfc56a2e6c2", null, false, false, null, null, "ADMIN", "AQAAAAIAAYagAAAAEApRlc9sKEHbB5KVQrbISw8KU5d14sxd/V/XXp/C/fv0C81oNXolqz542iRFWmBlPg==", null, false, null, "7a888ad7-2b84-45b8-8e45-0884a8b5b4cf", false, "admin" });
+                values: new object[] { "34ba03b9-9c35-4b8d-b215-2b3df6db06b7", 0, "59d73ae8-87ea-4f7a-a02a-5874ba55d37c", null, false, false, null, null, "ADMIN", "AQAAAAIAAYagAAAAEOgqVbIvVO23MR8bgigvzlNq/92UawDcDQJG3vGEKDNRN4FbYRQ9W23odCKc3kIuzg==", null, false, null, "3de5d9ee-2596-4a1e-82d1-5d9c55ec076f", false, "admin" });
 
             migrationBuilder.InsertData(
                 table: "AspNetUserRoles",
                 columns: new[] { "RoleId", "UserId" },
-                values: new object[] { "cd0a29e3-5d95-4dd6-9450-1e4f532e8798", "09152a0e-9018-4e12-ab1c-a86afc8216d3" });
+                values: new object[] { "db6b29db-5a42-44e8-ab69-aecf10028036", "34ba03b9-9c35-4b8d-b215-2b3df6db06b7" });
 
             migrationBuilder.CreateIndex(
                 name: "IX_ActorMovie_MoviesId",
@@ -587,6 +604,9 @@ namespace EntertainmentApp.Infrastructure.Migrations
 
             migrationBuilder.DropTable(
                 name: "AspNetUserTokens");
+
+            migrationBuilder.DropTable(
+                name: "Corus");
 
             migrationBuilder.DropTable(
                 name: "DirectorMovie");

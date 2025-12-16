@@ -1,4 +1,5 @@
-﻿using EntertainmentApp.Domain.Entities.Account;
+﻿using EntertainmentApp.Domain.Entities;
+using EntertainmentApp.Domain.Entities.Account;
 using EntertainmentApp.Domain.Entities.Shared;
 using EntertainmentApp.Domain.Entities.Video;
 using Microsoft.AspNetCore.Identity;
@@ -24,6 +25,7 @@ namespace EntertainmentApp.Infrastructure.Data
         public DbSet<Series> Series { get; set; }
         public DbSet<Season> Seasons { get; set; }
         public DbSet<Episode> Episodes { get; set; }
+        public DbSet<Coru> Corus { get; set; }
 
 
 
@@ -127,8 +129,10 @@ namespace EntertainmentApp.Infrastructure.Data
                 entity.HasIndex(e => e.Name).IsUnique();
             });
 
-
-
+            builder.Entity<Coru>(entity =>
+            {
+                entity.HasKey(e => e.Id);
+            });
 
 
         }

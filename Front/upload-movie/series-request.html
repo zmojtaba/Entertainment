@@ -47,8 +47,9 @@ document.getElementById("uploadForm").addEventListener("submit", async (e) => {
   controls
   preload="metadata"
 >
+
   <source
-    src="http://localhost:5030/media/video\\movie\\new updated title_f78fcffd13a3417d82a454ed47bf1db6\\99c62119c0274486bd18aef170cce0dc_Test.mp4"
+    src="http://0.0.0.0:5030/media/video//series//stringmobile_d45bd489c7f447f8bf06ced2d6d2687f//a6c8f60a8cfe458d9466062a4e608769_VID-20251215-WA0001.mp4"
     type="video/mp4"
   />
 </video>
@@ -62,7 +63,7 @@ document.getElementById("uploadForm").addEventListener("submit", async (e) => {
 
   // 1. Append the Video
   const videoFile = document.getElementById("video").files[0];
-  fd.append("media", videoFile);
+  fd.append("video", videoFile);
 
   // 2. Append the Image (New)
   // Ensure the key string "poster" matches exactly what your Backend DTO expects
@@ -70,8 +71,8 @@ document.getElementById("uploadForm").addEventListener("submit", async (e) => {
   fd.append("SeriesId", document.getElementById("guid").value);
   fd.append("EpisodeNumber", document.getElementById("EpisodeNumber").value);
   fd.append("SeasonNumber", document.getElementById("SeasonNumber").value);
-
-  await fetch("http://localhost:5030/api/video/series/season", {
+// http://localhost:5030/api/video/series/season
+  await fetch("http://192.168.61.107:5030/api/video/series/season", {
     method: "POST",
     body: fd
   });

@@ -22,6 +22,9 @@
         public int EpisodeNumber { get; set; }
         public Guid SeriesId { get; set; }
 
+        public string City { get; set; }
+        public string Country { get; set; }
 
-    }
+
+        }
 }

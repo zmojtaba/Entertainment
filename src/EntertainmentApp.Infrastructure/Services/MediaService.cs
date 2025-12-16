@@ -51,12 +51,23 @@ namespace EntertainmentApp.Infrastructure.Services
                     fileName = Guid.NewGuid().ToString("N") + "_" + fileName;
                     string storagePath = Path.Combine(tempPath, fileName);
 
-                    if (name.Equals("media", StringComparison.OrdinalIgnoreCase))
+                    if (name.Equals("video", StringComparison.OrdinalIgnoreCase))
                     {
-                        if (!IsValidExtension(fileName, category))
+                        if (!IsValidExtension(fileName, "video"))
                         {
                             if (File.Exists(posterPath)) File.Delete(posterPath);
                             throw new BadRequestException($"Invalid video file extension. Supported extensions are: {string.Join(", ", ValidExtensionList.VideoExtension)}");
+                        }
+
+                        streamPath = storagePath;
+                        streamFileName = fileName;
+                    }
+                    if (name.Equals("audio", StringComparison.OrdinalIgnoreCase))
+                    {
+                        if (!IsValidExtension(fileName, "music"))
+                        {
+                            if (File.Exists(posterPath)) File.Delete(posterPath);
+                            throw new BadRequestException($"Invalid audio file extension. Supported extensions are: {string.Join(", ", ValidExtensionList.AudioExtension)}");
                         }
 
                         streamPath = storagePath;
@@ -93,7 +104,7 @@ namespace EntertainmentApp.Infrastructure.Services
             //    throw new BadRequestException("Poster Image file required.");
 
             if (streamPath == null )
-                throw new BadRequestException("Video file is required.");
+                throw new BadRequestException("Media file is required.");
 
             mediaUploadResult.TempStreamUrl = streamPath;
             mediaUploadResult.TempPosterImageUrl =posterPath ;
@@ -254,55 +265,62 @@ namespace EntertainmentApp.Infrastructure.Services
 
         private static void MapToDto(MediaUploadResult dto, string key, string value)
         {
-            switch (key)
+            switch (key.ToLower())
             {
-                case "SeriesId":
+                case "seriesid":
                     dto.SeriesId = Guid.Parse(value);
                     break;
 
-                case "SeasonNumber":
+                case "seasonnumber":
                     dto.SeasonNumber = int.Parse(value);
                     break;
-                case "EpisodeNumber":
+                case "episodenumber":
                     dto.EpisodeNumber = int.Parse(value);
                     break;
-                case "Title":
+                case "title":
                     dto.Title = value;
                     break;
 
-                case "Description":
+                case "description":
                     dto.Description = value;
                     break;
 
-                case "AgeGroup":
+                case "agegroup":
                     dto.AgeGroup = int.Parse(value);
                     break;
 
-                case "ImdbRating":
+                case "imdbrating":
                     dto.ImdbRating = decimal.Parse(value);
                     break;
-                case "PublishedDate":
+                case "publisheddate":
                     dto.PublishedDate = int.Parse(value);
                     break;
 
-                case "Genres":
+                case "genres":
                     dto.Genres = JsonSerializer.Deserialize<List<string>>(value);
                     break;
 
-                case "Directors":
+                case "directors":
                     dto.Directors = JsonSerializer.Deserialize<List<string>>(value);
                     break;
 
-                case "Actors":
+                case "actors":
                     dto.Actors= JsonSerializer.Deserialize<List<string>>(value);
                     break;
-                case "Languages":
+                case "languages":
                     dto.Languages = JsonSerializer.Deserialize<List<string>>(value);
                     break;
 
-                case "Countries":
+                case "countries":
                     dto.Countries = JsonSerializer.Deserialize<List<string>>(value);
                     break;
+                case "city":
+                    dto.City = value;
+                    break;
+                case "country":
+                    dto.Country = value;
+                    break;
+
             }
         }
 

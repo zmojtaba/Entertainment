@@ -152,18 +152,51 @@ namespace EntertainmentApp.Infrastructure.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "09152a0e-9018-4e12-ab1c-a86afc8216d3",
+                            Id = "34ba03b9-9c35-4b8d-b215-2b3df6db06b7",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "6aba226e-3419-46e9-834f-7cfc56a2e6c2",
+                            ConcurrencyStamp = "59d73ae8-87ea-4f7a-a02a-5874ba55d37c",
                             EmailConfirmed = false,
                             LockoutEnabled = false,
                             NormalizedUserName = "ADMIN",
-                            PasswordHash = "AQAAAAIAAYagAAAAEApRlc9sKEHbB5KVQrbISw8KU5d14sxd/V/XXp/C/fv0C81oNXolqz542iRFWmBlPg==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEOgqVbIvVO23MR8bgigvzlNq/92UawDcDQJG3vGEKDNRN4FbYRQ9W23odCKc3kIuzg==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "7a888ad7-2b84-45b8-8e45-0884a8b5b4cf",
+                            SecurityStamp = "3de5d9ee-2596-4a1e-82d1-5d9c55ec076f",
                             TwoFactorEnabled = false,
                             UserName = "admin"
                         });
+                });
+
+            modelBuilder.Entity("EntertainmentApp.Domain.Entities.Coru", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<string>("City")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("Country")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("StreamUrl")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("Title")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<DateTime?>("UpdatedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Corus");
                 });
 
             modelBuilder.Entity("EntertainmentApp.Domain.Entities.Shared.Actor", b =>
@@ -458,13 +491,13 @@ namespace EntertainmentApp.Infrastructure.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "cd0a29e3-5d95-4dd6-9450-1e4f532e8798",
+                            Id = "db6b29db-5a42-44e8-ab69-aecf10028036",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         },
                         new
                         {
-                            Id = "9c1931a3-7e0c-48d1-bfb9-aa43ad3e21e3",
+                            Id = "942dfb92-7782-4763-aa3f-83c9bb661f94",
                             Name = "User",
                             NormalizedName = "USER"
                         });
@@ -559,8 +592,8 @@ namespace EntertainmentApp.Infrastructure.Migrations
                     b.HasData(
                         new
                         {
-                            UserId = "09152a0e-9018-4e12-ab1c-a86afc8216d3",
-                            RoleId = "cd0a29e3-5d95-4dd6-9450-1e4f532e8798"
+                            UserId = "34ba03b9-9c35-4b8d-b215-2b3df6db06b7",
+                            RoleId = "db6b29db-5a42-44e8-ab69-aecf10028036"
                         });
                 });
 

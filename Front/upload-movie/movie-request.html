@@ -65,7 +65,7 @@ document.getElementById("uploadForm").addEventListener("submit", async (e) => {
 
   // 1. Append the Video
   const videoFile = document.getElementById("video").files[0];
-  fd.append("media", videoFile);
+  fd.append("video", videoFile);
 
   // 2. Append the Image (New)
   // Ensure the key string "poster" matches exactly what your Backend DTO expects
