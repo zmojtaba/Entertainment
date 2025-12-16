@@ -20,6 +20,9 @@ namespace EntertainmentApp.Applicatoin.Interfaces.Video
 
         public Task<Movie> AddMovieAsync(Movie movie);
         public Task<List<Movie>> GetAllMoviesAsync();
+        public Task<List<Movie>> GetMoviesByLanguage(string language);
+        public Task<List<Movie>> GetMoviesByGenre(string genre);
+        public Task<List<Movie>> GetMovieByFilterAsync(string language, string genre);
         public Task<Movie> GetMovieByIdAsync(Guid id);
         public Task DeleteMovieAsync(Movie movie);
         public Task<Movie> UpdateMovieAsync(Movie movie);

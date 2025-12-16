@@ -1,5 +1,4 @@
-﻿
-namespace EntertainmentApp.Applicatoin.Features.Video.GetMovieRefrenceData
+﻿namespace EntertainmentApp.Applicatoin.Features.Video
 {
     public record GetMovieRefrenceDataQuery() : IQuery<GetMovieRefrenceDataResponse>;
     public record GetMovieRefrenceDataResponse( List<GenreDto> Genres, List<ActorDto> Actors, List<DirectorDto>  Directores, List<string> Languages, List<string> Countries);

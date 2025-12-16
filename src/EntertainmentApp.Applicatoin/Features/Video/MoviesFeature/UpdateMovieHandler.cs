@@ -1,8 +1,4 @@
-﻿using EntertainmentApp.Applicatoin.Common.Dtos;
-using EntertainmentApp.Domain.Entities.Shared;
-using static Microsoft.EntityFrameworkCore.DbLoggerCategory.Database;
-
-namespace EntertainmentApp.Applicatoin.Features.Video.UpdateMovie
+﻿namespace EntertainmentApp.Applicatoin.Features.Video.MoviesFeature
 {
     public class UpdateMovieCommand : ICommand<MovieDto>
     {
@@ -28,8 +24,9 @@ namespace EntertainmentApp.Applicatoin.Features.Video.UpdateMovie
             RuleFor(x => x.Description).NotEmpty().WithMessage("Description is required");
             RuleFor(x => x.PublishedDate).NotNull().WithMessage("Published Date is required").GreaterThan(0).WithMessage("Publishe Date must be grather than zero");
             RuleFor(x => x.AgeGroup).NotNull().WithMessage("Age group is required").GreaterThan(0).WithMessage("Age group can not be negetive");
-            
-            
+            RuleFor(x => x.ImdbRating).LessThanOrEqualTo(10).GreaterThan(0).WithMessage("IMDB rating must be between Zero and Ten");
+
+
             RuleFor(x => x.Genres)
                             .NotNull().WithMessage("Genre is required");
             RuleForEach(x => x.Genres).NotEmpty().WithMessage("Genre can not contains empty string");

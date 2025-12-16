@@ -10,7 +10,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace EntertainmentApp.Infrastructure.Migrations
 {
     /// <inheritdoc />
-    public partial class init : Migration
+    public partial class iniit : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -119,6 +119,27 @@ namespace EntertainmentApp.Infrastructure.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Movies", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Series",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uuid", nullable: false),
+                    Title = table.Column<string>(type: "text", nullable: false),
+                    Description = table.Column<string>(type: "text", nullable: false),
+                    Languages = table.Column<List<string>>(type: "text[]", nullable: false),
+                    Countries = table.Column<List<string>>(type: "text[]", nullable: false),
+                    AgeGroup = table.Column<int>(type: "integer", nullable: false),
+                    ImdbRating = table.Column<decimal>(type: "numeric", nullable: false),
+                    PublishedDate = table.Column<int>(type: "integer", nullable: false),
+                    PosterImageUrl = table.Column<string>(type: "text", nullable: false),
+                    CreatedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    UpdatedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Series", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -299,24 +320,139 @@ namespace EntertainmentApp.Infrastructure.Migrations
                         onDelete: ReferentialAction.Cascade);
                 });
 
+            migrationBuilder.CreateTable(
+                name: "ActorSeries",
+                columns: table => new
+                {
+                    ActorsName = table.Column<string>(type: "character varying(150)", nullable: false),
+                    SeriesId = table.Column<Guid>(type: "uuid", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_ActorSeries", x => new { x.ActorsName, x.SeriesId });
+                    table.ForeignKey(
+                        name: "FK_ActorSeries_Actors_ActorsName",
+                        column: x => x.ActorsName,
+                        principalTable: "Actors",
+                        principalColumn: "Name",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_ActorSeries_Series_SeriesId",
+                        column: x => x.SeriesId,
+                        principalTable: "Series",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "DirectorSeries",
+                columns: table => new
+                {
+                    DirectorsName = table.Column<string>(type: "character varying(150)", nullable: false),
+                    SeriesId = table.Column<Guid>(type: "uuid", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_DirectorSeries", x => new { x.DirectorsName, x.SeriesId });
+                    table.ForeignKey(
+                        name: "FK_DirectorSeries_Directors_DirectorsName",
+                        column: x => x.DirectorsName,
+                        principalTable: "Directors",
+                        principalColumn: "Name",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_DirectorSeries_Series_SeriesId",
+                        column: x => x.SeriesId,
+                        principalTable: "Series",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "GenreSeries",
+                columns: table => new
+                {
+                    GenresTitle = table.Column<string>(type: "character varying(100)", nullable: false),
+                    SeriesId = table.Column<Guid>(type: "uuid", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_GenreSeries", x => new { x.GenresTitle, x.SeriesId });
+                    table.ForeignKey(
+                        name: "FK_GenreSeries_Genres_GenresTitle",
+                        column: x => x.GenresTitle,
+                        principalTable: "Genres",
+                        principalColumn: "Title",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_GenreSeries_Series_SeriesId",
+                        column: x => x.SeriesId,
+                        principalTable: "Series",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Seasons",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uuid", nullable: false),
+                    SeasonNumber = table.Column<int>(type: "integer", nullable: false),
+                    SeriesId = table.Column<Guid>(type: "uuid", nullable: true),
+                    CreatedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    UpdatedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Seasons", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Seasons_Series_SeriesId",
+                        column: x => x.SeriesId,
+                        principalTable: "Series",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Episodes",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uuid", nullable: false),
+                    EpisodeNumber = table.Column<int>(type: "integer", nullable: false),
+                    StreamUrl = table.Column<string>(type: "text", nullable: false),
+                    SeasonId = table.Column<Guid>(type: "uuid", nullable: true),
+                    CreatedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    UpdatedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Episodes", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Episodes_Seasons_SeasonId",
+                        column: x => x.SeasonId,
+                        principalTable: "Seasons",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
             migrationBuilder.InsertData(
                 table: "AspNetRoles",
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
                 values: new object[,]
                 {
-                    { "5ce52a15-a14c-4412-a1bd-5d6cf7ea6d56", null, "Admin", "ADMIN" },
-                    { "7cdd1b54-117c-4384-9046-ea2d8375fffb", null, "User", "USER" }
+                    { "9c1931a3-7e0c-48d1-bfb9-aa43ad3e21e3", null, "User", "USER" },
+                    { "cd0a29e3-5d95-4dd6-9450-1e4f532e8798", null, "Admin", "ADMIN" }
                 });
 
             migrationBuilder.InsertData(
                 table: "AspNetUsers",
                 columns: new[] { "Id", "AccessFailedCount", "ConcurrencyStamp", "Email", "EmailConfirmed", "LockoutEnabled", "LockoutEnd", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "RefreshToken", "SecurityStamp", "TwoFactorEnabled", "UserName" },
-                values: new object[] { "945ea091-cd01-4f18-b28a-bc3db07385d3", 0, "0ef15c86-2806-425b-9eea-a843eccda9b4", null, false, false, null, null, "ADMIN", "AQAAAAIAAYagAAAAEDZzwEw5kYko4Xto22oWr81ozbkzXL/Ssh/Y/mwrHZ6Os1RW38v4elJBPGZcTl/9cw==", null, false, null, "accdafe8-85fe-46df-a512-cd553a37424d", false, "admin" });
+                values: new object[] { "09152a0e-9018-4e12-ab1c-a86afc8216d3", 0, "6aba226e-3419-46e9-834f-7cfc56a2e6c2", null, false, false, null, null, "ADMIN", "AQAAAAIAAYagAAAAEApRlc9sKEHbB5KVQrbISw8KU5d14sxd/V/XXp/C/fv0C81oNXolqz542iRFWmBlPg==", null, false, null, "7a888ad7-2b84-45b8-8e45-0884a8b5b4cf", false, "admin" });
 
             migrationBuilder.InsertData(
                 table: "AspNetUserRoles",
                 columns: new[] { "RoleId", "UserId" },
-                values: new object[] { "5ce52a15-a14c-4412-a1bd-5d6cf7ea6d56", "945ea091-cd01-4f18-b28a-bc3db07385d3" });
+                values: new object[] { "cd0a29e3-5d95-4dd6-9450-1e4f532e8798", "09152a0e-9018-4e12-ab1c-a86afc8216d3" });
 
             migrationBuilder.CreateIndex(
                 name: "IX_ActorMovie_MoviesId",
@@ -328,6 +464,11 @@ namespace EntertainmentApp.Infrastructure.Migrations
                 table: "Actors",
                 column: "Name",
                 unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_ActorSeries_SeriesId",
+                table: "ActorSeries",
+                column: "SeriesId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetRoleClaims_RoleId",
@@ -378,6 +519,17 @@ namespace EntertainmentApp.Infrastructure.Migrations
                 unique: true);
 
             migrationBuilder.CreateIndex(
+                name: "IX_DirectorSeries_SeriesId",
+                table: "DirectorSeries",
+                column: "SeriesId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Episodes_SeasonId_EpisodeNumber",
+                table: "Episodes",
+                columns: new[] { "SeasonId", "EpisodeNumber" },
+                unique: true);
+
+            migrationBuilder.CreateIndex(
                 name: "IX_GenreMovie_MoviesId",
                 table: "GenreMovie",
                 column: "MoviesId");
@@ -389,8 +541,25 @@ namespace EntertainmentApp.Infrastructure.Migrations
                 unique: true);
 
             migrationBuilder.CreateIndex(
+                name: "IX_GenreSeries_SeriesId",
+                table: "GenreSeries",
+                column: "SeriesId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Movies_Title_PublishedDate",
                 table: "Movies",
+                columns: new[] { "Title", "PublishedDate" },
+                unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Seasons_SeriesId_SeasonNumber",
+                table: "Seasons",
+                columns: new[] { "SeriesId", "SeasonNumber" },
+                unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Series_Title_PublishedDate",
+                table: "Series",
                 columns: new[] { "Title", "PublishedDate" },
                 unique: true);
         }
@@ -400,6 +569,9 @@ namespace EntertainmentApp.Infrastructure.Migrations
         {
             migrationBuilder.DropTable(
                 name: "ActorMovie");
+
+            migrationBuilder.DropTable(
+                name: "ActorSeries");
 
             migrationBuilder.DropTable(
                 name: "AspNetRoleClaims");
@@ -420,7 +592,16 @@ namespace EntertainmentApp.Infrastructure.Migrations
                 name: "DirectorMovie");
 
             migrationBuilder.DropTable(
+                name: "DirectorSeries");
+
+            migrationBuilder.DropTable(
+                name: "Episodes");
+
+            migrationBuilder.DropTable(
                 name: "GenreMovie");
+
+            migrationBuilder.DropTable(
+                name: "GenreSeries");
 
             migrationBuilder.DropTable(
                 name: "Actors");
@@ -435,10 +616,16 @@ namespace EntertainmentApp.Infrastructure.Migrations
                 name: "Directors");
 
             migrationBuilder.DropTable(
-                name: "Genres");
+                name: "Seasons");
 
             migrationBuilder.DropTable(
                 name: "Movies");
+
+            migrationBuilder.DropTable(
+                name: "Genres");
+
+            migrationBuilder.DropTable(
+                name: "Series");
         }
     }
 }

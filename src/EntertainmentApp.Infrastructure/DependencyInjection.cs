@@ -12,6 +12,7 @@ namespace EntertainmentApp.Infrastructure
 
             services.AddScoped<IMediaService, MediaService>();
             services.AddScoped<IMovieRepository, MovieRepository>();
+            services.AddScoped<ISeriesRepository, SeriesRepository>();
 
             // Use MySQL
             var connectionString = configuration.GetConnectionString("DefaultConnection") ?? "Server=localhost;Port=3306;Database=BookStoreDb;User=root;Password=password;";

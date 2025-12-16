@@ -1,5 +1,4 @@
-﻿
-namespace EntertainmentApp.Applicatoin.Features.Video.GetActor
+﻿namespace EntertainmentApp.Applicatoin.Features.Video
 {
     public record GetAllActorsQuery() :  IQuery<List<ActorDto>>;
 

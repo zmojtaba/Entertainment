@@ -10,7 +10,7 @@
 
         public async Task<Genre?> GetGenreAsync(string movieGenre)
         {
-            return await _context.Genres.FindAsync(movieGenre);
+            return await _context.Genres.FirstOrDefaultAsync(g => g.Title.ToLower() == movieGenre.ToLower());
         }
 
         public async Task<Genre> AddGenreAsync(Genre genre)
@@ -22,13 +22,14 @@
 
         public async Task<List<Genre>> GetMovieGenresAsync()
         {
-            return await _context.Genres.Where(g => g.Movies.Any()).ToListAsync(); 
+            return await _context.Genres.Where(g => g.Movies.Any() || g.Series.Any()).ToListAsync(); 
         }
 
         public async Task<Director?> GetDirectorAsync(string directorName)
         {
-            return await _context.Directors.FindAsync(directorName);
-
+            return await _context.Directors
+                .FirstOrDefaultAsync(d =>
+                    d.Name.ToLower() == directorName.ToLower());
         }
 
         public async Task<Director> AddDirectorAsync(Director director)
@@ -48,7 +49,7 @@
 
         public async Task<Actor?> GetActorAsync(string actorName)
         {
-            return await _context.Actors.FindAsync(actorName);
+            return await _context.Actors.FirstOrDefaultAsync(a => a.Name.ToLower() == actorName.ToLower());
         }
 
         public async Task<List<Actor>> GetAllActorsAsync()
@@ -63,20 +64,78 @@
             return actor;
         }
 
+
+
         public async Task<Movie> AddMovieAsync(Movie movie)
         {
             await _context.Movies.AddAsync(movie);
             await _context.SaveChangesAsync();
             return movie;
         }
-
         public async Task<List<Movie>> GetAllMoviesAsync()
+        {
+
+            return await _context.Movies
+                .Include(m => m.Genres)
+                .Include(m => m.Actors)
+                .Include(m => m.Directors)
+                .OrderByDescending(m => m.CreatedAt)
+                .ToListAsync();
+        }
+
+        public async Task<List<Movie>> GetMoviesByLanguage(string language)
+        {
+            if (language.Equals("persian", StringComparison.OrdinalIgnoreCase))
+                return await _context.Movies
+                    .Include(m => m.Genres)
+                    .Include(m => m.Actors)
+                    .Include(m => m.Directors)
+                    .OrderByDescending(m => m.CreatedAt)
+                    .Where(m => m.Languages.Any(l => l.ToLower() ==  language.ToLower()))
+                    .ToListAsync();
+
+            return await _context.Movies
+                .Include(m => m.Genres)
+                .Include(m => m.Actors)
+                .Include(m => m.Directors)
+                .OrderByDescending(m => m.CreatedAt)
+                .Where(m => m.Languages.Any(l => l.ToLower() != "persian"))
+                .ToListAsync();
+        }
+
+        public async Task<List<Movie>> GetMoviesByGenre(string genre)
         {
             return await _context.Movies
                 .Include(m => m.Genres)
                 .Include(m => m.Actors)
                 .Include(m => m.Directors)
+                .OrderByDescending(m => m.CreatedAt)
+                .Where(m => m.Genres.Any(g => g.Title.ToLower() == genre.ToLower()))
                 .ToListAsync();
+        }
+
+        public async Task<List<Movie>> GetMovieByFilterAsync(string language, string genre)
+        {
+            if (language.Equals("persian", StringComparison.OrdinalIgnoreCase))
+                return await _context.Movies
+                    .Include(m => m.Actors)
+                    .Include(m => m.Genres)
+                    .Include(m => m.Directors)
+                    .OrderByDescending(m => m.CreatedAt)
+                    .Where(m =>
+                        m.Languages.Any(l => l.ToLower() == "persian") &&
+                        m.Genres.Any(g => g.Title.ToLower() == genre.ToLower())
+                    ).ToListAsync();
+
+            return await _context.Movies
+                    .Include(m => m.Actors)
+                    .Include(m => m.Genres)
+                    .Include(m => m.Directors)
+                    .OrderByDescending(m => m.CreatedAt)
+                    .Where(m =>
+                        m.Languages.Any(l => l.ToLower() != "persian") &&
+                        m.Genres.Any(g => g.Title.ToLower() == genre.ToLower())
+                    ).ToListAsync();
         }
 
         public async Task<Movie?> GetMovieByIdAsync(Guid id)

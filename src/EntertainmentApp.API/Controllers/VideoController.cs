@@ -4,19 +4,21 @@ using EntertainmentApp.API.Helpers;
 using EntertainmentApp.Applicatoin.Common.Dtos;
 using EntertainmentApp.Applicatoin.Common.Mappers;
 using EntertainmentApp.Applicatoin.Common.Models;
-using EntertainmentApp.Applicatoin.Features.Video.DeleteMovie;
-using EntertainmentApp.Applicatoin.Features.Video.GetActor;
-using EntertainmentApp.Applicatoin.Features.Video.GetMovieById;
-using EntertainmentApp.Applicatoin.Features.Video.GetMovieGenres;
-using EntertainmentApp.Applicatoin.Features.Video.GetMovieRefrenceData;
-using EntertainmentApp.Applicatoin.Features.Video.GetMoviesAsync;
-using EntertainmentApp.Applicatoin.Features.Video.UpdateMovie;
+using EntertainmentApp.Applicatoin.Features.Video;
+using EntertainmentApp.Applicatoin.Features.Video.MoviesFeature;
+using EntertainmentApp.Applicatoin.Features.Video.SeriesFeature;
 using EntertainmentApp.Applicatoin.Interfaces.Media;
 using EntertainmentApp.Domain.Entities.Video;
 using EntertainmentApp.Shared.Exceptions;
 using Mapster;
 using Microsoft.AspNetCore.Mvc;
-using static EntertainmentApp.Applicatoin.Features.Movies.Command.CreateMovieHandler;
+using NpgsqlTypes;
+using static EntertainmentApp.Applicatoin.Features.Video.MoviesFeature.CreateMovieHandler;
+using static EntertainmentApp.Applicatoin.Features.Video.SeriesFeature.CreateSeasonHandler;
+using static EntertainmentApp.Applicatoin.Features.Video.SeriesFeature.DeleteEpisodeHandler;
+using static EntertainmentApp.Applicatoin.Features.Video.SeriesFeature.DeleteSeasonHandler;
+using static EntertainmentApp.Applicatoin.Features.Video.SeriesFeature.GetSeriesByIdHandler;
+
 
 namespace EntertainmentApp.API.Controllers
 {
@@ -37,7 +39,7 @@ namespace EntertainmentApp.API.Controllers
         }
 
         [HttpPost("movie")]
-        [DisableFormValueModelBinding] 
+        [DisableFormValueModelBinding]
         [RequestSizeLimit(long.MaxValue)]
 
         public async Task<IActionResult> UploadMovieAsync()
@@ -50,7 +52,7 @@ namespace EntertainmentApp.API.Controllers
 
             try
             {
-                mediaUploadResult =  await _mediaService.UploadAsync(Request.Body, Request.ContentType, "video", "movie");
+                mediaUploadResult = await _mediaService.UploadAsync(Request.Body, Request.ContentType, "video", "movie");
             }
             catch (BadRequestException ex)
             {
@@ -66,6 +68,8 @@ namespace EntertainmentApp.API.Controllers
             {
                 return BadRequest("Form Data is required");
             }
+
+
 
             CreateMovieCommand command = mediaUploadResult.Adapt<CreateMovieCommand>();
             Movie movieResult = await _mediator.Send(command);
@@ -85,9 +89,9 @@ namespace EntertainmentApp.API.Controllers
         }
 
         [HttpGet("movie")]
-        public async Task<IActionResult> GetAllMoviesAsync()
+        public async Task<IActionResult> GetAllMoviesAsync([FromQuery] string? language, [FromQuery] string? genre)
         {
-            GetMoviesQuery query = new GetMoviesQuery();
+            GetMoviesQuery query = new GetMoviesQuery(language, genre);
             List<MovieDto> result = await _mediator.Send(query);
             return Ok(result);
         }
@@ -107,7 +111,6 @@ namespace EntertainmentApp.API.Controllers
             await _mediator.Send(command);
             return Ok("Deleted Successfully");
         }
-
 
         [HttpGet("actors")]
         public async Task<IActionResult> GetAllActor()
@@ -130,7 +133,113 @@ namespace EntertainmentApp.API.Controllers
             var result = await _mediator.Send(new GetMovieRefrenceDataQuery());
             return Ok(result);
         }
-      
 
+
+
+
+        [HttpPost("series")]
+        public async Task<IActionResult> CreateSeriesAsync([FromForm] CreateSeriesDto dto)
+        {
+            string posterImagePath = null;
+            if (dto.PosterImageUrl == null) return BadRequest("Poster Image is required");
+            try
+            {
+                posterImagePath = await _mediaService.UploadPosterImage(dto.PosterImageFile);
+                dto.PosterImageUrl = posterImagePath;
+            }catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+            CreateSeriesCommand command = dto.Adapt<CreateSeriesCommand>();
+            SeriesDto result = await _mediator.Send(command);
+            return Ok(result);
+        }
+
+        [HttpGet("series")]
+        public async Task<IActionResult> GetSeriesAsync([FromQuery] string? language, [FromQuery] string? genre)
+        {
+            GetSeriesQuery query = new GetSeriesQuery(language, genre);
+            List<SeriesDto> result = await _mediator.Send(query);
+            return Ok(result);
+        }
+
+        [HttpGet("series/{id}")]
+        public async Task<IActionResult> GetSeriesByIdAsync([FromRoute] Guid id)
+        {
+            GetSeriesByIdQuery query = new GetSeriesByIdQuery(id);
+            SeriesDto result = await _mediator.Send(query);
+            return Ok(result);
+        }
+
+
+        [HttpPut("series/")]
+        public async Task<IActionResult> UpdateSeriedAsync([FromBody] UpdateSeriesDto dto)
+        {
+            UpdateSeriesCommand command = dto.Adapt<UpdateSeriesCommand>();
+            SeriesDto result = await _mediator.Send(command);
+            return Ok(result);
+        }
+
+        [HttpDelete("series/{id}")]
+        public async Task<IActionResult> DelteSeriesAsync(Guid id)
+        {
+            DeleteSeriesCommand command = new DeleteSeriesCommand(id);
+            await _mediator.Send(command);
+            return Ok("successfully deleted");
+        }
+
+
+        [HttpPost("series/season")]
+        [DisableFormValueModelBinding]
+        [RequestSizeLimit(long.MaxValue)]
+        public async Task<IActionResult> CreateSeasonAsync()
+        {
+            MediaUploadResult mediaUploadResult = null;
+            if (!MultipartRequestHelper.IsMultipartContentType(Request.ContentType))
+            {
+                return BadRequest("Request is not multipart.");
+            }
+
+            try
+            {
+                mediaUploadResult = await _mediaService.UploadAsync(Request.Body, Request.ContentType, "video", "series");
+            }
+            catch (BadRequestException ex)
+            {
+                return StatusCode(400, ex.Message);
+            }
+            catch (Exception ex)
+            {
+                // Log error
+                return StatusCode(500, $"Internal server error: {ex.Message}");
+            }
+
+            CreateSeasonCommand command = mediaUploadResult.Adapt<CreateSeasonCommand>();
+            SeasonDto result = await _mediator.Send(command);
+            return Ok(result);
+        }
+
+
+        [HttpDelete("series/season/{id}")]
+        public async Task<IActionResult> DeleteSeasonAsync([FromRoute] Guid id)
+        {
+            DeleteSeasonCommand command = new DeleteSeasonCommand(id);
+            await _mediator.Send(command);
+            return Ok("Successfully Deleted");
+        }
+
+        [HttpDelete("seires/episode/{id}")]
+        public async Task<IActionResult> DeleteSeasonEpisodeById([FromRoute] Guid id)
+        {
+            await _mediator.Send(new DeleteEpisodeCommand(id));
+            return Ok("Successfully Deleted");
+        }
+
+        //[HttpGet("series/season")]
+        //public async Task<IActionResult> GetSeasonAsync()
+        //{
+        //    return Ok();
+        //}
+    
     }
 }

@@ -1,7 +1,4 @@
-﻿
-
-
-namespace EntertainmentApp.Applicatoin.Features.Movies.Command
+﻿namespace EntertainmentApp.Applicatoin.Features.Video.MoviesFeature
 {
     public class CreateMovieHandler
     {
@@ -33,6 +30,7 @@ namespace EntertainmentApp.Applicatoin.Features.Movies.Command
                 RuleFor(x => x.Description).NotEmpty().WithMessage("Description is required");
                 RuleFor(x => x.PublishedDate).NotNull().WithMessage("Published Date is required").GreaterThan(0).WithMessage("Publishe Date must be grather than zero");
                 RuleFor(x => x.AgeGroup).NotNull().WithMessage("Age group is required").GreaterThan(0).WithMessage("Age group can not be negetive");
+                RuleFor(x => x.ImdbRating).LessThanOrEqualTo(10).GreaterThan(0).WithMessage("IMDB rating must be between Zero and Ten");
 
 
                 RuleFor(x => x.Genres)
@@ -88,7 +86,6 @@ namespace EntertainmentApp.Applicatoin.Features.Movies.Command
 
             public async Task<Movie> Handle(CreateMovieCommand command, CancellationToken cancellationToken)
             {
-
                 Movie movie = new Movie(
                     command.Title,
                     command.Description,

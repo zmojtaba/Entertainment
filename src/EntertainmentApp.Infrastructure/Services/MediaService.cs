@@ -1,5 +1,7 @@
 ﻿
 
+using Microsoft.AspNetCore.Http;
+
 namespace EntertainmentApp.Infrastructure.Services
 {
     public class MediaService : IMediaService
@@ -46,7 +48,7 @@ namespace EntertainmentApp.Infrastructure.Services
                     if (!IsValidExtension(Path.GetExtension(fileName))) throw new BadRequestException("File is not in valid format");
 
                     if (!Directory.Exists(tempPath) ) Directory.CreateDirectory(tempPath);
-
+                    fileName = Guid.NewGuid().ToString("N") + "_" + fileName;
                     string storagePath = Path.Combine(tempPath, fileName);
 
                     if (name.Equals("media", StringComparison.OrdinalIgnoreCase))
@@ -58,7 +60,7 @@ namespace EntertainmentApp.Infrastructure.Services
                         }
 
                         streamPath = storagePath;
-                        streamFileName = Guid.NewGuid().ToString("N") + "_" + fileName;
+                        streamFileName = fileName;
                     }
 
                     else if (name.Equals("poster", StringComparison.OrdinalIgnoreCase))
@@ -71,7 +73,7 @@ namespace EntertainmentApp.Infrastructure.Services
                         }
 
                         posterPath = storagePath;
-                        posterFileName = Guid.NewGuid().ToString("N") + "_" + fileName;
+                        posterFileName = fileName;
                     }
 
                         using var target = File.Create(storagePath);
@@ -87,46 +89,65 @@ namespace EntertainmentApp.Infrastructure.Services
                     MapToDto(mediaUploadResult, key, value);
                 }
             }
+            //if (posterPath == null)
+            //    throw new BadRequestException("Poster Image file required.");
 
-            if (streamPath == null || posterPath == null )
-                throw new Exception("Video file missing try again.");
+            if (streamPath == null )
+                throw new BadRequestException("Video file is required.");
+
+            mediaUploadResult.TempStreamUrl = streamPath;
+            mediaUploadResult.TempPosterImageUrl =posterPath ;
+            mediaUploadResult.StreamFileName = streamFileName;
+            mediaUploadResult.PosterImageFileName = posterFileName;
+            return mediaUploadResult;
 
             //var TitleGuid = 
             //string TitlePath = CleanFileName(mediaUploadResult.Title) + "_" + Guid.NewGuid().ToString("N");
             //************************ if category was music then should pass singer insted of title
-            string servePath = GenerateServePath(mediaUploadResult.Title, category, subCategory);
-            string mediaDirectory = Path.Combine(baseMediaPath, servePath);
-            if (!Directory.Exists(mediaDirectory))
+            //string servePath = GenerateServePath(mediaUploadResult.Title, category, subCategory);
+            //string mediaDirectory = Path.Combine(baseMediaPath, servePath);
+            //if (!Directory.Exists(mediaDirectory))
+            //{
+
+            //    Directory.CreateDirectory(mediaDirectory);
+            //}
+            //string newStreamPath = Path.Combine(mediaDirectory, streamFileName);
+            //string newPosterPath = Path.Combine(mediaDirectory, posterFileName);
+            //mediaUploadResult.StreamUrl = Path.Combine(servePath, streamFileName);
+            //mediaUploadResult.PosterImageUrl = Path.Combine(servePath, posterFileName);
+            //mediaUploadResult.StreamFileName = streamFileName;
+            //mediaUploadResult.PosterImageFileName = posterFileName;
+
+            //try
+            //{
+            //    File.Move(streamPath, newStreamPath, overwrite: true);
+            //    File.Move(posterPath, newPosterPath, overwrite: true);
+
+            //    return mediaUploadResult;
+            //}
+            //catch (Exception ex)
+            //{
+
+            //    DeleteMediaDirecoryAsync(mediaDirectory);
+            //    DeleteMediaFilesAsync(streamPath, posterPath);
+            //    throw;
+            //}
+
+
+        }
+
+        public async Task<string> UploadPosterImage(IFormFile file)
+        {
+            byte[] imageBytes;
+            using (var memoryStream = new MemoryStream())
             {
-
-                Directory.CreateDirectory(mediaDirectory);
+                await file.CopyToAsync(memoryStream);
+                imageBytes = memoryStream.ToArray();
             }
-            string newStreamPath = Path.Combine(mediaDirectory, streamFileName);
-            string newPosterPath = Path.Combine(mediaDirectory, posterFileName);
-            mediaUploadResult.StreamUrl = Path.Combine(servePath, streamFileName);
-            mediaUploadResult.PosterImageUrl = Path.Combine(servePath, posterFileName);
-            mediaUploadResult.StreamFileName = streamFileName;
-            mediaUploadResult.PosterImageFileName = posterFileName;
-
-            try
-            {
-                File.Move(streamPath, newStreamPath, overwrite: true);
-                File.Move(posterPath, newPosterPath, overwrite: true);
-
-                return mediaUploadResult;
-            }
-            catch (Exception ex)
-            {
-
-                DeleteMediaDirecoryAsync(mediaDirectory);
-                //Directory.Delete(mediaDirectory, recursive: true);
-                DeleteMediaFilesAsync(streamPath, posterPath);
-                //File.Delete(streamPath);
-                //File.Delete(posterPath);
-                throw;
-            }
-
-            
+            string imageName = Guid.NewGuid()+"_" + file.FileName;
+            string tempPath = Path.Combine(_configuration["BaseStoragePath"], "temp", imageName);
+            File.WriteAllBytes(tempPath, imageBytes);
+            return tempPath;
         }
 
         public Task DeleteMediaFilesAsync(string streamUrl, string posterUrl, bool addBaseAddress = false)
@@ -151,6 +172,7 @@ namespace EntertainmentApp.Infrastructure.Services
         }
 
 
+
         public Task<string> MoveMediaDirectory(string sourceDir,  string title, string category, string subcategory, bool addBaseAddress = false)
         {
             string generateServPath = GenerateServePath(title, category, subcategory);
@@ -163,6 +185,27 @@ namespace EntertainmentApp.Infrastructure.Services
 
         }
 
+
+        public Task<string> MovePosterImage(string sourceFilePath, string title, string category, string subcategory)
+        {
+            string generateServPath = GenerateServePath(title, category, subcategory);
+            string destinationDir = Path.Combine(_configuration["BaseStoragePath"], generateServPath);
+            if (!Directory.Exists(destinationDir)) Directory.CreateDirectory(destinationDir);
+            string fileName = Path.GetFileName(sourceFilePath);
+            string destinationFilePath = Path.Combine(destinationDir, fileName);
+            File.Move(sourceFilePath, destinationFilePath);
+            return Task.FromResult(Path.Combine(generateServPath, fileName));
+        }
+
+        public Task<string> MoveStreamToExistenceDirectoryAsync(string SourceFilePath, string destinationDirectory)
+        {
+            if (!File.Exists(SourceFilePath)) throw new InternalServerException("Can not store media file try again later");
+            string desDirectory = Path.Combine(_configuration["BaseStoragePath"], destinationDirectory);
+            if (!Directory.Exists(desDirectory)) Directory.CreateDirectory(desDirectory);
+            string fileName = Path.GetFileName(SourceFilePath);
+            File.Move(SourceFilePath, Path.Combine(desDirectory, fileName));
+            return Task.FromResult(Path.Combine(destinationDirectory, fileName));
+        }
 
         private static string GenerateServePath(string title, string category, string subcategory)
         {
@@ -213,6 +256,16 @@ namespace EntertainmentApp.Infrastructure.Services
         {
             switch (key)
             {
+                case "SeriesId":
+                    dto.SeriesId = Guid.Parse(value);
+                    break;
+
+                case "SeasonNumber":
+                    dto.SeasonNumber = int.Parse(value);
+                    break;
+                case "EpisodeNumber":
+                    dto.EpisodeNumber = int.Parse(value);
+                    break;
                 case "Title":
                     dto.Title = value;
                     break;

@@ -13,8 +13,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace EntertainmentApp.Infrastructure.Migrations
 {
     [DbContext(typeof(ApplicationDBContext))]
-    [Migration("20251214092923_init")]
-    partial class init
+    [Migration("20251216112746_iniit")]
+    partial class iniit
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -41,6 +41,21 @@ namespace EntertainmentApp.Infrastructure.Migrations
                     b.ToTable("ActorMovie");
                 });
 
+            modelBuilder.Entity("ActorSeries", b =>
+                {
+                    b.Property<string>("ActorsName")
+                        .HasColumnType("character varying(150)");
+
+                    b.Property<Guid>("SeriesId")
+                        .HasColumnType("uuid");
+
+                    b.HasKey("ActorsName", "SeriesId");
+
+                    b.HasIndex("SeriesId");
+
+                    b.ToTable("ActorSeries");
+                });
+
             modelBuilder.Entity("DirectorMovie", b =>
                 {
                     b.Property<string>("DirectorsName")
@@ -54,6 +69,21 @@ namespace EntertainmentApp.Infrastructure.Migrations
                     b.HasIndex("MoviesId");
 
                     b.ToTable("DirectorMovie");
+                });
+
+            modelBuilder.Entity("DirectorSeries", b =>
+                {
+                    b.Property<string>("DirectorsName")
+                        .HasColumnType("character varying(150)");
+
+                    b.Property<Guid>("SeriesId")
+                        .HasColumnType("uuid");
+
+                    b.HasKey("DirectorsName", "SeriesId");
+
+                    b.HasIndex("SeriesId");
+
+                    b.ToTable("DirectorSeries");
                 });
 
             modelBuilder.Entity("EntertainmentApp.Domain.Entities.Account.ApplicationUser", b =>
@@ -125,15 +155,15 @@ namespace EntertainmentApp.Infrastructure.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "945ea091-cd01-4f18-b28a-bc3db07385d3",
+                            Id = "09152a0e-9018-4e12-ab1c-a86afc8216d3",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "0ef15c86-2806-425b-9eea-a843eccda9b4",
+                            ConcurrencyStamp = "6aba226e-3419-46e9-834f-7cfc56a2e6c2",
                             EmailConfirmed = false,
                             LockoutEnabled = false,
                             NormalizedUserName = "ADMIN",
-                            PasswordHash = "AQAAAAIAAYagAAAAEDZzwEw5kYko4Xto22oWr81ozbkzXL/Ssh/Y/mwrHZ6Os1RW38v4elJBPGZcTl/9cw==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEApRlc9sKEHbB5KVQrbISw8KU5d14sxd/V/XXp/C/fv0C81oNXolqz542iRFWmBlPg==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "accdafe8-85fe-46df-a512-cd553a37424d",
+                            SecurityStamp = "7a888ad7-2b84-45b8-8e45-0884a8b5b4cf",
                             TwoFactorEnabled = false,
                             UserName = "admin"
                         });
@@ -214,6 +244,36 @@ namespace EntertainmentApp.Infrastructure.Migrations
                     b.ToTable("Genres");
                 });
 
+            modelBuilder.Entity("EntertainmentApp.Domain.Entities.Video.Episode", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<int>("EpisodeNumber")
+                        .HasColumnType("integer");
+
+                    b.Property<Guid?>("SeasonId")
+                        .HasColumnType("uuid");
+
+                    b.Property<string>("StreamUrl")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<DateTime?>("UpdatedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("SeasonId", "EpisodeNumber")
+                        .IsUnique();
+
+                    b.ToTable("Episodes");
+                });
+
             modelBuilder.Entity("EntertainmentApp.Domain.Entities.Video.Movie", b =>
                 {
                     b.Property<Guid>("Id")
@@ -268,6 +328,81 @@ namespace EntertainmentApp.Infrastructure.Migrations
                     b.ToTable("Movies");
                 });
 
+            modelBuilder.Entity("EntertainmentApp.Domain.Entities.Video.Season", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<int>("SeasonNumber")
+                        .HasColumnType("integer");
+
+                    b.Property<Guid?>("SeriesId")
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTime?>("UpdatedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("SeriesId", "SeasonNumber")
+                        .IsUnique();
+
+                    b.ToTable("Seasons");
+                });
+
+            modelBuilder.Entity("EntertainmentApp.Domain.Entities.Video.Series", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<int>("AgeGroup")
+                        .HasColumnType("integer");
+
+                    b.Property<List<string>>("Countries")
+                        .IsRequired()
+                        .HasColumnType("text[]");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<decimal>("ImdbRating")
+                        .HasColumnType("numeric");
+
+                    b.Property<List<string>>("Languages")
+                        .IsRequired()
+                        .HasColumnType("text[]");
+
+                    b.Property<string>("PosterImageUrl")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<int>("PublishedDate")
+                        .HasColumnType("integer");
+
+                    b.Property<string>("Title")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<DateTime?>("UpdatedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("Title", "PublishedDate")
+                        .IsUnique();
+
+                    b.ToTable("Series");
+                });
+
             modelBuilder.Entity("GenreMovie", b =>
                 {
                     b.Property<string>("GenresTitle")
@@ -281,6 +416,21 @@ namespace EntertainmentApp.Infrastructure.Migrations
                     b.HasIndex("MoviesId");
 
                     b.ToTable("GenreMovie");
+                });
+
+            modelBuilder.Entity("GenreSeries", b =>
+                {
+                    b.Property<string>("GenresTitle")
+                        .HasColumnType("character varying(100)");
+
+                    b.Property<Guid>("SeriesId")
+                        .HasColumnType("uuid");
+
+                    b.HasKey("GenresTitle", "SeriesId");
+
+                    b.HasIndex("SeriesId");
+
+                    b.ToTable("GenreSeries");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
@@ -311,13 +461,13 @@ namespace EntertainmentApp.Infrastructure.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "5ce52a15-a14c-4412-a1bd-5d6cf7ea6d56",
+                            Id = "cd0a29e3-5d95-4dd6-9450-1e4f532e8798",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         },
                         new
                         {
-                            Id = "7cdd1b54-117c-4384-9046-ea2d8375fffb",
+                            Id = "9c1931a3-7e0c-48d1-bfb9-aa43ad3e21e3",
                             Name = "User",
                             NormalizedName = "USER"
                         });
@@ -412,8 +562,8 @@ namespace EntertainmentApp.Infrastructure.Migrations
                     b.HasData(
                         new
                         {
-                            UserId = "945ea091-cd01-4f18-b28a-bc3db07385d3",
-                            RoleId = "5ce52a15-a14c-4412-a1bd-5d6cf7ea6d56"
+                            UserId = "09152a0e-9018-4e12-ab1c-a86afc8216d3",
+                            RoleId = "cd0a29e3-5d95-4dd6-9450-1e4f532e8798"
                         });
                 });
 
@@ -451,6 +601,21 @@ namespace EntertainmentApp.Infrastructure.Migrations
                         .IsRequired();
                 });
 
+            modelBuilder.Entity("ActorSeries", b =>
+                {
+                    b.HasOne("EntertainmentApp.Domain.Entities.Shared.Actor", null)
+                        .WithMany()
+                        .HasForeignKey("ActorsName")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("EntertainmentApp.Domain.Entities.Video.Series", null)
+                        .WithMany()
+                        .HasForeignKey("SeriesId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
             modelBuilder.Entity("DirectorMovie", b =>
                 {
                     b.HasOne("EntertainmentApp.Domain.Entities.Shared.Director", null)
@@ -466,6 +631,41 @@ namespace EntertainmentApp.Infrastructure.Migrations
                         .IsRequired();
                 });
 
+            modelBuilder.Entity("DirectorSeries", b =>
+                {
+                    b.HasOne("EntertainmentApp.Domain.Entities.Shared.Director", null)
+                        .WithMany()
+                        .HasForeignKey("DirectorsName")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("EntertainmentApp.Domain.Entities.Video.Series", null)
+                        .WithMany()
+                        .HasForeignKey("SeriesId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("EntertainmentApp.Domain.Entities.Video.Episode", b =>
+                {
+                    b.HasOne("EntertainmentApp.Domain.Entities.Video.Season", "Season")
+                        .WithMany("Episodes")
+                        .HasForeignKey("SeasonId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.Navigation("Season");
+                });
+
+            modelBuilder.Entity("EntertainmentApp.Domain.Entities.Video.Season", b =>
+                {
+                    b.HasOne("EntertainmentApp.Domain.Entities.Video.Series", "Series")
+                        .WithMany("Seasons")
+                        .HasForeignKey("SeriesId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.Navigation("Series");
+                });
+
             modelBuilder.Entity("GenreMovie", b =>
                 {
                     b.HasOne("EntertainmentApp.Domain.Entities.Shared.Genre", null)
@@ -477,6 +677,21 @@ namespace EntertainmentApp.Infrastructure.Migrations
                     b.HasOne("EntertainmentApp.Domain.Entities.Video.Movie", null)
                         .WithMany()
                         .HasForeignKey("MoviesId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("GenreSeries", b =>
+                {
+                    b.HasOne("EntertainmentApp.Domain.Entities.Shared.Genre", null)
+                        .WithMany()
+                        .HasForeignKey("GenresTitle")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("EntertainmentApp.Domain.Entities.Video.Series", null)
+                        .WithMany()
+                        .HasForeignKey("SeriesId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
@@ -530,6 +745,16 @@ namespace EntertainmentApp.Infrastructure.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("EntertainmentApp.Domain.Entities.Video.Season", b =>
+                {
+                    b.Navigation("Episodes");
+                });
+
+            modelBuilder.Entity("EntertainmentApp.Domain.Entities.Video.Series", b =>
+                {
+                    b.Navigation("Seasons");
                 });
 #pragma warning restore 612, 618
         }

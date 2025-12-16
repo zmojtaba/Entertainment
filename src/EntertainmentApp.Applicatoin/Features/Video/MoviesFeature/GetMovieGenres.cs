@@ -1,4 +1,4 @@
-﻿namespace EntertainmentApp.Applicatoin.Features.Video.GetMovieGenres
+﻿namespace EntertainmentApp.Applicatoin.Features.Video.MoviesFeature
 {
     public record GetMovieGenresQuery : IQuery<List<GenreDto>>;
 

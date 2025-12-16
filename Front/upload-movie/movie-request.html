@@ -69,8 +69,7 @@ document.getElementById("uploadForm").addEventListener("submit", async (e) => {
 
   // 2. Append the Image (New)
   // Ensure the key string "poster" matches exactly what your Backend DTO expects
-  const imageFile = document.getElementById("image").files[0];
-  fd.append("poster", imageFile); 
+
 
   // 3. Append other data
   fd.append("Title", document.getElementById("title").value);
@@ -80,7 +79,7 @@ document.getElementById("uploadForm").addEventListener("submit", async (e) => {
   fd.append("ImdbRating", 8.6);
   fd.append("Languages", JSON.stringify(["sundanese"]));
   fd.append("Countries", JSON.stringify(["iran", "Iraq"]));
-  fd.append("Actors", JSON.stringify(["Drama", "Thriller"])); // Note: These look like genres, but matching your code
+  fd.append("Actors", JSON.stringify(["jamshidi", "vosughi"])); // Note: These look like genres, but matching your code
   fd.append("Genres", JSON.stringify(["Drama", "Thriller"]));
   fd.append("Directors", JSON.stringify(["Christopher Nolan", "jim carry"]));
 

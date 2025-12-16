@@ -1,4 +1,7 @@
 ﻿
+using EntertainmentApp.Applicatoin.Features.Video.MoviesFeature;
+using EntertainmentApp.Applicatoin.Features.Video.SeriesFeature;
+
 namespace EntertainmentApp.Shared.Behaviors
 {
     public class MovieValidationCleanupBehavior<TRequest, TResponse>
@@ -26,8 +29,6 @@ namespace EntertainmentApp.Shared.Behaviors
             {
                 if (request is CreateMovieHandler.CreateMovieCommand cmd)
                 {
-                    //string posterImagePath = Path.Combine(_config["BaseStoragePath"], cmd.PosterImageUrl);
-                    //string streamPath = Path.Combine(_config["BaseStoragePath"], cmd.StreamUrl);
                     // cleanup files if validation failed
                     await _mediaService.DeleteMediaFilesAsync(
                         cmd.StreamUrl,
@@ -36,6 +37,16 @@ namespace EntertainmentApp.Shared.Behaviors
                     );
                     await _mediaService.DeleteMediaDirecoryAsync(Path.GetDirectoryName(cmd.StreamUrl), true);
                 }
+
+                if (request is CreateSeriesCommand cmmd)
+                {
+                    await _mediaService.DeleteMediaFilesAsync(
+                        cmmd.PosterImageUrl,
+                        ""
+                    );
+                }
+
+
 
                 throw; // rethrow validation error
             }

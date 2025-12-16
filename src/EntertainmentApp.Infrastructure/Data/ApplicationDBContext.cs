@@ -21,6 +21,9 @@ namespace EntertainmentApp.Infrastructure.Data
         public DbSet<Genre> Genres { get; set; }
         public DbSet<Director> Directors { get; set; }  
         public DbSet<Actor> Actors { get; set; }
+        public DbSet<Series> Series { get; set; }
+        public DbSet<Season> Seasons { get; set; }
+        public DbSet<Episode> Episodes { get; set; }
 
 
 
@@ -58,6 +61,37 @@ namespace EntertainmentApp.Infrastructure.Data
                 RoleId = roleList.Single(r => r.Name == "Admin").Id,
                 UserId = adminUser.Id
             });
+
+            builder.Entity<Series>(entity =>
+            {
+                entity.HasKey(e => e.Id);
+                entity.HasIndex(e => new { e.Title, e.PublishedDate }).IsUnique();
+                entity.HasMany(e => e.Genres).WithMany(g => g.Series);
+                entity.HasMany(e => e.Actors).WithMany(a => a.Series);
+                entity.HasMany(e => e.Directors).WithMany(d => d.Series);
+                entity.HasMany(e => e.Seasons)
+                .WithOne(season => season.Series)
+                .HasForeignKey(season => season.SeriesId)
+                .OnDelete(DeleteBehavior.Cascade); ;
+            });
+
+
+            builder.Entity<Season>(entity =>
+            {
+                entity.HasKey(e => e.Id);
+                entity.HasIndex(e => new { e.SeriesId, e.SeasonNumber }).IsUnique();
+                entity.HasMany(e => e.Episodes)
+                .WithOne(episode => episode.Season)
+                .HasForeignKey(episode => episode.SeasonId)
+                .OnDelete(DeleteBehavior.Cascade);
+            });
+
+            builder.Entity<Episode>(entity =>
+            {
+                entity.HasKey(e => e.Id);
+                entity.HasIndex(entity => new { entity.SeasonId, entity.EpisodeNumber }).IsUnique();
+            });
+
 
             builder.Entity<Movie>(entity =>
             {

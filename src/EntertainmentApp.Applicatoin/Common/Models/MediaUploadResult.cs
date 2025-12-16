@@ -13,9 +13,15 @@
         public List<string> Actors { get;  set; } = new List<string>();
         public decimal ImdbRating { get;  set; }
         public int PublishedDate { get; set; }
-        public string PosterImageUrl { get;  set; }
+        public string TempPosterImageUrl { get;  set; }
         public string PosterImageFileName { get; set; }
-        public string StreamUrl { get;  set; }
+        public string TempStreamUrl { get;  set; }
         public string StreamFileName { get; set; }
+
+        public int SeasonNumber { get; set; }
+        public int EpisodeNumber { get; set; }
+        public Guid SeriesId { get; set; }
+
+
     }
 }
