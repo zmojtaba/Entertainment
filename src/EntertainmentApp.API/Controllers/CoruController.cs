@@ -9,7 +9,12 @@ using EntertainmentApp.Shared.Exceptions;
 using Mapster;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using System.Threading.Tasks;
 using static EntertainmentApp.Applicatoin.Features.CoruFeature.CreateCoruHandler;
+using static EntertainmentApp.Applicatoin.Features.CoruFeature.DeleteCoruHandler;
+using static EntertainmentApp.Applicatoin.Features.CoruFeature.GetCorusHandler;
+using static EntertainmentApp.Applicatoin.Features.CoruFeature.PlayCoruHandler;
+using static EntertainmentApp.Applicatoin.Features.CoruFeature.StopCoruHandler;
 using static EntertainmentApp.Applicatoin.Features.Video.MoviesFeature.CreateMovieHandler;
 
 namespace EntertainmentApp.API.Controllers
@@ -29,29 +34,26 @@ namespace EntertainmentApp.API.Controllers
         }
 
 
-        [HttpGet("play")]
-        public IActionResult Play()
+        [HttpGet("play/{id}")]
+        public async Task<IActionResult> Play([FromRoute] Guid id)
         {
-            string path = @"C:\EnternainmentMedia\temp\Moein - Tolou.mp3";
-            if (!System.IO.File.Exists(path))
-                return BadRequest("boro gom bosho");
-
-            _audioPlayer.Play(path);
+            bool result = await _mediator.Send(new PlayCoruCommand(id));
             return Ok("playing");
         }
 
-        [HttpGet("stop")]
-        public IActionResult Stop()
+        [HttpGet("stop/{id}")]
+        public async Task<IActionResult> Stop([FromRoute] Guid id)
         {
-            _audioPlayer.Stop();
+            bool result = await _mediator.Send(new StopCoruCommand(id));
+            //_audioPlayer.Stop();
             return Ok("stopped");
         }
 
         [HttpGet]
         public async Task<IActionResult> GetCorusAsync()
         {
-
-            return Ok();
+            List<Coru> corus = await _mediator.Send(new GetCorousCommand());
+            return Ok(corus);
         }
 
         [HttpPost]
@@ -92,10 +94,11 @@ namespace EntertainmentApp.API.Controllers
             return Ok(result);
         }
 
-        [HttpDelete("id")]
+        [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteCoruAsync([FromRoute] Guid id)
         {
-            return Ok();
+            await _mediator.Send(new DeleteCoruCommand(id));
+            return Ok("Deleted Successfully");
         }
 
 

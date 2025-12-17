@@ -112,38 +112,6 @@ namespace EntertainmentApp.Infrastructure.Services
             mediaUploadResult.PosterImageFileName = posterFileName;
             return mediaUploadResult;
 
-            //var TitleGuid = 
-            //string TitlePath = CleanFileName(mediaUploadResult.Title) + "_" + Guid.NewGuid().ToString("N");
-            //************************ if category was music then should pass singer insted of title
-            //string servePath = GenerateServePath(mediaUploadResult.Title, category, subCategory);
-            //string mediaDirectory = Path.Combine(baseMediaPath, servePath);
-            //if (!Directory.Exists(mediaDirectory))
-            //{
-
-            //    Directory.CreateDirectory(mediaDirectory);
-            //}
-            //string newStreamPath = Path.Combine(mediaDirectory, streamFileName);
-            //string newPosterPath = Path.Combine(mediaDirectory, posterFileName);
-            //mediaUploadResult.StreamUrl = Path.Combine(servePath, streamFileName);
-            //mediaUploadResult.PosterImageUrl = Path.Combine(servePath, posterFileName);
-            //mediaUploadResult.StreamFileName = streamFileName;
-            //mediaUploadResult.PosterImageFileName = posterFileName;
-
-            //try
-            //{
-            //    File.Move(streamPath, newStreamPath, overwrite: true);
-            //    File.Move(posterPath, newPosterPath, overwrite: true);
-
-            //    return mediaUploadResult;
-            //}
-            //catch (Exception ex)
-            //{
-
-            //    DeleteMediaDirecoryAsync(mediaDirectory);
-            //    DeleteMediaFilesAsync(streamPath, posterPath);
-            //    throw;
-            //}
-
 
         }
 

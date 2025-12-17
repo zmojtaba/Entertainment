@@ -31,11 +31,11 @@ namespace EntertainmentApp.Shared.Behaviors
                 {
                     // cleanup files if validation failed
                     await _mediaService.DeleteMediaFilesAsync(
-                        cmd.StreamUrl,
-                        cmd.PosterImageUrl,
+                        cmd.TempStreamUrl ?? "",
+                        cmd?.TempPosterImageUrl ?? "",
                         true
                     );
-                    await _mediaService.DeleteMediaDirecoryAsync(Path.GetDirectoryName(cmd.StreamUrl), true);
+                    await _mediaService.DeleteMediaDirecoryAsync(Path.GetDirectoryName(cmd.TempStreamUrl), true);
                 }
 
                 if (request is CreateSeriesCommand cmmd)

@@ -67,6 +67,9 @@ document.getElementById("uploadForm").addEventListener("submit", async (e) => {
   const videoFile = document.getElementById("video").files[0];
   fd.append("video", videoFile);
 
+  const imageFile = document.getElementById("image").files[0];
+  fd.append("poster", imageFile); 
+
   // 2. Append the Image (New)
   // Ensure the key string "poster" matches exactly what your Backend DTO expects
 
@@ -74,7 +77,7 @@ document.getElementById("uploadForm").addEventListener("submit", async (e) => {
   // 3. Append other data
   fd.append("Title", document.getElementById("title").value);
   fd.append("Description", document.getElementById("description").value);
-  fd.append("PublishedDate", 16);
+  fd.append("PublishedDate", 106);
   fd.append("AgeGroup", 10);
   fd.append("ImdbRating", 8.6);
   fd.append("Languages", JSON.stringify(["sundanese"]));

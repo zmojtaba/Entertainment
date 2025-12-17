@@ -15,18 +15,18 @@
             public List<string> Actors { get; set; } = new List<string>();
             public decimal ImdbRating { get; set; }
             public int PublishedDate { get; set; }
-            public string PosterImageUrl { get; set; }
-            public string PosterImageFileName { get; set; }
-            public string StreamUrl { get; set; }
-            public string StreamFileName { get; set; }
+            public string TempPosterImageUrl { get; set; } = string.Empty;
+            public string PosterImageFileName { get; set; } = string.Empty;
+            public string TempStreamUrl { get; set; } = string.Empty;
+            public string StreamFileName { get; set; } = string.Empty;
         }
         public class CreateMovieCommandVlidator : AbstractValidator<CreateMovieCommand>
         {
             public CreateMovieCommandVlidator()
             {
                 RuleFor(x => x.Title).NotEmpty().WithMessage("Title is required");
-                RuleFor(x => x.StreamUrl).NotEmpty().WithMessage("Media is required");
-                RuleFor(x => x.PosterImageUrl).NotEmpty().WithMessage("Poster image is required");
+                RuleFor(x => x.TempStreamUrl).NotEmpty().WithMessage("Media is required");
+                RuleFor(x => x.TempPosterImageUrl).NotEmpty().WithMessage("Poster image is required");
                 RuleFor(x => x.Description).NotEmpty().WithMessage("Description is required");
                 RuleFor(x => x.PublishedDate).NotNull().WithMessage("Published Date is required").GreaterThan(0).WithMessage("Publishe Date must be grather than zero");
                 RuleFor(x => x.AgeGroup).NotNull().WithMessage("Age group is required").GreaterThan(0).WithMessage("Age group can not be negetive");
@@ -64,12 +64,11 @@
                     .Must(c => CountryList.Countries.Contains(c, StringComparer.OrdinalIgnoreCase))
                     .WithMessage("Country {PropertyValue} is not valid.");
 
-                RuleFor(x => x.StreamUrl).NotEmpty().WithMessage("Video file was not stored. try again");
-                RuleFor(x => x.StreamFileName).NotEmpty().WithMessage("Video file name is not valid")
+                RuleFor(x => x.StreamFileName)
+                    .NotEmpty().WithMessage("Media file must be valid.")
                     .Must(x => ValidExtensionList.VideoExtension.Contains(Path.GetExtension(x), StringComparer.OrdinalIgnoreCase))
                     .WithMessage($"Invalid video file extension. Supported extensions are: {string.Join(", ", ValidExtensionList.VideoExtension)}");
-                RuleFor(x => x.PosterImageUrl).NotEmpty().WithMessage("Poster Image file was not stored. try again");
-                RuleFor(x => x.PosterImageFileName).NotEmpty().WithMessage("Poster Image file name is not valid")
+                RuleFor(x => x.PosterImageFileName).NotEmpty().WithMessage("Poster Image must be valid.")
                     .Must(x => ValidExtensionList.ImageExtension.Contains(Path.GetExtension(x), StringComparer.OrdinalIgnoreCase))
                     .WithMessage($"Invalid image file extension. Supported extensions are: {string.Join(", ", ValidExtensionList.ImageExtension)}"); ;
             }
@@ -86,6 +85,10 @@
 
             public async Task<Movie> Handle(CreateMovieCommand command, CancellationToken cancellationToken)
             {
+                string posterImagePath = await _mediaService.MovePosterImage(command.TempPosterImageUrl, command.Title, "video", "movie");
+                string streamPath = await _mediaService.MoveStreamToExistenceDirectoryAsync(command.TempStreamUrl,
+                    Path.GetDirectoryName(posterImagePath));
+
                 Movie movie = new Movie(
                     command.Title,
                     command.Description,
@@ -99,8 +102,8 @@
                     command.AgeGroup,
                     command.ImdbRating,
                     command.PublishedDate,
-                    command.StreamUrl, 
-                    command.PosterImageUrl
+                    streamPath, 
+                    posterImagePath
 
                     );
 

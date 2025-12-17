@@ -13,7 +13,6 @@ using EntertainmentApp.Shared.Exceptions;
 using Mapster;
 using Microsoft.AspNetCore.Mvc;
 using NAudio.Wave;
-using NpgsqlTypes;
 using static EntertainmentApp.Applicatoin.Features.Video.MoviesFeature.CreateMovieHandler;
 using static EntertainmentApp.Applicatoin.Features.Video.SeriesFeature.CreateSeasonHandler;
 using static EntertainmentApp.Applicatoin.Features.Video.SeriesFeature.DeleteEpisodeHandler;
