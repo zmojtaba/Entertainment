@@ -1,6 +1,7 @@
 ﻿
 
 
+using EntertainmentApp.Applicatoin.Interfaces.Account;
 using EntertainmentApp.Applicatoin.Interfaces.CoruRepository;
 using EntertainmentApp.Infrastructure.Repository;
 
@@ -11,11 +12,13 @@ namespace EntertainmentApp.Infrastructure
         public static IServiceCollection AddInfrastructure(this IServiceCollection services, IConfiguration configuration)
         {
             services.AddSingleton<IAudioPlayerService, AudioPlayerService>();
-
+            
             services.AddScoped<IMediaService, MediaService>();
             services.AddScoped<IMovieRepository, MovieRepository>();
             services.AddScoped<ISeriesRepository, SeriesRepository>();
             services.AddScoped<ICoruRepository, CoruRepositroy>();
+            services.AddScoped<IAccountRepository, AccountRepository>();
+            services.AddScoped<ITokenService, TokenService>();
 
             // Use MySQL
             var connectionString = configuration.GetConnectionString("DefaultConnection") ?? "Server=localhost;Port=3306;Database=BookStoreDb;User=root;Password=password;";
@@ -34,7 +37,7 @@ namespace EntertainmentApp.Infrastructure
                 options.Password.RequireUppercase = true;
                 options.Password.RequireNonAlphanumeric = true;
                 options.Password.RequiredLength = 8;
-            }).AddEntityFrameworkStores<ApplicationDBContext>();
+            }).AddEntityFrameworkStores<ApplicationDBContext>().AddDefaultTokenProviders(); ;
 
             services.AddAuthentication(options =>
             {
@@ -77,6 +80,10 @@ namespace EntertainmentApp.Infrastructure
 
 
             });
+
+            services.AddHttpContextAccessor();
+
+
 
 
             return services;

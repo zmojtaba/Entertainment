@@ -18,6 +18,7 @@ namespace EntertainmentApp.Infrastructure.Data
 
 
         public DbSet<ApplicationUser> ApplicationUsers { get; set; }
+        public DbSet<UserLoginHistory> UserLoginHistories { get; set; }
         public DbSet<Movie> Movies { get; set; }
         public DbSet<Genre> Genres { get; set; }
         public DbSet<Director> Directors { get; set; }  
@@ -56,7 +57,11 @@ namespace EntertainmentApp.Infrastructure.Data
 
             adminUser.PasswordHash = new PasswordHasher<ApplicationUser>().HashPassword(adminUser, _configuration["AdminUser:Password"]);
 
-            builder.Entity<ApplicationUser>().HasData(adminUser);
+            builder.Entity<ApplicationUser>(entity =>
+            {
+                entity.HasData(adminUser);
+                entity.HasIndex(e => e.UserName).IsUnique();
+            });
 
             builder.Entity<IdentityUserRole<string>>().HasData(new IdentityUserRole<string>
             {

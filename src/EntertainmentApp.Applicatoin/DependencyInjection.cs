@@ -22,6 +22,7 @@ namespace EntertainmentApp.Applicatoin
 
             services.AddValidatorsFromAssembly(Assembly.GetExecutingAssembly());
 
+
             return services;
         }
     }

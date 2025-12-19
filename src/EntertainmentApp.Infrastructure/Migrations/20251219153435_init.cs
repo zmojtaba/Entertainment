@@ -160,6 +160,24 @@ namespace EntertainmentApp.Infrastructure.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "UserLoginHistories",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uuid", nullable: false),
+                    Username = table.Column<string>(type: "text", nullable: false),
+                    LoginTime = table.Column<long>(type: "bigint", nullable: false),
+                    IpAddress = table.Column<string>(type: "text", nullable: true),
+                    UserAgent = table.Column<string>(type: "text", nullable: true),
+                    IsSuccessful = table.Column<bool>(type: "boolean", nullable: false),
+                    CreatedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    UpdatedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_UserLoginHistories", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "AspNetRoleClaims",
                 columns: table => new
                 {
@@ -457,19 +475,19 @@ namespace EntertainmentApp.Infrastructure.Migrations
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
                 values: new object[,]
                 {
-                    { "942dfb92-7782-4763-aa3f-83c9bb661f94", null, "User", "USER" },
-                    { "db6b29db-5a42-44e8-ab69-aecf10028036", null, "Admin", "ADMIN" }
+                    { "46d3cea3-da5b-4571-8485-b60de9e17c58", null, "User", "USER" },
+                    { "67fe78f7-af93-4b88-9776-ca0dc4efb778", null, "Admin", "ADMIN" }
                 });
 
             migrationBuilder.InsertData(
                 table: "AspNetUsers",
                 columns: new[] { "Id", "AccessFailedCount", "ConcurrencyStamp", "Email", "EmailConfirmed", "LockoutEnabled", "LockoutEnd", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "RefreshToken", "SecurityStamp", "TwoFactorEnabled", "UserName" },
-                values: new object[] { "34ba03b9-9c35-4b8d-b215-2b3df6db06b7", 0, "59d73ae8-87ea-4f7a-a02a-5874ba55d37c", null, false, false, null, null, "ADMIN", "AQAAAAIAAYagAAAAEOgqVbIvVO23MR8bgigvzlNq/92UawDcDQJG3vGEKDNRN4FbYRQ9W23odCKc3kIuzg==", null, false, null, "3de5d9ee-2596-4a1e-82d1-5d9c55ec076f", false, "admin" });
+                values: new object[] { "b21c0444-3de6-4f40-979e-e91bc34ade9f", 0, "d988ec4e-9c68-47bb-a85e-26cb219761ae", null, false, false, null, null, "ADMIN", "AQAAAAIAAYagAAAAEL8b6Bsh9Abf9EHj5yeWgXCnnAmVR/wa0TC7fueayHZAQq6ONfc4iDdVVHkGaerMsg==", null, false, null, "eaeebadc-7e34-42b4-9283-31fae48c3a69", false, "admin" });
 
             migrationBuilder.InsertData(
                 table: "AspNetUserRoles",
                 columns: new[] { "RoleId", "UserId" },
-                values: new object[] { "db6b29db-5a42-44e8-ab69-aecf10028036", "34ba03b9-9c35-4b8d-b215-2b3df6db06b7" });
+                values: new object[] { "67fe78f7-af93-4b88-9776-ca0dc4efb778", "b21c0444-3de6-4f40-979e-e91bc34ade9f" });
 
             migrationBuilder.CreateIndex(
                 name: "IX_ActorMovie_MoviesId",
@@ -517,6 +535,12 @@ namespace EntertainmentApp.Infrastructure.Migrations
                 name: "EmailIndex",
                 table: "AspNetUsers",
                 column: "NormalizedEmail");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_AspNetUsers_UserName",
+                table: "AspNetUsers",
+                column: "UserName",
+                unique: true);
 
             migrationBuilder.CreateIndex(
                 name: "UserNameIndex",
@@ -622,6 +646,9 @@ namespace EntertainmentApp.Infrastructure.Migrations
 
             migrationBuilder.DropTable(
                 name: "GenreSeries");
+
+            migrationBuilder.DropTable(
+                name: "UserLoginHistories");
 
             migrationBuilder.DropTable(
                 name: "Actors");

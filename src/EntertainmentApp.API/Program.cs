@@ -3,6 +3,7 @@ using EntertainmentApp.Shared.Exceptions.Handler;
 using Microsoft.AspNetCore.Http.Features;
 using Microsoft.AspNetCore.HttpOverrides;
 using Microsoft.Extensions.FileProviders;
+using Microsoft.IdentityModel.JsonWebTokens;
 using Microsoft.OpenApi.Models;
 
 
@@ -15,6 +16,7 @@ namespace EntertainmentApp.API
         public static void Main(string[] args)
         {
             var builder = WebApplication.CreateBuilder(args);
+            JsonWebTokenHandler.DefaultInboundClaimTypeMap.Clear();
             builder.WebHost.UseKestrel(o => o.Limits.MaxRequestBodySize = null);
 
 
@@ -112,6 +114,11 @@ namespace EntertainmentApp.API
             }
 
             app.MapControllers();
+
+            app.UseAuthentication();
+
+            app.UseAuthorization();
+
             app.UseStaticFiles(new StaticFileOptions
             {
                 FileProvider = new PhysicalFileProvider("C://EnternainmentMedia"),

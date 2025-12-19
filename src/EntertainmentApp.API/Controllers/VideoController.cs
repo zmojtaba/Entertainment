@@ -30,8 +30,6 @@ namespace EntertainmentApp.API.Controllers
         private readonly IMediator _mediator;
         private readonly IWebHostEnvironment _env;
         private readonly IMediaService _mediaService;
-        private static IWavePlayer _player;
-        private static AudioFileReader _audio;
 
         public VideoController(IMediator mediator, IWebHostEnvironment env, IMediaService mediaService)
         {
@@ -239,11 +237,6 @@ namespace EntertainmentApp.API.Controllers
             return Ok("Successfully Deleted");
         }
 
-        //[HttpGet("series/season")]
-        //public async Task<IActionResult> GetSeasonAsync()
-        //{
-        //    return Ok();
-        //}
     
     }
 }

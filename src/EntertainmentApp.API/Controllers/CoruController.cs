@@ -1,5 +1,6 @@
 ﻿using EntertainmentApp.API.Attributes;
 using EntertainmentApp.API.Helpers;
+using EntertainmentApp.Applicatoin.Common.Dtos;
 using EntertainmentApp.Applicatoin.Common.Models;
 using EntertainmentApp.Applicatoin.Interfaces.Media;
 using EntertainmentApp.Domain.Entities;
@@ -52,7 +53,7 @@ namespace EntertainmentApp.API.Controllers
         [HttpGet]
         public async Task<IActionResult> GetCorusAsync()
         {
-            List<Coru> corus = await _mediator.Send(new GetCorousCommand());
+            List<CoruDto> corus = await _mediator.Send(new GetCorousQuery());
             return Ok(corus);
         }
 
@@ -89,7 +90,7 @@ namespace EntertainmentApp.API.Controllers
 
 
             CreateCoruCommand command = mediaUploadResult.Adapt<CreateCoruCommand>();
-            Coru result = await _mediator.Send(command);
+            CoruDto result = await _mediator.Send(command);
 
             return Ok(result);
         }

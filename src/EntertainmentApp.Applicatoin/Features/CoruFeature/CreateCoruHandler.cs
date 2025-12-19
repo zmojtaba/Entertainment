@@ -10,7 +10,7 @@ namespace EntertainmentApp.Applicatoin.Features.CoruFeature
             string TempStreamUrl,
             string City,
             string Country
-            ) : ICommand<Coru>;
+            ) : ICommand<CoruDto>;
 
         public class CreateCoruCommandVlidator : AbstractValidator<CreateCoruCommand>
         {
@@ -23,9 +23,9 @@ namespace EntertainmentApp.Applicatoin.Features.CoruFeature
             }
         }
 
-        public class CreateCoruCommandHandler(ICoruRepository coruRepo, IMediaService mediaService) : ICommandHandler<CreateCoruCommand, Coru>
+        public class CreateCoruCommandHandler(ICoruRepository coruRepo, IMediaService mediaService) : ICommandHandler<CreateCoruCommand, CoruDto>
         {
-            public async Task<Coru> Handle(CreateCoruCommand command, CancellationToken cancellationToken)
+            public async Task<CoruDto> Handle(CreateCoruCommand command, CancellationToken cancellationToken)
             {
                 string streamPath = await mediaService.MoveStreamToExistenceDirectoryAsync(
                     command.TempStreamUrl, "coru"
@@ -39,7 +39,7 @@ namespace EntertainmentApp.Applicatoin.Features.CoruFeature
                     streamUrl: streamPath
                     );
                 await coruRepo.AddCoruAsync(coru);
-                return coru;
+                return coru.ToCoruDto();
             }
         }
 

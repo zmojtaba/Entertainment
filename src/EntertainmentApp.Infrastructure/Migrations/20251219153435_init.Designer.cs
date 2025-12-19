@@ -13,7 +13,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace EntertainmentApp.Infrastructure.Migrations
 {
     [DbContext(typeof(ApplicationDBContext))]
-    [Migration("20251216185615_init")]
+    [Migration("20251219153435_init")]
     partial class init
     {
         /// <inheritdoc />
@@ -150,23 +150,59 @@ namespace EntertainmentApp.Infrastructure.Migrations
                         .IsUnique()
                         .HasDatabaseName("UserNameIndex");
 
+                    b.HasIndex("UserName")
+                        .IsUnique();
+
                     b.ToTable("AspNetUsers", (string)null);
 
                     b.HasData(
                         new
                         {
-                            Id = "34ba03b9-9c35-4b8d-b215-2b3df6db06b7",
+                            Id = "b21c0444-3de6-4f40-979e-e91bc34ade9f",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "59d73ae8-87ea-4f7a-a02a-5874ba55d37c",
+                            ConcurrencyStamp = "d988ec4e-9c68-47bb-a85e-26cb219761ae",
                             EmailConfirmed = false,
                             LockoutEnabled = false,
                             NormalizedUserName = "ADMIN",
-                            PasswordHash = "AQAAAAIAAYagAAAAEOgqVbIvVO23MR8bgigvzlNq/92UawDcDQJG3vGEKDNRN4FbYRQ9W23odCKc3kIuzg==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEL8b6Bsh9Abf9EHj5yeWgXCnnAmVR/wa0TC7fueayHZAQq6ONfc4iDdVVHkGaerMsg==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "3de5d9ee-2596-4a1e-82d1-5d9c55ec076f",
+                            SecurityStamp = "eaeebadc-7e34-42b4-9283-31fae48c3a69",
                             TwoFactorEnabled = false,
                             UserName = "admin"
                         });
+                });
+
+            modelBuilder.Entity("EntertainmentApp.Domain.Entities.Account.UserLoginHistory", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("IpAddress")
+                        .HasColumnType("text");
+
+                    b.Property<bool>("IsSuccessful")
+                        .HasColumnType("boolean");
+
+                    b.Property<long>("LoginTime")
+                        .HasColumnType("bigint");
+
+                    b.Property<DateTime?>("UpdatedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("UserAgent")
+                        .HasColumnType("text");
+
+                    b.Property<string>("Username")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("UserLoginHistories");
                 });
 
             modelBuilder.Entity("EntertainmentApp.Domain.Entities.Coru", b =>
@@ -494,13 +530,13 @@ namespace EntertainmentApp.Infrastructure.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "db6b29db-5a42-44e8-ab69-aecf10028036",
+                            Id = "67fe78f7-af93-4b88-9776-ca0dc4efb778",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         },
                         new
                         {
-                            Id = "942dfb92-7782-4763-aa3f-83c9bb661f94",
+                            Id = "46d3cea3-da5b-4571-8485-b60de9e17c58",
                             Name = "User",
                             NormalizedName = "USER"
                         });
@@ -595,8 +631,8 @@ namespace EntertainmentApp.Infrastructure.Migrations
                     b.HasData(
                         new
                         {
-                            UserId = "34ba03b9-9c35-4b8d-b215-2b3df6db06b7",
-                            RoleId = "db6b29db-5a42-44e8-ab69-aecf10028036"
+                            UserId = "b21c0444-3de6-4f40-979e-e91bc34ade9f",
+                            RoleId = "67fe78f7-af93-4b88-9776-ca0dc4efb778"
                         });
                 });
 
