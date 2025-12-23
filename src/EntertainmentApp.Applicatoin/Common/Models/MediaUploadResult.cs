@@ -11,7 +11,9 @@
         public int AgeGroup { get;  set; }
         public List<string> Directors { get;  set; } = new List<string>();
         public List<string> Actors { get;  set; } = new List<string>();
+        public List<string> Writers { get;  set; } = new List<string>();
         public decimal ImdbRating { get;  set; }
+        public decimal Rating { get;  set; }
         public int PublishedDate { get; set; }
         public string TempPosterImageUrl { get;  set; }
         public string PosterImageFileName { get; set; }

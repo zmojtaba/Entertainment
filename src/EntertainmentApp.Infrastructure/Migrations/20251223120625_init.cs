@@ -71,6 +71,27 @@ namespace EntertainmentApp.Infrastructure.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Books",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uuid", nullable: false),
+                    Title = table.Column<string>(type: "character varying(200)", maxLength: 200, nullable: false),
+                    Description = table.Column<string>(type: "text", nullable: false),
+                    Languages = table.Column<List<string>>(type: "text[]", nullable: false),
+                    AgeGroup = table.Column<int>(type: "integer", nullable: false),
+                    Rating = table.Column<decimal>(type: "numeric", nullable: false),
+                    PublishedDate = table.Column<int>(type: "integer", nullable: false),
+                    StreamUrl = table.Column<string>(type: "text", nullable: false),
+                    PosterImageUrl = table.Column<string>(type: "text", nullable: false),
+                    CreatedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    UpdatedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Books", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Corus",
                 columns: table => new
                 {
@@ -178,6 +199,21 @@ namespace EntertainmentApp.Infrastructure.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Writers",
+                columns: table => new
+                {
+                    Name = table.Column<string>(type: "character varying(150)", maxLength: 150, nullable: false),
+                    ImagePath = table.Column<string>(type: "text", nullable: true),
+                    Id = table.Column<Guid>(type: "uuid", nullable: false),
+                    CreatedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    UpdatedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Writers", x => x.Name);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "AspNetRoleClaims",
                 columns: table => new
                 {
@@ -280,6 +316,30 @@ namespace EntertainmentApp.Infrastructure.Migrations
                         column: x => x.UserId,
                         principalTable: "AspNetUsers",
                         principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "BookGenre",
+                columns: table => new
+                {
+                    BooksId = table.Column<Guid>(type: "uuid", nullable: false),
+                    GenresTitle = table.Column<string>(type: "character varying(100)", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_BookGenre", x => new { x.BooksId, x.GenresTitle });
+                    table.ForeignKey(
+                        name: "FK_BookGenre_Books_BooksId",
+                        column: x => x.BooksId,
+                        principalTable: "Books",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_BookGenre_Genres_GenresTitle",
+                        column: x => x.GenresTitle,
+                        principalTable: "Genres",
+                        principalColumn: "Title",
                         onDelete: ReferentialAction.Cascade);
                 });
 
@@ -449,6 +509,30 @@ namespace EntertainmentApp.Infrastructure.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "BookWriter",
+                columns: table => new
+                {
+                    BooksId = table.Column<Guid>(type: "uuid", nullable: false),
+                    WritersName = table.Column<string>(type: "character varying(150)", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_BookWriter", x => new { x.BooksId, x.WritersName });
+                    table.ForeignKey(
+                        name: "FK_BookWriter_Books_BooksId",
+                        column: x => x.BooksId,
+                        principalTable: "Books",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_BookWriter_Writers_WritersName",
+                        column: x => x.WritersName,
+                        principalTable: "Writers",
+                        principalColumn: "Name",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Episodes",
                 columns: table => new
                 {
@@ -475,19 +559,19 @@ namespace EntertainmentApp.Infrastructure.Migrations
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
                 values: new object[,]
                 {
-                    { "46d3cea3-da5b-4571-8485-b60de9e17c58", null, "User", "USER" },
-                    { "67fe78f7-af93-4b88-9776-ca0dc4efb778", null, "Admin", "ADMIN" }
+                    { "23a93e39-5ffb-48e4-a392-c32759b7af46", null, "User", "USER" },
+                    { "90855550-59d7-4411-9a2f-6027ea8b1706", null, "Admin", "ADMIN" }
                 });
 
             migrationBuilder.InsertData(
                 table: "AspNetUsers",
                 columns: new[] { "Id", "AccessFailedCount", "ConcurrencyStamp", "Email", "EmailConfirmed", "LockoutEnabled", "LockoutEnd", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "RefreshToken", "SecurityStamp", "TwoFactorEnabled", "UserName" },
-                values: new object[] { "b21c0444-3de6-4f40-979e-e91bc34ade9f", 0, "d988ec4e-9c68-47bb-a85e-26cb219761ae", null, false, false, null, null, "ADMIN", "AQAAAAIAAYagAAAAEL8b6Bsh9Abf9EHj5yeWgXCnnAmVR/wa0TC7fueayHZAQq6ONfc4iDdVVHkGaerMsg==", null, false, null, "eaeebadc-7e34-42b4-9283-31fae48c3a69", false, "admin" });
+                values: new object[] { "06e9d665-edfb-4e3e-aff7-ee871ca0df4f", 0, "9605a523-82c9-4c21-bf41-c0cf76464ab7", null, false, false, null, null, "ADMIN", "AQAAAAIAAYagAAAAEFHWvERxpeVsrOwS5UXKfoK/Sq82R6D4FV0drBKNxc8ywzdU1Xq42hgppmU9+LL9yg==", null, false, null, "5789909c-bf26-43ef-a8ce-ee8ceafdde5e", false, "admin" });
 
             migrationBuilder.InsertData(
                 table: "AspNetUserRoles",
                 columns: new[] { "RoleId", "UserId" },
-                values: new object[] { "67fe78f7-af93-4b88-9776-ca0dc4efb778", "b21c0444-3de6-4f40-979e-e91bc34ade9f" });
+                values: new object[] { "90855550-59d7-4411-9a2f-6027ea8b1706", "06e9d665-edfb-4e3e-aff7-ee871ca0df4f" });
 
             migrationBuilder.CreateIndex(
                 name: "IX_ActorMovie_MoviesId",
@@ -549,6 +633,22 @@ namespace EntertainmentApp.Infrastructure.Migrations
                 unique: true);
 
             migrationBuilder.CreateIndex(
+                name: "IX_BookGenre_GenresTitle",
+                table: "BookGenre",
+                column: "GenresTitle");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Books_Title_PublishedDate",
+                table: "Books",
+                columns: new[] { "Title", "PublishedDate" },
+                unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_BookWriter_WritersName",
+                table: "BookWriter",
+                column: "WritersName");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_DirectorMovie_MoviesId",
                 table: "DirectorMovie",
                 column: "MoviesId");
@@ -603,6 +703,12 @@ namespace EntertainmentApp.Infrastructure.Migrations
                 table: "Series",
                 columns: new[] { "Title", "PublishedDate" },
                 unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Writers_Name",
+                table: "Writers",
+                column: "Name",
+                unique: true);
         }
 
         /// <inheritdoc />
@@ -628,6 +734,12 @@ namespace EntertainmentApp.Infrastructure.Migrations
 
             migrationBuilder.DropTable(
                 name: "AspNetUserTokens");
+
+            migrationBuilder.DropTable(
+                name: "BookGenre");
+
+            migrationBuilder.DropTable(
+                name: "BookWriter");
 
             migrationBuilder.DropTable(
                 name: "Corus");
@@ -658,6 +770,12 @@ namespace EntertainmentApp.Infrastructure.Migrations
 
             migrationBuilder.DropTable(
                 name: "AspNetUsers");
+
+            migrationBuilder.DropTable(
+                name: "Books");
+
+            migrationBuilder.DropTable(
+                name: "Writers");
 
             migrationBuilder.DropTable(
                 name: "Directors");

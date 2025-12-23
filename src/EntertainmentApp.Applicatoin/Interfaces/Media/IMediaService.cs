@@ -12,7 +12,7 @@ namespace EntertainmentApp.Applicatoin.Interfaces.Media
     }
     public interface IMediaService
     {
-        public Task<MediaUploadResult> UploadAsync(Stream bodyStream, string contentType, string category, string subCategory);
+        public Task<MediaUploadResult> UploadAsync(Stream bodyStream, string contentType);
         public Task<string> UploadPosterImage(IFormFile file);
         public Task<string> MovePosterImage(string sourceFilePath, string title, string category, string subcategory);
         public Task<string> MoveStreamToExistenceDirectoryAsync(string SourceFilePath, string destinationDirectory);

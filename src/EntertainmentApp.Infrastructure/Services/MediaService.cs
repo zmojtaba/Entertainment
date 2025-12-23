@@ -12,7 +12,7 @@ namespace EntertainmentApp.Infrastructure.Services
             _configuration = configuration;
         }
 
-        public async Task<MediaUploadResult> UploadAsync( Stream bodyStream, string contentType, string category, string subCategory )
+        public async Task<MediaUploadResult> UploadAsync( Stream bodyStream, string contentType)
         {
             var mediaUploadResult = new MediaUploadResult();
             string baseMediaPath = _configuration["BaseStoragePath"] ?? "C://EntertainmentMedia";
@@ -57,6 +57,17 @@ namespace EntertainmentApp.Infrastructure.Services
                         {
                             if (File.Exists(posterPath)) File.Delete(posterPath);
                             throw new BadRequestException($"Invalid video file extension. Supported extensions are: {string.Join(", ", ValidExtensionList.VideoExtension)}");
+                        }
+
+                        streamPath = storagePath;
+                        streamFileName = fileName;
+                    }
+                    if (name.Equals("ebook", StringComparison.OrdinalIgnoreCase))
+                    {
+                        if (!IsValidExtension(fileName, "ebook"))
+                        {
+                            if (File.Exists(posterPath)) File.Delete(posterPath);
+                            throw new BadRequestException($"Invalid ebook file extension. Supported extensions are: {string.Join(", ", ValidExtensionList.BookExtension)}");
                         }
 
                         streamPath = storagePath;
@@ -203,9 +214,8 @@ namespace EntertainmentApp.Infrastructure.Services
             string extension = Path.GetExtension(fileName);
             if (category.Equals("video", StringComparison.OrdinalIgnoreCase)) return ValidExtensionList.VideoExtension.Contains(extension, StringComparer.OrdinalIgnoreCase);
             if (category.Equals("music", StringComparison.OrdinalIgnoreCase)) return ValidExtensionList.AudioExtension.Contains(extension, StringComparer.OrdinalIgnoreCase);
-            if (category.Equals("magazine", StringComparison.OrdinalIgnoreCase)) return ValidExtensionList.BookExtension.Contains(extension, StringComparer.OrdinalIgnoreCase);
             if (category.Equals("image", StringComparison.OrdinalIgnoreCase)) return ValidExtensionList.ImageExtension.Contains(extension, StringComparer.OrdinalIgnoreCase);
-            if (category.Equals("story", StringComparison.OrdinalIgnoreCase)) return ValidExtensionList.BookExtension.Contains(extension, StringComparer.OrdinalIgnoreCase) ||
+            if (category.Equals("ebook", StringComparison.OrdinalIgnoreCase)) return ValidExtensionList.BookExtension.Contains(extension, StringComparer.OrdinalIgnoreCase) ||
                     ValidExtensionList.AudioExtension.Contains(extension, StringComparer.OrdinalIgnoreCase);
             return false;
 
@@ -260,6 +270,9 @@ namespace EntertainmentApp.Infrastructure.Services
                 case "imdbrating":
                     dto.ImdbRating = decimal.Parse(value);
                     break;
+                case "rating":
+                    dto.Rating = decimal.Parse(value);
+                    break;
                 case "publisheddate":
                     dto.PublishedDate = int.Parse(value);
                     break;
@@ -270,6 +283,10 @@ namespace EntertainmentApp.Infrastructure.Services
 
                 case "directors":
                     dto.Directors = JsonSerializer.Deserialize<List<string>>(value);
+                    break;
+
+                case "writers":
+                    dto.Writers = JsonSerializer.Deserialize<List<string>>(value);
                     break;
 
                 case "actors":

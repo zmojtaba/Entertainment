@@ -1,6 +1,7 @@
 ﻿using EntertainmentApp.Domain.Entities;
 using EntertainmentApp.Domain.Entities.Account;
 using EntertainmentApp.Domain.Entities.Shared;
+using EntertainmentApp.Domain.Entities.Story;
 using EntertainmentApp.Domain.Entities.Video;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
@@ -27,7 +28,8 @@ namespace EntertainmentApp.Infrastructure.Data
         public DbSet<Season> Seasons { get; set; }
         public DbSet<Episode> Episodes { get; set; }
         public DbSet<Coru> Corus { get; set; }
-
+        public DbSet<Book> Books { get; set; }
+        public DbSet<Writer> Writers { get; set; }
 
 
         protected override void OnModelCreating(ModelBuilder builder)
@@ -137,6 +139,22 @@ namespace EntertainmentApp.Infrastructure.Data
             builder.Entity<Coru>(entity =>
             {
                 entity.HasKey(e => e.Id);
+            });
+
+            builder.Entity<Book>(entity =>
+            {
+                entity.HasKey(e => e.Id);
+                entity.Property(e => e.Title).IsRequired().HasMaxLength(200);
+                entity.HasIndex(e => new { e.Title, e.PublishedDate }).IsUnique();
+                entity.HasMany(e => e.Genres).WithMany(g => g.Books);
+                entity.HasMany(e => e.Writers).WithMany(d => d.Books);
+            });
+
+            builder.Entity<Writer>(entity =>
+            {
+                entity.HasKey(e => e.Name);
+                entity.Property(e => e.Name).IsRequired().HasMaxLength(150);
+                entity.HasIndex(e => e.Name).IsUnique();
             });
 
 

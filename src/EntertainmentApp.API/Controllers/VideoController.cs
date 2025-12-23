@@ -54,7 +54,7 @@ namespace EntertainmentApp.API.Controllers
 
             try
             {
-                mediaUploadResult = await _mediaService.UploadAsync(Request.Body, Request.ContentType, "video", "movie");
+                mediaUploadResult = await _mediaService.UploadAsync(Request.Body, Request.ContentType);
             }
             catch (BadRequestException ex)
             {
@@ -204,7 +204,7 @@ namespace EntertainmentApp.API.Controllers
 
             try
             {
-                mediaUploadResult = await _mediaService.UploadAsync(Request.Body, Request.ContentType, "video", "series");
+                mediaUploadResult = await _mediaService.UploadAsync(Request.Body, Request.ContentType);
             }
             catch (BadRequestException ex)
             {

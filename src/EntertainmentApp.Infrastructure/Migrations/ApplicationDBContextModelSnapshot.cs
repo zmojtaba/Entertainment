@@ -53,6 +53,36 @@ namespace EntertainmentApp.Infrastructure.Migrations
                     b.ToTable("ActorSeries");
                 });
 
+            modelBuilder.Entity("BookGenre", b =>
+                {
+                    b.Property<Guid>("BooksId")
+                        .HasColumnType("uuid");
+
+                    b.Property<string>("GenresTitle")
+                        .HasColumnType("character varying(100)");
+
+                    b.HasKey("BooksId", "GenresTitle");
+
+                    b.HasIndex("GenresTitle");
+
+                    b.ToTable("BookGenre");
+                });
+
+            modelBuilder.Entity("BookWriter", b =>
+                {
+                    b.Property<Guid>("BooksId")
+                        .HasColumnType("uuid");
+
+                    b.Property<string>("WritersName")
+                        .HasColumnType("character varying(150)");
+
+                    b.HasKey("BooksId", "WritersName");
+
+                    b.HasIndex("WritersName");
+
+                    b.ToTable("BookWriter");
+                });
+
             modelBuilder.Entity("DirectorMovie", b =>
                 {
                     b.Property<string>("DirectorsName")
@@ -155,15 +185,15 @@ namespace EntertainmentApp.Infrastructure.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "b21c0444-3de6-4f40-979e-e91bc34ade9f",
+                            Id = "06e9d665-edfb-4e3e-aff7-ee871ca0df4f",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "d988ec4e-9c68-47bb-a85e-26cb219761ae",
+                            ConcurrencyStamp = "9605a523-82c9-4c21-bf41-c0cf76464ab7",
                             EmailConfirmed = false,
                             LockoutEnabled = false,
                             NormalizedUserName = "ADMIN",
-                            PasswordHash = "AQAAAAIAAYagAAAAEL8b6Bsh9Abf9EHj5yeWgXCnnAmVR/wa0TC7fueayHZAQq6ONfc4iDdVVHkGaerMsg==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEFHWvERxpeVsrOwS5UXKfoK/Sq82R6D4FV0drBKNxc8ywzdU1Xq42hgppmU9+LL9yg==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "eaeebadc-7e34-42b4-9283-31fae48c3a69",
+                            SecurityStamp = "5789909c-bf26-43ef-a8ce-ee8ceafdde5e",
                             TwoFactorEnabled = false,
                             UserName = "admin"
                         });
@@ -308,6 +338,82 @@ namespace EntertainmentApp.Infrastructure.Migrations
                         .IsUnique();
 
                     b.ToTable("Genres");
+                });
+
+            modelBuilder.Entity("EntertainmentApp.Domain.Entities.Story.Book", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<int>("AgeGroup")
+                        .HasColumnType("integer");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<List<string>>("Languages")
+                        .IsRequired()
+                        .HasColumnType("text[]");
+
+                    b.Property<string>("PosterImageUrl")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<int>("PublishedDate")
+                        .HasColumnType("integer");
+
+                    b.Property<decimal>("Rating")
+                        .HasColumnType("numeric");
+
+                    b.Property<string>("StreamUrl")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("Title")
+                        .IsRequired()
+                        .HasMaxLength(200)
+                        .HasColumnType("character varying(200)");
+
+                    b.Property<DateTime?>("UpdatedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("Title", "PublishedDate")
+                        .IsUnique();
+
+                    b.ToTable("Books");
+                });
+
+            modelBuilder.Entity("EntertainmentApp.Domain.Entities.Story.Writer", b =>
+                {
+                    b.Property<string>("Name")
+                        .HasMaxLength(150)
+                        .HasColumnType("character varying(150)");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<Guid>("Id")
+                        .HasColumnType("uuid");
+
+                    b.Property<string>("ImagePath")
+                        .HasColumnType("text");
+
+                    b.Property<DateTime?>("UpdatedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.HasKey("Name");
+
+                    b.HasIndex("Name")
+                        .IsUnique();
+
+                    b.ToTable("Writers");
                 });
 
             modelBuilder.Entity("EntertainmentApp.Domain.Entities.Video.Episode", b =>
@@ -527,13 +633,13 @@ namespace EntertainmentApp.Infrastructure.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "67fe78f7-af93-4b88-9776-ca0dc4efb778",
+                            Id = "90855550-59d7-4411-9a2f-6027ea8b1706",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         },
                         new
                         {
-                            Id = "46d3cea3-da5b-4571-8485-b60de9e17c58",
+                            Id = "23a93e39-5ffb-48e4-a392-c32759b7af46",
                             Name = "User",
                             NormalizedName = "USER"
                         });
@@ -628,8 +734,8 @@ namespace EntertainmentApp.Infrastructure.Migrations
                     b.HasData(
                         new
                         {
-                            UserId = "b21c0444-3de6-4f40-979e-e91bc34ade9f",
-                            RoleId = "67fe78f7-af93-4b88-9776-ca0dc4efb778"
+                            UserId = "06e9d665-edfb-4e3e-aff7-ee871ca0df4f",
+                            RoleId = "90855550-59d7-4411-9a2f-6027ea8b1706"
                         });
                 });
 
@@ -678,6 +784,36 @@ namespace EntertainmentApp.Infrastructure.Migrations
                     b.HasOne("EntertainmentApp.Domain.Entities.Video.Series", null)
                         .WithMany()
                         .HasForeignKey("SeriesId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("BookGenre", b =>
+                {
+                    b.HasOne("EntertainmentApp.Domain.Entities.Story.Book", null)
+                        .WithMany()
+                        .HasForeignKey("BooksId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("EntertainmentApp.Domain.Entities.Shared.Genre", null)
+                        .WithMany()
+                        .HasForeignKey("GenresTitle")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("BookWriter", b =>
+                {
+                    b.HasOne("EntertainmentApp.Domain.Entities.Story.Book", null)
+                        .WithMany()
+                        .HasForeignKey("BooksId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("EntertainmentApp.Domain.Entities.Story.Writer", null)
+                        .WithMany()
+                        .HasForeignKey("WritersName")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });

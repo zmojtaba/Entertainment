@@ -70,7 +70,7 @@ namespace EntertainmentApp.API.Controllers
 
             try
             {
-                mediaUploadResult = await _mediaService.UploadAsync(Request.Body, Request.ContentType, "coru", "movie");
+                mediaUploadResult = await _mediaService.UploadAsync(Request.Body, Request.ContentType);
             }
             catch (BadRequestException ex)
             {

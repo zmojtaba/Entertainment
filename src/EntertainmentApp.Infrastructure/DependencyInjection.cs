@@ -1,6 +1,7 @@
 ﻿
 
 
+using EntertainmentApp.Applicatoin.Interfaces;
 using EntertainmentApp.Applicatoin.Interfaces.Account;
 using EntertainmentApp.Applicatoin.Interfaces.CoruRepository;
 using EntertainmentApp.Infrastructure.Repository;
@@ -18,6 +19,7 @@ namespace EntertainmentApp.Infrastructure
             services.AddScoped<ISeriesRepository, SeriesRepository>();
             services.AddScoped<ICoruRepository, CoruRepositroy>();
             services.AddScoped<IAccountRepository, AccountRepository>();
+            services.AddScoped<IStoryRepository, StoryRepository>();
             services.AddScoped<ITokenService, TokenService>();
 
             // Use MySQL

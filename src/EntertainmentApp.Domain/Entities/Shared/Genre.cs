@@ -1,4 +1,5 @@
 ﻿
+using EntertainmentApp.Domain.Entities.Story;
 using System.Globalization;
 using static Microsoft.EntityFrameworkCore.DbLoggerCategory.Database;
 
@@ -9,6 +10,7 @@ namespace EntertainmentApp.Domain.Entities.Shared
         public string Title { get; private set; }
         public List<Movie>? Movies { get; private set; } = new List<Movie>();
         public List<Series>? Series { get; private set; } = new List<Series>();
+        public List<Book>? Books { get; private set; } = new List<Book>();
         private Genre() { } // For EF Core
         public Genre(string title)
         {
