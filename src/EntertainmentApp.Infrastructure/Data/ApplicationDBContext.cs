@@ -11,10 +11,8 @@ namespace EntertainmentApp.Infrastructure.Data
 {
     public class ApplicationDBContext : IdentityDbContext<ApplicationUser>
     {
-        private readonly IConfiguration _configuration;
-        public ApplicationDBContext(DbContextOptions<ApplicationDBContext> options, IConfiguration config) : base(options)
+        public ApplicationDBContext(DbContextOptions<ApplicationDBContext> options) : base(options)
         {
-            _configuration = config;
         }
 
 
@@ -30,46 +28,51 @@ namespace EntertainmentApp.Infrastructure.Data
         public DbSet<Coru> Corus { get; set; }
         public DbSet<Book> Books { get; set; }
         public DbSet<Writer> Writers { get; set; }
+        public DbSet<Speaker> Speakers { get; set; }
+        public DbSet<PodCast> PodCasts { get; set; }
+        public DbSet<PodCastEpisode> PodCastEpisodes { get; set; }
+
+        //public DbSet<Narrator> Narrators { get; set; }
 
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);
 
-            List<IdentityRole> roleList = new List<IdentityRole>(){
+            //List<IdentityRole> roleList = new List<IdentityRole>(){
 
-                new IdentityRole{
-                    Name = "Admin",
-                    NormalizedName = "ADMIN"
-                },
-                new IdentityRole{
-                    Name = "User",
-                    NormalizedName = "USER"
-                }
-            };
+            //    new IdentityRole{
+            //        Name = "Admin",
+            //        NormalizedName = "ADMIN"
+            //    },
+            //    new IdentityRole{
+            //        Name = "User",
+            //        NormalizedName = "USER"
+            //    }
+            //};
 
 
-            builder.Entity<IdentityRole>().HasData(roleList);
+            //builder.Entity<IdentityRole>().HasData(roleList);
 
-            var adminUser = new ApplicationUser
-            {
-                UserName = _configuration["AdminUser:UserName"],
-                NormalizedUserName = "ADMIN",
-            };
+            //var adminUser = new ApplicationUser
+            //{
+            //    UserName = _configuration["AdminUser:UserName"],
+            //    NormalizedUserName = "ADMIN",
+            //};
 
-            adminUser.PasswordHash = new PasswordHasher<ApplicationUser>().HashPassword(adminUser, _configuration["AdminUser:Password"]);
+            //adminUser.PasswordHash = new PasswordHasher<ApplicationUser>().HashPassword(adminUser, _configuration["AdminUser:Password"]);
 
-            builder.Entity<ApplicationUser>(entity =>
-            {
-                entity.HasData(adminUser);
-                entity.HasIndex(e => e.UserName).IsUnique();
-            });
+            //builder.Entity<ApplicationUser>(entity =>
+            //{
+            //    entity.HasData(adminUser);
+            //    entity.HasIndex(e => e.UserName).IsUnique();
+            //});
 
-            builder.Entity<IdentityUserRole<string>>().HasData(new IdentityUserRole<string>
-            {
-                RoleId = roleList.Single(r => r.Name == "Admin").Id,
-                UserId = adminUser.Id
-            });
+            //builder.Entity<IdentityUserRole<string>>().HasData(new IdentityUserRole<string>
+            //{
+            //    RoleId = roleList.Single(r => r.Name == "Admin").Id,
+            //    UserId = adminUser.Id
+            //});
 
             builder.Entity<Series>(entity =>
             {
@@ -151,6 +154,30 @@ namespace EntertainmentApp.Infrastructure.Data
             });
 
             builder.Entity<Writer>(entity =>
+            {
+                entity.HasKey(e => e.Name);
+                entity.Property(e => e.Name).IsRequired().HasMaxLength(150);
+                entity.HasIndex(e => e.Name).IsUnique();
+            });
+
+            builder.Entity<PodCast>(entity =>
+            {
+                entity.HasKey(e => e.Id);
+                entity.HasMany(e => e.Genres).WithMany(g => g.PodCasts);
+                entity.HasMany(e => e.Speakers).WithMany(a => a.PodCasts);
+                entity.HasMany(e => e.Episodes)
+                .WithOne(episode => episode.PodCast)
+                .HasForeignKey(episode => episode.PodCastId)
+                .OnDelete(DeleteBehavior.Cascade);
+            });
+
+            builder.Entity<PodCastEpisode>(entity =>
+            {
+                entity.HasKey(e => e.Id);
+                entity.HasIndex(entity => new { entity.PodCastId, entity.Title }).IsUnique();
+            });
+
+            builder.Entity<Speaker>(entity =>
             {
                 entity.HasKey(e => e.Name);
                 entity.Property(e => e.Name).IsRequired().HasMaxLength(150);

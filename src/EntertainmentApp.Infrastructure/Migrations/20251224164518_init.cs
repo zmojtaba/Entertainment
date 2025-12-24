@@ -559,19 +559,19 @@ namespace EntertainmentApp.Infrastructure.Migrations
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
                 values: new object[,]
                 {
-                    { "23a93e39-5ffb-48e4-a392-c32759b7af46", null, "User", "USER" },
-                    { "90855550-59d7-4411-9a2f-6027ea8b1706", null, "Admin", "ADMIN" }
+                    { "2c67ab03-9ab2-4e6b-bdf2-7b29ac1beb3a", null, "Admin", "ADMIN" },
+                    { "e0b63ff8-9b31-43ef-8c66-af3dd024d012", null, "User", "USER" }
                 });
 
             migrationBuilder.InsertData(
                 table: "AspNetUsers",
                 columns: new[] { "Id", "AccessFailedCount", "ConcurrencyStamp", "Email", "EmailConfirmed", "LockoutEnabled", "LockoutEnd", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "RefreshToken", "SecurityStamp", "TwoFactorEnabled", "UserName" },
-                values: new object[] { "06e9d665-edfb-4e3e-aff7-ee871ca0df4f", 0, "9605a523-82c9-4c21-bf41-c0cf76464ab7", null, false, false, null, null, "ADMIN", "AQAAAAIAAYagAAAAEFHWvERxpeVsrOwS5UXKfoK/Sq82R6D4FV0drBKNxc8ywzdU1Xq42hgppmU9+LL9yg==", null, false, null, "5789909c-bf26-43ef-a8ce-ee8ceafdde5e", false, "admin" });
+                values: new object[] { "e4875d49-50be-4c84-9cf4-8db440277cf8", 0, "a9491c7c-c38c-4df6-aa82-2d521f0ab5ec", null, false, false, null, null, "ADMIN", "AQAAAAIAAYagAAAAEC+GKjpQN2J/PsAHT5V/47qcmlAj6bA/UM7+vjFC5AMt6n/FgS9CnTS0bnRB3f3M5g==", null, false, null, "cc765318-cf70-4cbc-a4c3-bdb62c47bef5", false, "admin" });
 
             migrationBuilder.InsertData(
                 table: "AspNetUserRoles",
                 columns: new[] { "RoleId", "UserId" },
-                values: new object[] { "90855550-59d7-4411-9a2f-6027ea8b1706", "06e9d665-edfb-4e3e-aff7-ee871ca0df4f" });
+                values: new object[] { "2c67ab03-9ab2-4e6b-bdf2-7b29ac1beb3a", "e4875d49-50be-4c84-9cf4-8db440277cf8" });
 
             migrationBuilder.CreateIndex(
                 name: "IX_ActorMovie_MoviesId",

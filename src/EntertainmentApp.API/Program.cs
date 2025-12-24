@@ -1,7 +1,9 @@
 using EntertainmentApp.Infrastructure;
+using EntertainmentApp.Infrastructure.Data;
 using EntertainmentApp.Shared.Exceptions.Handler;
 using Microsoft.AspNetCore.Http.Features;
 using Microsoft.AspNetCore.HttpOverrides;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.FileProviders;
 using Microsoft.IdentityModel.JsonWebTokens;
 using Microsoft.OpenApi.Models;
@@ -105,6 +107,17 @@ namespace EntertainmentApp.API
 
 
             var app = builder.Build();
+
+            using (var scope = app.Services.CreateScope())
+            {
+                var services = scope.ServiceProvider;
+
+                var dbContext = services.GetRequiredService<ApplicationDBContext>();
+                dbContext.Database.Migrate(); // applies migrations safely
+
+                IdentitySeeder.SeedAsync(services);
+            }
+
             app.UseCors(MyAllowSpecificOrigins);
             app.UseExceptionHandler(options => { });
             if (app.Environment.IsDevelopment())

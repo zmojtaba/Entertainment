@@ -143,16 +143,27 @@ namespace EntertainmentApp.API.Controllers
         public async Task<IActionResult> CreateSeriesAsync([FromForm] CreateSeriesDto dto)
         {
             string posterImagePath = null;
-            if (dto.PosterImageUrl == null) return BadRequest("Poster Image is required");
             try
             {
                 posterImagePath = await _mediaService.UploadPosterImage(dto.PosterImageFile);
-                dto.PosterImageUrl = posterImagePath;
             }catch (Exception ex)
             {
                 return BadRequest(ex.Message);
             }
-            CreateSeriesCommand command = dto.Adapt<CreateSeriesCommand>();
+            CreateSeriesCommand command = new CreateSeriesCommand
+            {
+                Title = dto.Title,
+                Description = dto.Description,
+                Languages = dto.Languages,
+                Countries = dto.Countries,
+                AgeGroup = dto.AgeGroup,
+                ImdbRating = dto.ImdbRating,
+                PublishedDate = dto.PublishedDate,
+                PosterImageUrl = posterImagePath,
+                Genres = dto.Genres,
+                Directors = dto.Directors,
+                Actors = dto.Actors
+            };
             SeriesDto result = await _mediator.Send(command);
             return Ok(result);
         }

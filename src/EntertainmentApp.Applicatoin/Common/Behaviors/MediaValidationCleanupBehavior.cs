@@ -1,6 +1,8 @@
 ﻿
 using EntertainmentApp.Applicatoin.Features.Video.MoviesFeature;
 using EntertainmentApp.Applicatoin.Features.Video.SeriesFeature;
+using static EntertainmentApp.Applicatoin.Features.Story.BookFeature.AddBookHandler;
+using static EntertainmentApp.Applicatoin.Features.Story.PodCastFeature.AddPodCastHandler;
 
 namespace EntertainmentApp.Shared.Behaviors
 {
@@ -44,6 +46,16 @@ namespace EntertainmentApp.Shared.Behaviors
                         cmmd.PosterImageUrl,
                         ""
                     );
+                }
+
+                if (request is AddBookCommand bookCommand)
+                {
+                    await _mediaService.DeleteMediaFilesAsync(bookCommand.TempStreamUrl, bookCommand.TempPosterImageUrl);
+                }
+
+                if (request is AddCodCastCommand podcastCommand)
+                {
+                    await _mediaService.DeleteMediaFilesAsync(podcastCommand.PosterImageUrl, "");
                 }
 
 

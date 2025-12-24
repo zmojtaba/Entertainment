@@ -3,9 +3,9 @@ using EntertainmentApp.Applicatoin.Interfaces.Media;
 using EntertainmentApp.Domain.Entities.Story;
 using EntertainmentApp.Domain.Entities.Video;
 using System.Linq;
-using static EntertainmentApp.Applicatoin.Features.BookFeature.AddBookHandler;
+using static EntertainmentApp.Applicatoin.Features.Story.BookFeature.AddBookHandler;
 
-namespace EntertainmentApp.Applicatoin.Features.BookFeature
+namespace EntertainmentApp.Applicatoin.Features.Story.BookFeature
 {
     public class UpdateBookHandler
     {

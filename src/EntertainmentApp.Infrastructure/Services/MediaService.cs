@@ -128,7 +128,14 @@ namespace EntertainmentApp.Infrastructure.Services
 
         public async Task<string> UploadPosterImage(IFormFile file)
         {
+
+            if (!IsValidExtension(file.FileName, "image")) 
+                throw new BadRequestException($"Poster Image is not valid. valid format: {string.Join(", ", ValidExtensionList.ImageExtension)}" );
+
             byte[] imageBytes;
+
+
+
             using (var memoryStream = new MemoryStream())
             {
                 await file.CopyToAsync(memoryStream);

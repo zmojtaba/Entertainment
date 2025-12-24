@@ -4,7 +4,7 @@ using EntertainmentApp.Domain.Entities.Story;
 using EntertainmentApp.Domain.Entities.Video;
 using static Microsoft.EntityFrameworkCore.DbLoggerCategory.Database;
 
-namespace EntertainmentApp.Applicatoin.Features.BookFeature
+namespace EntertainmentApp.Applicatoin.Features.Story.BookFeature
 {
     public class AddBookHandler
     {

@@ -1,8 +1,7 @@
-﻿
-using EntertainmentApp.Applicatoin.Interfaces;
+﻿using EntertainmentApp.Applicatoin.Interfaces;
 using EntertainmentApp.Domain.Entities.Story;
 
-namespace EntertainmentApp.Applicatoin.Features.BookFeature
+namespace EntertainmentApp.Applicatoin.Features.Story.BookFeature
 {
     public class GetBookByIdHandler
     {

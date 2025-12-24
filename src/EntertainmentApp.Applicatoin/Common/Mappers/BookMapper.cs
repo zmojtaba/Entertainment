@@ -23,5 +23,14 @@ namespace EntertainmentApp.Applicatoin.Common.Mappers
             };
         }
 
+        public static WriterDto ToWriterDto(this Writer writer)
+        {
+            return new WriterDto
+            {
+                Name = writer.Name,
+                ImagePath = writer.ImagePath
+            };
+        }
+
     }
 }

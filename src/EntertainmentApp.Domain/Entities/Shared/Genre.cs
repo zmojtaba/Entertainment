@@ -11,6 +11,7 @@ namespace EntertainmentApp.Domain.Entities.Shared
         public List<Movie>? Movies { get; private set; } = new List<Movie>();
         public List<Series>? Series { get; private set; } = new List<Series>();
         public List<Book>? Books { get; private set; } = new List<Book>();
+        public List<PodCast> PodCasts { get; private set; } = new List<PodCast>();
         private Genre() { } // For EF Core
         public Genre(string title)
         {

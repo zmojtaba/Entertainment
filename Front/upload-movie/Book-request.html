@@ -37,7 +37,7 @@ document.getElementById("uploadForm").addEventListener("submit", async (e) => {
   fd.append("AgeGroup", 10);
   fd.append("Rating", 8.6);
   fd.append("Languages", JSON.stringify(["sundanese"]));
-  fd.append("Genres", JSON.stringify(["Drama", "Thriller"]));
+  fd.append("Genres", JSON.stringify(["drama- book", "Thriller- book"]));
   fd.append("Writers", JSON.stringify(["Christopher Nolan", "jim carry"]));
 
   await fetch("http://localhost:5030/api/story/book", {

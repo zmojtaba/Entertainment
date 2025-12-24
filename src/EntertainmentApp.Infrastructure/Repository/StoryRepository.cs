@@ -1,6 +1,5 @@
 ﻿using EntertainmentApp.Applicatoin.Interfaces;
 using EntertainmentApp.Domain.Entities.Story;
-using Microsoft.EntityFrameworkCore;
 
 namespace EntertainmentApp.Infrastructure.Repository
 {
@@ -44,7 +43,7 @@ namespace EntertainmentApp.Infrastructure.Repository
 
         public async Task<List<Genre>> GetStoryGenresAsync()
         {
-            return await _context.Genres.Where(g => g.Books.Any() ).ToListAsync();
+            return await _context.Genres.Where(g => g.Books.Any()).ToListAsync();
         }
 
 
@@ -86,6 +85,178 @@ namespace EntertainmentApp.Infrastructure.Repository
             _context.Books.Update(book);
             await _context.SaveChangesAsync();
             return book;
+        }
+
+        public async Task DeleteBookAsync(Book book)
+        {
+            _context.Books.Remove(book);
+            await _context.SaveChangesAsync();
+        }
+
+        public async Task<List<Book>> GetBooksByGenre(string genre)
+        {
+            return await _context.Books
+                .Include(b => b.Genres)
+                .Include(b => b.Writers)
+                .Where(b => b.Genres.Any(g => g.Title.ToLower() == genre.ToLower()))
+                .OrderByDescending(b => b.CreatedAt)
+                .ToListAsync();
+        }
+        public async Task<List<Book>> GetBooksByLanguage(string language)
+        {
+            if (language.ToLower() == "persian")
+                return await _context.Books
+                    .Include(b => b.Genres)
+                    .Include(b => b.Writers)
+                    .Where(b => b.Languages.Any(l => l.ToLower() == "persian"))
+                    .OrderByDescending(b => b.CreatedAt)
+                    .ToListAsync();
+
+            
+
+            return await _context.Books
+                .Include(b => b.Genres)
+                .Include(b => b.Writers)
+                .Where(b => b.Languages.Any(l => l.ToLower() != "persian"))
+                .OrderByDescending(b => b.CreatedAt)
+                .ToListAsync();
+
+        }
+
+        public async Task<List<Book>> GetBookByFilterAsync(string language, string genre)
+        {
+            if (language.ToLower() == "persian")
+            {
+                return await _context.Books
+                    .Include(b => b.Genres)
+                    .Include(b => b.Writers)
+                    .Where(b => b.Languages.Any(l => l.ToLower() == "persian") &&
+                                b.Genres.Any(g => g.Title.ToLower() == genre.ToLower()))
+                    .OrderByDescending(b => b.CreatedAt)
+                    .ToListAsync();
+            }
+            return await _context.Books
+                .Include(b => b.Genres)
+                .Include(b => b.Writers)
+                .Where(b => b.Languages.Any(l => l.ToLower() != "persian") &&
+                            b.Genres.Any(g => g.Title.ToLower() == genre.ToLower()))
+                .OrderByDescending(b => b.CreatedAt)
+                .ToListAsync();
+        }
+
+
+
+
+
+
+
+        public async Task<Speaker> AddSpeakerAsync(Speaker speaker)
+        {
+            await _context.Speakers.AddAsync(speaker);
+            await _context.SaveChangesAsync();
+            return speaker;
+        }
+
+        public async Task<Speaker?> GetSpeakerAsync(string speakerName)
+        {
+            return await _context.Speakers.FirstOrDefaultAsync(s => s.Name.ToLower() == speakerName.ToLower());
+        }
+
+
+        public async Task<PodCast> AddPodCastAsync(PodCast podCast)
+        {
+            await _context.PodCasts.AddAsync(podCast);
+            await _context.SaveChangesAsync();
+            return podCast;
+        }
+
+        public async Task<List<PodCast>> GetPodCastsAsync()
+        {
+            return await _context.PodCasts
+                .Include(p => p.Speakers)
+                .Include(p => p.Genres)
+                .Include(p => p.Episodes)
+                .OrderByDescending(p => p.CreatedAt)
+                .ToListAsync();
+        }
+
+        public Task<PodCast?> GetPodCastByIdAsync(Guid id)
+        {
+            return _context.PodCasts
+                .Include(p => p.Speakers)
+                .Include(p => p.Genres)
+                .Include(p => p.Episodes)
+                .OrderByDescending(p => p.CreatedAt)
+                .FirstOrDefaultAsync(p => p.Id == id);
+        }
+
+        public async Task<PodCast> UpdatePodCastAsync(PodCast podCast)
+        {
+            _context.PodCasts.Update(podCast);
+            await _context.SaveChangesAsync();
+            return podCast;
+        }
+
+        public async Task DeletePodCastAsync(PodCast podCast)
+        {
+            _context.PodCasts.Remove(podCast);
+            await _context.SaveChangesAsync();
+        }
+
+        public async Task<List<PodCast>> GetPodCastByGenre(string genre)
+        {
+            return await _context.PodCasts
+                .Include(p => p.Genres)
+                .Include(p => p.Speakers)
+                .Include(p => p.Episodes)
+                .Where(p => p.Genres.Any(g => g.Title.ToLower() == genre.ToLower()))
+                .OrderByDescending(p => p.CreatedAt)
+                .ToListAsync();
+        }
+
+        public async Task<List<PodCast>> GetPodCastByLanguage(string language)
+        {
+            if (language.ToLower() == "persian")
+                return await _context.PodCasts
+                    .Include(p => p.Genres)
+                    .Include(p => p.Speakers)
+                    .Include(p => p.Episodes)
+                    .Where(b => b.Languages.Any(l => l.ToLower() == "persian"))
+                    .OrderByDescending(b => b.CreatedAt)
+                    .ToListAsync();
+
+
+
+            return await _context.PodCasts
+                .Include(p => p.Genres)
+                .Include(p => p.Speakers)
+                .Include(p => p.Episodes)
+                .Where(b => b.Languages.Any(l => l.ToLower() != "persian"))
+                .OrderByDescending(b => b.CreatedAt)
+                .ToListAsync();
+        }
+
+        public async Task<List<PodCast>> GetPodCastByFilterAsync(string language, string genre)
+        {
+            if (language.ToLower() == "persian")
+            {
+                return await _context.PodCasts
+                    .Include(b => b.Genres)
+                    .Include(p => p.Speakers)
+                    .Include(p => p.Episodes)
+                    .Where(b => b.Languages.Any(l => l.ToLower() == "persian") &&
+                                b.Genres.Any(g => g.Title.ToLower() == genre.ToLower()))
+                    .OrderByDescending(b => b.CreatedAt)
+                    .ToListAsync();
+            }
+            return await _context.PodCasts
+                .Include(b => b.Genres)
+                .Include(p => p.Speakers)
+                .Include(p => p.Episodes)
+                .Where(b => b.Languages.Any(l => l.ToLower() != "persian") &&
+                            b.Genres.Any(g => g.Title.ToLower() == genre.ToLower()))
+                .OrderByDescending(b => b.CreatedAt)
+                .ToListAsync();
         }
     }
 }

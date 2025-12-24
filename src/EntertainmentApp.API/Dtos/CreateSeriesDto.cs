@@ -11,10 +11,7 @@
         public int AgeGroup { get;  set; }
         public decimal ImdbRating { get; set; }
         public int PublishedDate { get; set; }
-        public IFormFile PosterImageFile { get; set; }
-        public string PosterImageUrl { get; set; } = string.Empty;
-        
-
+        public IFormFile PosterImageFile { get; set; } 
         public List<string> Genres { get;  set; } = new();
         public List<string> Directors { get;  set; } = new();
         public List<string> Actors { get;  set; } = new();
