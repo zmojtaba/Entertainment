@@ -15,9 +15,13 @@ using static EntertainmentApp.Applicatoin.Features.Story.BookFeature.DeleteBookH
 using static EntertainmentApp.Applicatoin.Features.Story.BookFeature.GetBookByIdHandler;
 using static EntertainmentApp.Applicatoin.Features.Story.BookFeature.GetBookHandler;
 using static EntertainmentApp.Applicatoin.Features.Story.BookFeature.UpdateBookHandler;
+using static EntertainmentApp.Applicatoin.Features.Story.PodCastFeature.AddPodCastEpisodeHandler;
 using static EntertainmentApp.Applicatoin.Features.Story.PodCastFeature.AddPodCastHandler;
+using static EntertainmentApp.Applicatoin.Features.Story.PodCastFeature.DeletePodCastEpisodeHandler;
+using static EntertainmentApp.Applicatoin.Features.Story.PodCastFeature.DeletePodCastHandler;
 using static EntertainmentApp.Applicatoin.Features.Story.PodCastFeature.GetPodCastByIdHandler;
 using static EntertainmentApp.Applicatoin.Features.Story.PodCastFeature.GetPodCastHandler;
+using static EntertainmentApp.Applicatoin.Features.Story.PodCastFeature.UpdatePodCastHandler;
 
 namespace EntertainmentApp.API.Controllers
 {
@@ -152,12 +156,98 @@ namespace EntertainmentApp.API.Controllers
 
         }
 
-        [HttpPut("podcast/{id}")]
-        public async Task<IActionResult> UpdatePodCastAsync([FromBody] UpdatePodCastDto dto)
+        [HttpPut("podcast/")]
+        public async Task<IActionResult> UpdatePodCastAsync([FromForm] UpdatePodCastDto dto)
         {
-            // To be implemented
-            return StatusCode(501, "Not Implemented");
+            string posterImagePath = null;
+            if (dto.PosterImageFile != null)
+            {
+
+                try
+                {
+                    posterImagePath = await _mediaService.UploadPosterImage(dto.PosterImageFile);
+                }
+                catch (Exception ex)
+                {
+                    return BadRequest(ex.Message);
+                }
+            }
+
+            UpdatePodCastCommand command = new UpdatePodCastCommand
+            {
+                Id = dto.Id,
+                Title = dto.Title,
+                Description = dto.Description,
+                Languages = dto.Languages,
+                AgeGroup = dto.AgeGroup,
+                PosterImageUrl = posterImagePath ?? "",
+                Genres = dto.Genres,
+                Speakers = dto.Speakers
+            };
+            PodCastDto result = await _mediator.Send(command);
+            return Ok(result);
 
         }
+
+        [HttpDelete("podcast/{id}")]
+        public async Task<IActionResult> DeletePodCastAsync([FromRoute] Guid id)
+        {
+            DeletePodCastCommand comand = new DeletePodCastCommand(id);
+            await _mediator.Send(comand);
+            return Ok("Deleted Successfully");
+        }
+
+
+
+        [HttpPost("podcast/episode")]
+        [DisableFormValueModelBinding]
+        [RequestSizeLimit(long.MaxValue)]
+        public async Task<IActionResult> AddPodCastEpisode()
+        {
+            MediaUploadResult mediaUploadResult = null;
+            if (!MultipartRequestHelper.IsMultipartContentType(Request.ContentType))
+            {
+                return BadRequest("Request is not multipart.");
+            }
+
+            try
+            {
+                mediaUploadResult = await _mediaService.UploadAsync(Request.Body, Request.ContentType);
+            }
+            catch (BadRequestException ex)
+            {
+                return StatusCode(400, ex.Message);
+            }
+            catch (Exception ex)
+            {
+                // Log error
+                return StatusCode(500, $"Internal server error: {ex.Message}");
+            }
+
+            if (mediaUploadResult == null)
+            {
+                return BadRequest("Form Data is required");
+            }
+
+            AddPodCastEpisodeCommand command = new AddPodCastEpisodeCommand
+            {
+                Title = mediaUploadResult.Title,
+                TempStreamUrl = mediaUploadResult.TempStreamUrl,
+                PodCastId = mediaUploadResult.SeriesId,
+            };
+            var result = await _mediator.Send(command);
+
+            return Ok(result);
+        }
+
+        [HttpDelete("podcast/episode/{id}")]
+        public async Task<IActionResult> DeletePodCastEpisode([FromRoute] Guid id)
+        {
+            DeletePodCastEpisodeCommand command = new DeletePodCastEpisodeCommand(id);
+            await _mediator.Send(command);
+            return Ok("Deleted Successfully");
+        }
+
+
     }
 }

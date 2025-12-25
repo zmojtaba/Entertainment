@@ -432,8 +432,7 @@ namespace EntertainmentApp.Infrastructure.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("PodCastId", "Title")
-                        .IsUnique();
+                    b.HasIndex("PodCastId");
 
                     b.ToTable("PodCastEpisodes");
                 });

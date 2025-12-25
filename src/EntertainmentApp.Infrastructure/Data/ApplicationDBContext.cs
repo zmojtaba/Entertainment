@@ -174,7 +174,7 @@ namespace EntertainmentApp.Infrastructure.Data
             builder.Entity<PodCastEpisode>(entity =>
             {
                 entity.HasKey(e => e.Id);
-                entity.HasIndex(entity => new { entity.PodCastId, entity.Title }).IsUnique();
+                //entity.HasIndex(entity => new { entity.PodCastId, entity.Title }).IsUnique();
             });
 
             builder.Entity<Speaker>(entity =>

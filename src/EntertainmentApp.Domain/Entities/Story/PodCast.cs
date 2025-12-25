@@ -90,6 +90,7 @@ namespace EntertainmentApp.Domain.Entities.Story
             if (episode == null)
                 throw new DomainException("Episode cannot be null.");
             Episodes.Add(episode);
+            episode.SetPodCast(this);
         }
 
 

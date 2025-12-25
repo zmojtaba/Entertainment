@@ -258,5 +258,35 @@ namespace EntertainmentApp.Infrastructure.Repository
                 .OrderByDescending(b => b.CreatedAt)
                 .ToListAsync();
         }
+
+
+
+        public async Task<PodCastEpisode> AddPodCastEpisodeAsync(PodCastEpisode podCastEpisode)
+        {
+            await _context.PodCastEpisodes.AddAsync(podCastEpisode);
+            await _context.SaveChangesAsync();
+            return podCastEpisode;
+        }
+
+        public async Task<PodCastEpisode?> GetPodCastEpisodeByIdAsync(Guid id)
+        {
+            return await _context.PodCastEpisodes.FindAsync(id);
+        }
+
+        public async Task DeletePodCastEpisodeAsync(PodCastEpisode episode)
+        {
+            _context.PodCastEpisodes.Remove(episode);
+            await _context.SaveChangesAsync();
+        }
+
+
+
+
+
+
+
+
+
+
     }
 }

@@ -48,6 +48,10 @@ namespace EntertainmentApp.Applicatoin.Interfaces
         public Task DeletePodCastAsync(PodCast podCast);
 
 
+        public Task<PodCastEpisode> AddPodCastEpisodeAsync(PodCastEpisode podCastEpisode);
+        public Task<PodCastEpisode?> GetPodCastEpisodeByIdAsync(Guid id);
+        public Task DeletePodCastEpisodeAsync(PodCastEpisode episode);
+
 
 
 

@@ -22,7 +22,7 @@ namespace EntertainmentApp.Applicatoin.Features.Story.PodCastFeature
                 else podcasts = await storyRepo.GetPodCastsAsync();
 
                 if (podcasts == null || !podcasts.Any())
-                    throw new NotFoundException("Movie Not found");
+                    throw new NotFoundException("Podcast Not found");
 
                 List<PodCastDto> result = podcasts.Select(m => m.ToPodCastDto()).ToList();
 

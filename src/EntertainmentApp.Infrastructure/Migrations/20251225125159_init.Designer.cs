@@ -13,8 +13,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace EntertainmentApp.Infrastructure.Migrations
 {
     [DbContext(typeof(ApplicationDBContext))]
-    [Migration("20251224191313_addPodcast")]
-    partial class addPodcast
+    [Migration("20251225125159_init")]
+    partial class init
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -435,8 +435,7 @@ namespace EntertainmentApp.Infrastructure.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("PodCastId", "Title")
-                        .IsUnique();
+                    b.HasIndex("PodCastId");
 
                     b.ToTable("PodCastEpisodes");
                 });

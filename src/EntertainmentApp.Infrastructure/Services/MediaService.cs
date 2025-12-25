@@ -62,6 +62,17 @@ namespace EntertainmentApp.Infrastructure.Services
                         streamPath = storagePath;
                         streamFileName = fileName;
                     }
+                    if (name.Equals("audio", StringComparison.OrdinalIgnoreCase))
+                    {
+                        if (!IsValidExtension(fileName, "audio"))
+                        {
+                            if (File.Exists(posterPath)) File.Delete(posterPath);
+                            throw new BadRequestException($"Invalid Audio file extension. Supported extensions are: {string.Join(", ", ValidExtensionList.AudioExtension)}");
+                        }
+
+                        streamPath = storagePath;
+                        streamFileName = fileName;
+                    }
                     if (name.Equals("ebook", StringComparison.OrdinalIgnoreCase))
                     {
                         if (!IsValidExtension(fileName, "ebook"))
@@ -75,7 +86,7 @@ namespace EntertainmentApp.Infrastructure.Services
                     }
                     if (name.Equals("audio", StringComparison.OrdinalIgnoreCase))
                     {
-                        if (!IsValidExtension(fileName, "music"))
+                        if (!IsValidExtension(fileName, "audio"))
                         {
                             if (File.Exists(posterPath)) File.Delete(posterPath);
                             throw new BadRequestException($"Invalid audio file extension. Supported extensions are: {string.Join(", ", ValidExtensionList.AudioExtension)}");
@@ -220,7 +231,7 @@ namespace EntertainmentApp.Infrastructure.Services
         {
             string extension = Path.GetExtension(fileName);
             if (category.Equals("video", StringComparison.OrdinalIgnoreCase)) return ValidExtensionList.VideoExtension.Contains(extension, StringComparer.OrdinalIgnoreCase);
-            if (category.Equals("music", StringComparison.OrdinalIgnoreCase)) return ValidExtensionList.AudioExtension.Contains(extension, StringComparer.OrdinalIgnoreCase);
+            if (category.Equals("audio", StringComparison.OrdinalIgnoreCase)) return ValidExtensionList.AudioExtension.Contains(extension, StringComparer.OrdinalIgnoreCase);
             if (category.Equals("image", StringComparison.OrdinalIgnoreCase)) return ValidExtensionList.ImageExtension.Contains(extension, StringComparer.OrdinalIgnoreCase);
             if (category.Equals("ebook", StringComparison.OrdinalIgnoreCase)) return ValidExtensionList.BookExtension.Contains(extension, StringComparer.OrdinalIgnoreCase) ||
                     ValidExtensionList.AudioExtension.Contains(extension, StringComparer.OrdinalIgnoreCase);
