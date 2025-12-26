@@ -53,6 +53,51 @@ namespace EntertainmentApp.Infrastructure.Migrations
                     b.ToTable("ActorSeries");
                 });
 
+            modelBuilder.Entity("AlbumGenre", b =>
+                {
+                    b.Property<Guid>("AlbumsId")
+                        .HasColumnType("uuid");
+
+                    b.Property<string>("GenresTitle")
+                        .HasColumnType("character varying(100)");
+
+                    b.HasKey("AlbumsId", "GenresTitle");
+
+                    b.HasIndex("GenresTitle");
+
+                    b.ToTable("AlbumGenre");
+                });
+
+            modelBuilder.Entity("AudioStoryGenre", b =>
+                {
+                    b.Property<Guid>("AudioStoriesId")
+                        .HasColumnType("uuid");
+
+                    b.Property<string>("GenresTitle")
+                        .HasColumnType("character varying(100)");
+
+                    b.HasKey("AudioStoriesId", "GenresTitle");
+
+                    b.HasIndex("GenresTitle");
+
+                    b.ToTable("AudioStoryGenre");
+                });
+
+            modelBuilder.Entity("AudioStorySpeaker", b =>
+                {
+                    b.Property<Guid>("AudioStoriesId")
+                        .HasColumnType("uuid");
+
+                    b.Property<string>("SpeakersName")
+                        .HasColumnType("character varying(150)");
+
+                    b.HasKey("AudioStoriesId", "SpeakersName");
+
+                    b.HasIndex("SpeakersName");
+
+                    b.ToTable("AudioStorySpeaker");
+                });
+
             modelBuilder.Entity("BookGenre", b =>
                 {
                     b.Property<Guid>("BooksId")
@@ -246,6 +291,136 @@ namespace EntertainmentApp.Infrastructure.Migrations
                     b.ToTable("Corus");
                 });
 
+            modelBuilder.Entity("EntertainmentApp.Domain.Entities.Music.Album", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<List<string>>("Languages")
+                        .IsRequired()
+                        .HasColumnType("text[]");
+
+                    b.Property<string>("PosterImageUrl")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<Guid>("SingerId")
+                        .HasColumnType("uuid");
+
+                    b.Property<string>("Title")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<DateTime?>("UpdatedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("SingerId");
+
+                    b.ToTable("Albums");
+                });
+
+            modelBuilder.Entity("EntertainmentApp.Domain.Entities.Music.AlbumEpisode", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid?>("AlbumId")
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("StreamUrl")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("Title")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<DateTime?>("UpdatedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("AlbumId");
+
+                    b.ToTable("AlbumEpisodes");
+                });
+
+            modelBuilder.Entity("EntertainmentApp.Domain.Entities.Music.Singer", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("ImagePath")
+                        .HasColumnType("text");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<DateTime?>("UpdatedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("Name")
+                        .IsUnique();
+
+                    b.ToTable("Singers");
+                });
+
+            modelBuilder.Entity("EntertainmentApp.Domain.Entities.Music.Track", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<List<string>>("Languages")
+                        .IsRequired()
+                        .HasColumnType("text[]");
+
+                    b.Property<string>("PosterImageUrl")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<Guid>("SingerId")
+                        .HasColumnType("uuid");
+
+                    b.Property<string>("StreamUrl")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("Title")
+                        .IsRequired()
+                        .HasMaxLength(200)
+                        .HasColumnType("character varying(200)");
+
+                    b.Property<DateTime?>("UpdatedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("SingerId");
+
+                    b.ToTable("Tracks");
+                });
+
             modelBuilder.Entity("EntertainmentApp.Domain.Entities.Shared.Actor", b =>
                 {
                     b.Property<string>("Name")
@@ -319,6 +494,72 @@ namespace EntertainmentApp.Infrastructure.Migrations
                         .IsUnique();
 
                     b.ToTable("Genres");
+                });
+
+            modelBuilder.Entity("EntertainmentApp.Domain.Entities.Story.AudioStory", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<int>("AgeGroup")
+                        .HasColumnType("integer");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<List<string>>("Languages")
+                        .IsRequired()
+                        .HasColumnType("text[]");
+
+                    b.Property<string>("PosterImageUrl")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("Title")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<DateTime?>("UpdatedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("AudioStories");
+                });
+
+            modelBuilder.Entity("EntertainmentApp.Domain.Entities.Story.AudioStoryEpisode", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid?>("AudioStoryId")
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("StreamUrl")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("Title")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<DateTime?>("UpdatedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("AudioStoryId");
+
+                    b.ToTable("AudioStoryEpisodes");
                 });
 
             modelBuilder.Entity("EntertainmentApp.Domain.Entities.Story.Book", b =>
@@ -693,6 +934,21 @@ namespace EntertainmentApp.Infrastructure.Migrations
                     b.ToTable("GenreSeries");
                 });
 
+            modelBuilder.Entity("GenreTrack", b =>
+                {
+                    b.Property<string>("GenresTitle")
+                        .HasColumnType("character varying(100)");
+
+                    b.Property<Guid>("TracksId")
+                        .HasColumnType("uuid");
+
+                    b.HasKey("GenresTitle", "TracksId");
+
+                    b.HasIndex("TracksId");
+
+                    b.ToTable("GenreTrack");
+                });
+
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
                 {
                     b.Property<string>("Id")
@@ -870,6 +1126,51 @@ namespace EntertainmentApp.Infrastructure.Migrations
                         .IsRequired();
                 });
 
+            modelBuilder.Entity("AlbumGenre", b =>
+                {
+                    b.HasOne("EntertainmentApp.Domain.Entities.Music.Album", null)
+                        .WithMany()
+                        .HasForeignKey("AlbumsId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("EntertainmentApp.Domain.Entities.Shared.Genre", null)
+                        .WithMany()
+                        .HasForeignKey("GenresTitle")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("AudioStoryGenre", b =>
+                {
+                    b.HasOne("EntertainmentApp.Domain.Entities.Story.AudioStory", null)
+                        .WithMany()
+                        .HasForeignKey("AudioStoriesId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("EntertainmentApp.Domain.Entities.Shared.Genre", null)
+                        .WithMany()
+                        .HasForeignKey("GenresTitle")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("AudioStorySpeaker", b =>
+                {
+                    b.HasOne("EntertainmentApp.Domain.Entities.Story.AudioStory", null)
+                        .WithMany()
+                        .HasForeignKey("AudioStoriesId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("EntertainmentApp.Domain.Entities.Story.Speaker", null)
+                        .WithMany()
+                        .HasForeignKey("SpeakersName")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
             modelBuilder.Entity("BookGenre", b =>
                 {
                     b.HasOne("EntertainmentApp.Domain.Entities.Story.Book", null)
@@ -928,6 +1229,48 @@ namespace EntertainmentApp.Infrastructure.Migrations
                         .HasForeignKey("SeriesId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("EntertainmentApp.Domain.Entities.Music.Album", b =>
+                {
+                    b.HasOne("EntertainmentApp.Domain.Entities.Music.Singer", "Singer")
+                        .WithMany("Albums")
+                        .HasForeignKey("SingerId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Singer");
+                });
+
+            modelBuilder.Entity("EntertainmentApp.Domain.Entities.Music.AlbumEpisode", b =>
+                {
+                    b.HasOne("EntertainmentApp.Domain.Entities.Music.Album", "Album")
+                        .WithMany("Episodes")
+                        .HasForeignKey("AlbumId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.Navigation("Album");
+                });
+
+            modelBuilder.Entity("EntertainmentApp.Domain.Entities.Music.Track", b =>
+                {
+                    b.HasOne("EntertainmentApp.Domain.Entities.Music.Singer", "Singer")
+                        .WithMany("Tracks")
+                        .HasForeignKey("SingerId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Singer");
+                });
+
+            modelBuilder.Entity("EntertainmentApp.Domain.Entities.Story.AudioStoryEpisode", b =>
+                {
+                    b.HasOne("EntertainmentApp.Domain.Entities.Story.AudioStory", "AudioStory")
+                        .WithMany("Episodes")
+                        .HasForeignKey("AudioStoryId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.Navigation("AudioStory");
                 });
 
             modelBuilder.Entity("EntertainmentApp.Domain.Entities.Story.PodCastEpisode", b =>
@@ -1005,6 +1348,21 @@ namespace EntertainmentApp.Infrastructure.Migrations
                         .IsRequired();
                 });
 
+            modelBuilder.Entity("GenreTrack", b =>
+                {
+                    b.HasOne("EntertainmentApp.Domain.Entities.Shared.Genre", null)
+                        .WithMany()
+                        .HasForeignKey("GenresTitle")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("EntertainmentApp.Domain.Entities.Music.Track", null)
+                        .WithMany()
+                        .HasForeignKey("TracksId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
                 {
                     b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole", null)
@@ -1069,6 +1427,23 @@ namespace EntertainmentApp.Infrastructure.Migrations
                         .HasForeignKey("SpeakersName")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("EntertainmentApp.Domain.Entities.Music.Album", b =>
+                {
+                    b.Navigation("Episodes");
+                });
+
+            modelBuilder.Entity("EntertainmentApp.Domain.Entities.Music.Singer", b =>
+                {
+                    b.Navigation("Albums");
+
+                    b.Navigation("Tracks");
+                });
+
+            modelBuilder.Entity("EntertainmentApp.Domain.Entities.Story.AudioStory", b =>
+                {
+                    b.Navigation("Episodes");
                 });
 
             modelBuilder.Entity("EntertainmentApp.Domain.Entities.Story.PodCast", b =>

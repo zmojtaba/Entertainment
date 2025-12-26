@@ -2,6 +2,8 @@
 using EntertainmentApp.Applicatoin.Features.Story.PodCastFeature;
 using EntertainmentApp.Applicatoin.Features.Video.MoviesFeature;
 using EntertainmentApp.Applicatoin.Features.Video.SeriesFeature;
+using static EntertainmentApp.Applicatoin.Features.Story.AudioStoryFeature.AddAudioStoryEpisodeHandler;
+using static EntertainmentApp.Applicatoin.Features.Story.AudioStoryFeature.AddAudioStoryHandler;
 using static EntertainmentApp.Applicatoin.Features.Story.BookFeature.AddBookHandler;
 using static EntertainmentApp.Applicatoin.Features.Story.PodCastFeature.AddPodCastEpisodeHandler;
 using static EntertainmentApp.Applicatoin.Features.Story.PodCastFeature.AddPodCastHandler;
@@ -64,6 +66,18 @@ namespace EntertainmentApp.Shared.Behaviors
                 {
                     await _mediaService.DeleteMediaFilesAsync(podcastEpisodeCommand.TempStreamUrl, "");
                 }
+
+                if (request is AddAudioStoryCommand audioStoryCommand)
+                {
+                    await _mediaService.DeleteMediaFilesAsync(audioStoryCommand.PosterImageUrl, "");
+                }
+
+                if (request is AddAudioStoryEpisodeCommand AudioStoryEpisodeCommand)
+                {
+                    await _mediaService.DeleteMediaFilesAsync(AudioStoryEpisodeCommand.TempStreamUrl, "");
+                }
+
+
 
 
 

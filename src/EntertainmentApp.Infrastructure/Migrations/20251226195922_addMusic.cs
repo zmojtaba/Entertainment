@@ -8,7 +8,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace EntertainmentApp.Infrastructure.Migrations
 {
     /// <inheritdoc />
-    public partial class init : Migration
+    public partial class addMusic : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -66,6 +66,24 @@ namespace EntertainmentApp.Infrastructure.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_AspNetUsers", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "AudioStories",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uuid", nullable: false),
+                    Title = table.Column<string>(type: "text", nullable: false),
+                    Description = table.Column<string>(type: "text", nullable: false),
+                    Languages = table.Column<List<string>>(type: "text[]", nullable: false),
+                    AgeGroup = table.Column<int>(type: "integer", nullable: false),
+                    PosterImageUrl = table.Column<string>(type: "text", nullable: false),
+                    CreatedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    UpdatedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_AudioStories", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -194,6 +212,21 @@ namespace EntertainmentApp.Infrastructure.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Series", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Singers",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uuid", nullable: false),
+                    Name = table.Column<string>(type: "text", nullable: false),
+                    ImagePath = table.Column<string>(type: "text", nullable: true),
+                    CreatedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    UpdatedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Singers", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -347,6 +380,52 @@ namespace EntertainmentApp.Infrastructure.Migrations
                         column: x => x.UserId,
                         principalTable: "AspNetUsers",
                         principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "AudioStoryEpisodes",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uuid", nullable: false),
+                    Title = table.Column<string>(type: "text", nullable: false),
+                    StreamUrl = table.Column<string>(type: "text", nullable: false),
+                    AudioStoryId = table.Column<Guid>(type: "uuid", nullable: true),
+                    CreatedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    UpdatedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_AudioStoryEpisodes", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_AudioStoryEpisodes_AudioStories_AudioStoryId",
+                        column: x => x.AudioStoryId,
+                        principalTable: "AudioStories",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "AudioStoryGenre",
+                columns: table => new
+                {
+                    AudioStoriesId = table.Column<Guid>(type: "uuid", nullable: false),
+                    GenresTitle = table.Column<string>(type: "character varying(100)", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_AudioStoryGenre", x => new { x.AudioStoriesId, x.GenresTitle });
+                    table.ForeignKey(
+                        name: "FK_AudioStoryGenre_AudioStories_AudioStoriesId",
+                        column: x => x.AudioStoriesId,
+                        principalTable: "AudioStories",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_AudioStoryGenre_Genres_GenresTitle",
+                        column: x => x.GenresTitle,
+                        principalTable: "Genres",
+                        principalColumn: "Title",
                         onDelete: ReferentialAction.Cascade);
                 });
 
@@ -586,6 +665,77 @@ namespace EntertainmentApp.Infrastructure.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Albums",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uuid", nullable: false),
+                    Title = table.Column<string>(type: "text", nullable: false),
+                    Languages = table.Column<List<string>>(type: "text[]", nullable: false),
+                    PosterImageUrl = table.Column<string>(type: "text", nullable: false),
+                    SingerId = table.Column<Guid>(type: "uuid", nullable: false),
+                    CreatedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    UpdatedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Albums", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Albums_Singers_SingerId",
+                        column: x => x.SingerId,
+                        principalTable: "Singers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Tracks",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uuid", nullable: false),
+                    Title = table.Column<string>(type: "character varying(200)", maxLength: 200, nullable: false),
+                    Languages = table.Column<List<string>>(type: "text[]", nullable: false),
+                    StreamUrl = table.Column<string>(type: "text", nullable: false),
+                    PosterImageUrl = table.Column<string>(type: "text", nullable: false),
+                    SingerId = table.Column<Guid>(type: "uuid", nullable: false),
+                    CreatedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    UpdatedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Tracks", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Tracks_Singers_SingerId",
+                        column: x => x.SingerId,
+                        principalTable: "Singers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "AudioStorySpeaker",
+                columns: table => new
+                {
+                    AudioStoriesId = table.Column<Guid>(type: "uuid", nullable: false),
+                    SpeakersName = table.Column<string>(type: "character varying(150)", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_AudioStorySpeaker", x => new { x.AudioStoriesId, x.SpeakersName });
+                    table.ForeignKey(
+                        name: "FK_AudioStorySpeaker_AudioStories_AudioStoriesId",
+                        column: x => x.AudioStoriesId,
+                        principalTable: "AudioStories",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_AudioStorySpeaker_Speakers_SpeakersName",
+                        column: x => x.SpeakersName,
+                        principalTable: "Speakers",
+                        principalColumn: "Name",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "PodCastSpeaker",
                 columns: table => new
                 {
@@ -655,6 +805,76 @@ namespace EntertainmentApp.Infrastructure.Migrations
                         onDelete: ReferentialAction.Cascade);
                 });
 
+            migrationBuilder.CreateTable(
+                name: "AlbumEpisodes",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uuid", nullable: false),
+                    Title = table.Column<string>(type: "text", nullable: false),
+                    StreamUrl = table.Column<string>(type: "text", nullable: false),
+                    AlbumId = table.Column<Guid>(type: "uuid", nullable: true),
+                    CreatedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    UpdatedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_AlbumEpisodes", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_AlbumEpisodes_Albums_AlbumId",
+                        column: x => x.AlbumId,
+                        principalTable: "Albums",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "AlbumGenre",
+                columns: table => new
+                {
+                    AlbumsId = table.Column<Guid>(type: "uuid", nullable: false),
+                    GenresTitle = table.Column<string>(type: "character varying(100)", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_AlbumGenre", x => new { x.AlbumsId, x.GenresTitle });
+                    table.ForeignKey(
+                        name: "FK_AlbumGenre_Albums_AlbumsId",
+                        column: x => x.AlbumsId,
+                        principalTable: "Albums",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_AlbumGenre_Genres_GenresTitle",
+                        column: x => x.GenresTitle,
+                        principalTable: "Genres",
+                        principalColumn: "Title",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "GenreTrack",
+                columns: table => new
+                {
+                    GenresTitle = table.Column<string>(type: "character varying(100)", nullable: false),
+                    TracksId = table.Column<Guid>(type: "uuid", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_GenreTrack", x => new { x.GenresTitle, x.TracksId });
+                    table.ForeignKey(
+                        name: "FK_GenreTrack_Genres_GenresTitle",
+                        column: x => x.GenresTitle,
+                        principalTable: "Genres",
+                        principalColumn: "Title",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_GenreTrack_Tracks_TracksId",
+                        column: x => x.TracksId,
+                        principalTable: "Tracks",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
             migrationBuilder.CreateIndex(
                 name: "IX_ActorMovie_MoviesId",
                 table: "ActorMovie",
@@ -670,6 +890,21 @@ namespace EntertainmentApp.Infrastructure.Migrations
                 name: "IX_ActorSeries_SeriesId",
                 table: "ActorSeries",
                 column: "SeriesId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_AlbumEpisodes_AlbumId",
+                table: "AlbumEpisodes",
+                column: "AlbumId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_AlbumGenre_GenresTitle",
+                table: "AlbumGenre",
+                column: "GenresTitle");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Albums_SingerId",
+                table: "Albums",
+                column: "SingerId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetRoleClaims_RoleId",
@@ -707,6 +942,21 @@ namespace EntertainmentApp.Infrastructure.Migrations
                 table: "AspNetUsers",
                 column: "NormalizedUserName",
                 unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_AudioStoryEpisodes_AudioStoryId",
+                table: "AudioStoryEpisodes",
+                column: "AudioStoryId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_AudioStoryGenre_GenresTitle",
+                table: "AudioStoryGenre",
+                column: "GenresTitle");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_AudioStorySpeaker_SpeakersName",
+                table: "AudioStorySpeaker",
+                column: "SpeakersName");
 
             migrationBuilder.CreateIndex(
                 name: "IX_BookGenre_GenresTitle",
@@ -768,6 +1018,11 @@ namespace EntertainmentApp.Infrastructure.Migrations
                 column: "SeriesId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_GenreTrack_TracksId",
+                table: "GenreTrack",
+                column: "TracksId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Movies_Title_PublishedDate",
                 table: "Movies",
                 columns: new[] { "Title", "PublishedDate" },
@@ -796,10 +1051,21 @@ namespace EntertainmentApp.Infrastructure.Migrations
                 unique: true);
 
             migrationBuilder.CreateIndex(
+                name: "IX_Singers_Name",
+                table: "Singers",
+                column: "Name",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Speakers_Name",
                 table: "Speakers",
                 column: "Name",
                 unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Tracks_SingerId",
+                table: "Tracks",
+                column: "SingerId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Writers_Name",
@@ -818,6 +1084,12 @@ namespace EntertainmentApp.Infrastructure.Migrations
                 name: "ActorSeries");
 
             migrationBuilder.DropTable(
+                name: "AlbumEpisodes");
+
+            migrationBuilder.DropTable(
+                name: "AlbumGenre");
+
+            migrationBuilder.DropTable(
                 name: "AspNetRoleClaims");
 
             migrationBuilder.DropTable(
@@ -831,6 +1103,15 @@ namespace EntertainmentApp.Infrastructure.Migrations
 
             migrationBuilder.DropTable(
                 name: "AspNetUserTokens");
+
+            migrationBuilder.DropTable(
+                name: "AudioStoryEpisodes");
+
+            migrationBuilder.DropTable(
+                name: "AudioStoryGenre");
+
+            migrationBuilder.DropTable(
+                name: "AudioStorySpeaker");
 
             migrationBuilder.DropTable(
                 name: "BookGenre");
@@ -860,6 +1141,9 @@ namespace EntertainmentApp.Infrastructure.Migrations
                 name: "GenreSeries");
 
             migrationBuilder.DropTable(
+                name: "GenreTrack");
+
+            migrationBuilder.DropTable(
                 name: "PodCastEpisodes");
 
             migrationBuilder.DropTable(
@@ -872,10 +1156,16 @@ namespace EntertainmentApp.Infrastructure.Migrations
                 name: "Actors");
 
             migrationBuilder.DropTable(
+                name: "Albums");
+
+            migrationBuilder.DropTable(
                 name: "AspNetRoles");
 
             migrationBuilder.DropTable(
                 name: "AspNetUsers");
+
+            migrationBuilder.DropTable(
+                name: "AudioStories");
 
             migrationBuilder.DropTable(
                 name: "Books");
@@ -896,6 +1186,9 @@ namespace EntertainmentApp.Infrastructure.Migrations
                 name: "Genres");
 
             migrationBuilder.DropTable(
+                name: "Tracks");
+
+            migrationBuilder.DropTable(
                 name: "PodCasts");
 
             migrationBuilder.DropTable(
@@ -903,6 +1196,9 @@ namespace EntertainmentApp.Infrastructure.Migrations
 
             migrationBuilder.DropTable(
                 name: "Series");
+
+            migrationBuilder.DropTable(
+                name: "Singers");
         }
     }
 }

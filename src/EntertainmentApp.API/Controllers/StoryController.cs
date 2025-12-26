@@ -1,29 +1,4 @@
-﻿using EntertainmentApp.API.Attributes;
-using EntertainmentApp.API.Dtos;
-using EntertainmentApp.API.Helpers;
-using EntertainmentApp.Applicatoin.Common.Dtos;
-using EntertainmentApp.Applicatoin.Common.Models;
-using EntertainmentApp.Applicatoin.Features.Video;
-using EntertainmentApp.Applicatoin.Interfaces.Media;
-using EntertainmentApp.Shared.Exceptions;
-using Mapster;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using static EntertainmentApp.Applicatoin.Features.BookFeature.GetBookRefrenceDataHandler;
-using static EntertainmentApp.Applicatoin.Features.Story.BookFeature.AddBookHandler;
-using static EntertainmentApp.Applicatoin.Features.Story.BookFeature.DeleteBookHandler;
-using static EntertainmentApp.Applicatoin.Features.Story.BookFeature.GetBookByIdHandler;
-using static EntertainmentApp.Applicatoin.Features.Story.BookFeature.GetBookHandler;
-using static EntertainmentApp.Applicatoin.Features.Story.BookFeature.UpdateBookHandler;
-using static EntertainmentApp.Applicatoin.Features.Story.PodCastFeature.AddPodCastEpisodeHandler;
-using static EntertainmentApp.Applicatoin.Features.Story.PodCastFeature.AddPodCastHandler;
-using static EntertainmentApp.Applicatoin.Features.Story.PodCastFeature.DeletePodCastEpisodeHandler;
-using static EntertainmentApp.Applicatoin.Features.Story.PodCastFeature.DeletePodCastHandler;
-using static EntertainmentApp.Applicatoin.Features.Story.PodCastFeature.GetPodCastByIdHandler;
-using static EntertainmentApp.Applicatoin.Features.Story.PodCastFeature.GetPodCastHandler;
-using static EntertainmentApp.Applicatoin.Features.Story.PodCastFeature.UpdatePodCastHandler;
-
-namespace EntertainmentApp.API.Controllers
+﻿namespace EntertainmentApp.API.Controllers
 {
     [Route("api/story")]
     [ApiController]
@@ -74,8 +49,6 @@ namespace EntertainmentApp.API.Controllers
             return Ok(result);
         }
 
-
-
         [HttpGet("book")]
         public async Task<IActionResult> GetBooksAsync([FromQuery] string? language, [FromQuery] string? genre)
         {
@@ -113,6 +86,14 @@ namespace EntertainmentApp.API.Controllers
             return Ok(result);
         }
 
+        
+        
+        
+        
+        
+        
+        
+        
         [HttpPost("podcast/")]
         public async Task<IActionResult> AddPodcastAsync([FromForm] AddPodCastDto dto)
         {
@@ -233,7 +214,7 @@ namespace EntertainmentApp.API.Controllers
             {
                 Title = mediaUploadResult.Title,
                 TempStreamUrl = mediaUploadResult.TempStreamUrl,
-                PodCastId = mediaUploadResult.SeriesId,
+                AudioStoryId = mediaUploadResult.SeriesId,
             };
             var result = await _mediator.Send(command);
 
@@ -247,6 +228,153 @@ namespace EntertainmentApp.API.Controllers
             await _mediator.Send(command);
             return Ok("Deleted Successfully");
         }
+
+
+
+
+
+
+        [HttpPost("audio-story/")]
+        public async Task<IActionResult> AddAudioStoryAsync([FromForm] AddPodCastDto dto)
+        {
+            string posterImagePath = null;
+            try
+            {
+                posterImagePath = await _mediaService.UploadPosterImage(dto.PosterImageFile);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+
+            AddAudioStoryCommand command = new AddAudioStoryCommand
+            {
+                Title = dto.Title,
+                Description = dto.Description,
+                Languages = dto.Languages,
+                AgeGroup = dto.AgeGroup,
+                PosterImageUrl = posterImagePath,
+                Genres = dto.Genres,
+                Speakers = dto.Speakers
+            };
+            AudioStoryDto result = await _mediator.Send(command);
+            return Ok(result);
+        }
+
+        [HttpGet("audio-story/")]
+        public async Task<IActionResult> GetAudioStoryAsync([FromQuery] string? language, [FromQuery] string? genre)
+        {
+            List<AudioStoryDto> result = await _mediator.Send(new GetAudioStoryQuery(language, genre));
+            return Ok(result);
+        }
+
+
+        [HttpGet("audio-story/{id}")]
+        public async Task<IActionResult> GetAudioStoryByIdAsync([FromRoute] Guid id)
+        {
+            AudioStoryDto result = await _mediator.Send(new GetAudioStoryByIdQuery(id));
+            return Ok(result);
+
+        }
+
+
+        [HttpPut("audio-story/")]
+        public async Task<IActionResult> UpdateAudioStoryAsync([FromForm] UpdatePodCastDto dto)
+        {
+            string posterImagePath = null;
+            if (dto.PosterImageFile != null)
+            {
+
+                try
+                {
+                    posterImagePath = await _mediaService.UploadPosterImage(dto.PosterImageFile);
+                }
+                catch (Exception ex)
+                {
+                    return BadRequest(ex.Message);
+                }
+            }
+
+            UpdateAudioStoryCommand command = new UpdateAudioStoryCommand
+            {
+                Id = dto.Id,
+                Title = dto.Title,
+                Description = dto.Description,
+                Languages = dto.Languages,
+                AgeGroup = dto.AgeGroup,
+                PosterImageUrl = posterImagePath ?? "",
+                Genres = dto.Genres,
+                Speakers = dto.Speakers
+            };
+            AudioStoryDto result = await _mediator.Send(command);
+            return Ok(result);
+
+        }
+
+        [HttpDelete("audio-story/{id}")]
+        public async Task<IActionResult> DeleteAudioStoryAsync([FromRoute] Guid id)
+        {
+            DeleteAudioStoryCommand comand = new DeleteAudioStoryCommand(id);
+            await _mediator.Send(comand);
+            return Ok("Deleted Successfully");
+        }
+
+
+        [HttpPost("audio-story/episode")]
+        [DisableFormValueModelBinding]
+        [RequestSizeLimit(long.MaxValue)]
+        public async Task<IActionResult> AddAudioStoryEpisode()
+        {
+            MediaUploadResult mediaUploadResult = null;
+            if (!MultipartRequestHelper.IsMultipartContentType(Request.ContentType))
+            {
+                return BadRequest("Request is not multipart.");
+            }
+
+            try
+            {
+                mediaUploadResult = await _mediaService.UploadAsync(Request.Body, Request.ContentType);
+            }
+            catch (BadRequestException ex)
+            {
+                return StatusCode(400, ex.Message);
+            }
+            catch (Exception ex)
+            {
+                // Log error
+                return StatusCode(500, $"Internal server error: {ex.Message}");
+            }
+
+            if (mediaUploadResult == null)
+            {
+                return BadRequest("Form Data is required");
+            }
+
+            AddAudioStoryEpisodeCommand command = new AddAudioStoryEpisodeCommand
+            {
+                Title = mediaUploadResult.Title,
+                TempStreamUrl = mediaUploadResult.TempStreamUrl,
+                AudioStoryId = mediaUploadResult.SeriesId,
+            };
+            var result = await _mediator.Send(command);
+
+            return Ok(result);
+        }
+
+
+
+        [HttpDelete("audio-story/episode/{id}")]
+        public async Task<IActionResult> DeleteAudioStoryEpisode([FromRoute] Guid id)
+        {
+            DeleteAudioStoryEpisodeCommand command = new DeleteAudioStoryEpisodeCommand(id);
+            await _mediator.Send(command);
+            return Ok("Deleted Successfully");
+        }
+
+
+
+
+
 
 
     }

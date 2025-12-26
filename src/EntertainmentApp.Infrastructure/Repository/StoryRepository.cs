@@ -43,15 +43,10 @@ namespace EntertainmentApp.Infrastructure.Repository
 
         public async Task<List<Genre>> GetStoryGenresAsync()
         {
-            return await _context.Genres.Where(g => g.Books.Any()).ToListAsync();
-        }
-
-
-        public async Task<Book> AddMovieAsync(Book book)
-        {
-            await _context.Books.AddAsync(book);
-            await _context.SaveChangesAsync();
-            return book;
+            return await _context.Genres.Where(g => g.Books.Any() ||
+                g.AudioStories.Any()||
+                g.PodCasts.Any()
+            ).ToListAsync();
         }
 
         public async Task<Book> AddBookAsync(Book book)
@@ -180,9 +175,9 @@ namespace EntertainmentApp.Infrastructure.Repository
                 .ToListAsync();
         }
 
-        public Task<PodCast?> GetPodCastByIdAsync(Guid id)
+        public async Task<PodCast?> GetPodCastByIdAsync(Guid id)
         {
-            return _context.PodCasts
+            return await _context.PodCasts
                 .Include(p => p.Speakers)
                 .Include(p => p.Genres)
                 .Include(p => p.Episodes)
@@ -284,9 +279,122 @@ namespace EntertainmentApp.Infrastructure.Repository
 
 
 
+        public async Task<AudioStory> AddAudioStoryAsync(AudioStory audioStory)
+        {
+            await _context.AudioStories.AddAsync(audioStory);
+            await _context.SaveChangesAsync();
+            return audioStory;
+        }
+
+        public async Task<List<AudioStory>> GetAudioStoryAsync()
+        {
+            return await _context.AudioStories
+                .Include(p => p.Speakers)
+                .Include(p => p.Genres)
+                .Include(p => p.Episodes)
+                .OrderByDescending(p => p.CreatedAt)
+                .ToListAsync();
+        }
+
+        public async Task<AudioStory?> GetAudioStoryByIdAsync(Guid id)
+        {
+            return await _context.AudioStories
+                .Include(p => p.Speakers)
+                .Include(p => p.Genres)
+                .Include(p => p.Episodes)
+                .OrderByDescending(p => p.CreatedAt)
+                .FirstOrDefaultAsync(p => p.Id == id);
+        }
+
+        public async Task<List<AudioStory>> GetAudioStoryByGenre(string genre)
+        {
+            return await _context.AudioStories
+                .Include(p => p.Genres)
+                .Include(p => p.Speakers)
+                .Include(p => p.Episodes)
+                .Where(p => p.Genres.Any(g => g.Title.ToLower() == genre.ToLower()))
+                .OrderByDescending(p => p.CreatedAt)
+                .ToListAsync();
+        }
+
+        public async Task<List<AudioStory>> GetAudioStoryByLanguage(string language)
+        {
+            if (language.ToLower() == "persian")
+                return await _context.AudioStories
+                    .Include(p => p.Genres)
+                    .Include(p => p.Speakers)
+                    .Include(p => p.Episodes)
+                    .Where(b => b.Languages.Any(l => l.ToLower() == "persian"))
+                    .OrderByDescending(b => b.CreatedAt)
+                    .ToListAsync();
+
+
+
+            return await _context.AudioStories
+                .Include(p => p.Genres)
+                .Include(p => p.Speakers)
+                .Include(p => p.Episodes)
+                .Where(b => b.Languages.Any(l => l.ToLower() != "persian"))
+                .OrderByDescending(b => b.CreatedAt)
+                .ToListAsync();
+        }
+
+        public async Task<List<AudioStory>> GetAudioStoryByFilterAsync(string language, string genre)
+        {
+            if (language.ToLower() == "persian")
+            {
+                return await _context.AudioStories
+                    .Include(b => b.Genres)
+                    .Include(p => p.Speakers)
+                    .Include(p => p.Episodes)
+                    .Where(b => b.Languages.Any(l => l.ToLower() == "persian") &&
+                                b.Genres.Any(g => g.Title.ToLower() == genre.ToLower()))
+                    .OrderByDescending(b => b.CreatedAt)
+                    .ToListAsync();
+            }
+            return await _context.AudioStories
+                .Include(b => b.Genres)
+                .Include(p => p.Speakers)
+                .Include(p => p.Episodes)
+                .Where(b => b.Languages.Any(l => l.ToLower() != "persian") &&
+                            b.Genres.Any(g => g.Title.ToLower() == genre.ToLower()))
+                .OrderByDescending(b => b.CreatedAt)
+                .ToListAsync();
+        }
+
+        public async Task<AudioStory> UpdateAudioStoryAsync(AudioStory audioStory)
+        {
+            _context.AudioStories.Update(audioStory);
+            await _context.SaveChangesAsync();
+            return audioStory;
+        }
+
+        public async Task DeleteAudioStoryAsync(AudioStory audioStory)
+        {
+            _context.AudioStories.Remove(audioStory);
+            await _context.SaveChangesAsync();
+        }
 
 
 
 
+
+        public async Task<AudioStoryEpisode> AddAudioStoryEpisodeAsync(AudioStoryEpisode podCastEpisode)
+        {
+            await _context.AudioStoryEpisodes.AddAsync(podCastEpisode);
+            await _context.SaveChangesAsync();
+            return podCastEpisode;
+        }
+
+        public async Task<AudioStoryEpisode?> GetAudioStoryEpisodeByIdAsync(Guid id)
+        {
+            return await _context.AudioStoryEpisodes.FindAsync(id);
+        }
+
+        public async Task DeleteAudioStoryEpisodeAsync(AudioStoryEpisode episode)
+        {
+            _context.AudioStoryEpisodes.Remove(episode);
+            await _context.SaveChangesAsync();
+        }
     }
 }

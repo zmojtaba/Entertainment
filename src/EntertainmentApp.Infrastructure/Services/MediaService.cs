@@ -118,8 +118,15 @@ namespace EntertainmentApp.Infrastructure.Services
                     using var reader2 = new StreamReader(section.Body);
                     var value = await reader2.ReadToEndAsync();
                     var key = HeaderUtilities.RemoveQuotes(disposition.Name).Value;
-
-                    MapToDto(mediaUploadResult, key, value);
+                    try
+                    {
+                        MapToDto(mediaUploadResult, key, value);
+                    }catch (Exception ex)
+                    {
+                        if (!string.IsNullOrEmpty(streamPath)) DeleteMediaFilesAsync(streamPath, "");
+                        if (!string.IsNullOrEmpty(posterPath)) DeleteMediaFilesAsync(posterPath, "");
+                        throw new BadRequestException(ex.Message);
+                    }
                 }
             }
             //if (posterPath == null)
@@ -264,7 +271,9 @@ namespace EntertainmentApp.Infrastructure.Services
             switch (key.ToLower())
             {
                 case "seriesid":
-                    dto.SeriesId = Guid.Parse(value);
+                    bool validId =  Guid.TryParse(value, out Guid seriesId);
+                    if (!validId) throw new BadRequestException("Id is not Valid");
+                    dto.SeriesId = seriesId;
                     break;
 
                 case "seasonnumber":

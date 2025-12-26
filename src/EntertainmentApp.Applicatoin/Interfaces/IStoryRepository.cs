@@ -55,6 +55,20 @@ namespace EntertainmentApp.Applicatoin.Interfaces
 
 
 
+        public Task<AudioStory> AddAudioStoryAsync(AudioStory audioStory);
+        public Task<List<AudioStory>> GetAudioStoryAsync();
+        public Task<AudioStory?> GetAudioStoryByIdAsync(Guid id);
+        public Task<List<AudioStory>> GetAudioStoryByGenre(string genre);
+        public Task<List<AudioStory>> GetAudioStoryByLanguage(string language);
+        public Task<List<AudioStory>> GetAudioStoryByFilterAsync(string language, string genre);
+        public Task<AudioStory> UpdateAudioStoryAsync(AudioStory podCast);
+        public Task DeleteAudioStoryAsync(AudioStory podCast);
+
+
+        public Task<AudioStoryEpisode> AddAudioStoryEpisodeAsync(AudioStoryEpisode podCastEpisode);
+        public Task<AudioStoryEpisode?> GetAudioStoryEpisodeByIdAsync(Guid id);
+        public Task DeleteAudioStoryEpisodeAsync(AudioStoryEpisode episode);
+
 
     }
 }

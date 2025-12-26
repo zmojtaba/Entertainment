@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using static EntertainmentApp.Applicatoin.Features.Story.AudioStoryFeature.AddAudioStoryEpisodeHandler;
 
 namespace EntertainmentApp.Applicatoin.Features.Story.PodCastFeature
 {
@@ -16,20 +17,28 @@ namespace EntertainmentApp.Applicatoin.Features.Story.PodCastFeature
         {
             public string Title { get;  set; }
             public string TempStreamUrl { get;  set; }
-            public Guid PodCastId { get; set; }
+            public Guid AudioStoryId { get; set; }
 
 
         }
-        //public class AddPodCastEpisodeCommandValidator
+        public class AddPodCastEpisodeCommandValidator : AbstractValidator<AddPodCastEpisodeCommand>
+        {
+            public AddPodCastEpisodeCommandValidator()
+            {
+                RuleFor(x => x.Title).NotEmpty().WithMessage("Title is required");
+                RuleFor(x => x.AudioStoryId).NotEmpty().NotNull().WithMessage("Id is required");
+                RuleFor(x => x.TempStreamUrl).NotEmpty().WithMessage("Media file url is required");
+            }
+        }
         public class AddPodCastEpisodeCommandHandler(IStoryRepository storyRepo, IMediaService mediaService) : ICommandHandler<AddPodCastEpisodeCommand, PodCastDto>
         {
             public async Task<PodCastDto> Handle(AddPodCastEpisodeCommand command, CancellationToken cancellationToken)
             {
-                if (command.PodCastId == null) throw new BadRequestException("Title is required");
-                if (string.IsNullOrEmpty(command.Title)) throw new BadRequestException("Title is required");
-                if (string.IsNullOrEmpty(command.TempStreamUrl)) throw new BadRequestException("Media file url is required");
+                //if (command.AudioStoryId == null) throw new BadRequestException("Title is required");
+                //if (string.IsNullOrEmpty(command.Title)) throw new BadRequestException("Title is required");
+                //if (string.IsNullOrEmpty(command.TempStreamUrl)) throw new BadRequestException("Media file url is required");
 
-                PodCast podcast = await storyRepo.GetPodCastByIdAsync(command.PodCastId);
+                PodCast podcast = await storyRepo.GetPodCastByIdAsync(command.AudioStoryId);
                 if (podcast == null)
                 {
                     mediaService.DeleteMediaFilesAsync(command.TempStreamUrl, "");

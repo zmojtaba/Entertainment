@@ -1,14 +1,16 @@
-﻿using EntertainmentApp.Applicatoin.Common.Mappers;
-using EntertainmentApp.Applicatoin.Interfaces;
-using EntertainmentApp.Applicatoin.Interfaces.Media;
+﻿using EntertainmentApp.Applicatoin.Interfaces;
 using EntertainmentApp.Domain.Entities.Story;
-using static Microsoft.EntityFrameworkCore.DbLoggerCategory.Database;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
-namespace EntertainmentApp.Applicatoin.Features.Story.PodCastFeature
+namespace EntertainmentApp.Applicatoin.Features.Story.AudioStoryFeature
 {
-    public class AddPodCastHandler
+    public class AddAudioStoryHandler
     {
-        public class AddCodCastCommand : ICommand<PodCastDto>
+        public class AddAudioStoryCommand : ICommand<AudioStoryDto>
         {
             public string Title { get; set; } = string.Empty;
             public string Description { get; set; } = string.Empty;
@@ -18,9 +20,9 @@ namespace EntertainmentApp.Applicatoin.Features.Story.PodCastFeature
             public List<string> Genres { get; set; } = new List<string>();
             public List<string> Speakers { get; set; } = new List<string>();
         }
-        public class AddPosCastCommandValidator : AbstractValidator<AddCodCastCommand>
+        public class AddAudioStoryCommandValidator : AbstractValidator<AddAudioStoryCommand>
         {
-            public AddPosCastCommandValidator()
+            public AddAudioStoryCommandValidator()
             {
                 RuleFor(x => x.Title).NotEmpty().WithMessage("Title is required.");
                 RuleFor(x => x.Description).NotEmpty().WithMessage("Description is required.");
@@ -47,24 +49,24 @@ namespace EntertainmentApp.Applicatoin.Features.Story.PodCastFeature
 
 
 
-        public class Handler : ICommandHandler<AddCodCastCommand, PodCastDto>
+        public class AddAudioStoryCommandHandler : ICommandHandler<AddAudioStoryCommand, AudioStoryDto>
         {
             private readonly IStoryRepository _storyRepository;
             private readonly IMediaService _mediaService;
-            public Handler(IStoryRepository storyRepository, IMediaService mediaService)
+            public AddAudioStoryCommandHandler(IStoryRepository storyRepository, IMediaService mediaService)
             {
                 _storyRepository = storyRepository;
                 _mediaService = mediaService;
 
             }
-            public async Task<PodCastDto> Handle(AddCodCastCommand command, CancellationToken cancellationToken)
+            public async Task<AudioStoryDto> Handle(AddAudioStoryCommand command, CancellationToken cancellationToken)
             {
                 if (!File.Exists(command.PosterImageUrl))
                     throw new BadRequestException("Poster image file was not stored. try again");
                 string posterImageUrl = null;
                 try
                 {
-                    posterImageUrl = await _mediaService.MovePosterImage(command.PosterImageUrl, command.Title, "story", "podcast");
+                    posterImageUrl = await _mediaService.MovePosterImage(command.PosterImageUrl, command.Title, "story", "audio-story");
                 }
                 catch (Exception ex)
                 {
@@ -73,7 +75,7 @@ namespace EntertainmentApp.Applicatoin.Features.Story.PodCastFeature
                 }
 
                 // Create PodCast entity
-                PodCast podCast = new PodCast(
+                AudioStory audioStory = new AudioStory(
                     command.Title,
                     command.Description,
                     LanguageList.Languages
@@ -92,25 +94,24 @@ namespace EntertainmentApp.Applicatoin.Features.Story.PodCastFeature
                         genre = new Genre(genreTitle);
                         genre = await _storyRepository.AddGenreAsync(genre);
                     }
-                    podCast.Genres.Add(genre);
+                    audioStory.Genres.Add(genre);
                 }
                 // Handle Speakers
                 foreach (var speakerName in command.Speakers)
                 {
-                    var speaker = await _storyRepository.GetSpeakerAsync(speakerName);
+                    Speaker speaker = await _storyRepository.GetSpeakerAsync(speakerName);
                     if (speaker == null)
                     {
                         speaker = new Speaker(speakerName);
                         speaker = await _storyRepository.AddSpeakerAsync(speaker);
                     }
-                    podCast.Speakers.Add(speaker);
+                    audioStory.Speakers.Add(speaker);
                 }
                 // Save PodCast
-                podCast = await _storyRepository.AddPodCastAsync(podCast);
+                audioStory = await _storyRepository.AddAudioStoryAsync(audioStory);
                 // Map to DTO
-                return podCast.ToPodCastDto();
+                return audioStory.ToAudioStoryDto();
             }
         }
-
     }
 }
