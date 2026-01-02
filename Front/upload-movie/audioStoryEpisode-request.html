@@ -31,7 +31,7 @@ document.getElementById("uploadForm").addEventListener("submit", async (e) => {
   fd.append("SeriesId", document.getElementById("guid").value);
   fd.append("Title", document.getElementById("Title").value);
 // http://localhost:5030/api/video/series/season
-  await fetch("http://localhost:5030/api/story/audio-story/episode", {
+  await fetch("http://localhost:5030/api/music/album/episode", {
     method: "POST",
     body: fd
   });

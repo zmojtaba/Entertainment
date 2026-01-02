@@ -85,7 +85,7 @@ namespace EntertainmentApp.Applicatoin.Features.Video.SeriesFeature
                 posterImageUrl = await mediaService.MovePosterImage(command.PosterImageUrl, command.Title, "video", "series");
             }catch(Exception ex)
             {
-                await mediaService.DeleteMediaFilesAsync(command.PosterImageUrl, "");
+                await mediaService.DeleteFileAsync(command.PosterImageUrl);
                 throw new InternalServerException(ex.Message);
             }
 

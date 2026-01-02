@@ -10,7 +10,8 @@
             if (movie == null) throw new NotFoundException("Movie not found");
             try
             {
-                await mediaService.DeleteMediaFilesAsync(movie.StreamUrl, movie.PosterImageUrl, true);
+                await mediaService.DeleteFileAsync(movie.StreamUrl, true);
+                await mediaService.DeleteFileAsync(movie.PosterImageUrl, true);
                 await mediaService.DeleteMediaDirecoryAsync(Path.GetDirectoryName(movie.StreamUrl), true);
             }
             catch (Exception ex) {

@@ -62,7 +62,7 @@ namespace EntertainmentApp.Applicatoin.Features.Story.AudioStoryFeature
                         command.PosterImageUrl,
                         Path.GetDirectoryName(audioStory.PosterImageUrl));
 
-                    mediaService.DeleteMediaFilesAsync("", audioStory.PosterImageUrl, true);
+                    mediaService.DeleteFileAsync( audioStory.PosterImageUrl, true);
 
                     audioStory.SetPosterImageUrl(posterImageUrl);
                 }

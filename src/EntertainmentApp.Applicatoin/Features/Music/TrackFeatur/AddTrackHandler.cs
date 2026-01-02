@@ -1,12 +1,5 @@
 ﻿using EntertainmentApp.Applicatoin.Interfaces;
 using EntertainmentApp.Domain.Entities.Music;
-using EntertainmentApp.Domain.Entities.Story;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using static EntertainmentApp.Applicatoin.Features.Story.BookFeature.AddBookHandler;
 
 namespace EntertainmentApp.Applicatoin.Features.Music.TrackFeatur
 {
@@ -47,15 +40,15 @@ namespace EntertainmentApp.Applicatoin.Features.Music.TrackFeatur
 
                 RuleFor(x => x.StreamFileName)
                     .NotEmpty().WithMessage("Media file must be valid.")
-                    .Must(x => ValidExtensionList.BookExtension.Contains(Path.GetExtension(x), StringComparer.OrdinalIgnoreCase))
-                    .WithMessage($"Invalid ebook file extension. Supported extensions are: {string.Join(", ", ValidExtensionList.AudioExtension)}");
+                    .Must(x => ValidExtensionList.AudioExtension.Contains(Path.GetExtension(x), StringComparer.OrdinalIgnoreCase))
+                    .WithMessage($"Invalid Audio file extension. Supported extensions are: {string.Join(", ", ValidExtensionList.AudioExtension)}");
                 RuleFor(x => x.PosterImageFileName).NotEmpty().WithMessage("Poster Image must be valid.")
                     .Must(x => ValidExtensionList.ImageExtension.Contains(Path.GetExtension(x), StringComparer.OrdinalIgnoreCase))
                     .WithMessage($"Invalid image file extension. Supported extensions are: {string.Join(", ", ValidExtensionList.ImageExtension)}");
             }
         }
 
-        public class AddMusicCommandHandler(IMediaService mediaService, IMusicRepository musicRepo) : ICommandHandler<AddTrackCommand, TrackDto>
+        public class AddTrackCommandHandler(IMediaService mediaService, IMusicRepository musicRepo) : ICommandHandler<AddTrackCommand, TrackDto>
         {
             public async Task<TrackDto> Handle(AddTrackCommand command, CancellationToken cancellationToken)
             {
@@ -97,9 +90,10 @@ namespace EntertainmentApp.Applicatoin.Features.Music.TrackFeatur
                 }
                 catch (DbUpdateException ex)
                 {
-                    await mediaService.DeleteMediaFilesAsync(track.StreamUrl, track.PosterImageUrl, true)
+                    await mediaService.DeleteFileAsync(track.StreamUrl, true);
+                    await mediaService.DeleteFileAsync( track.PosterImageUrl, true);
                     if (ex.InnerException.Message.IndexOf("duplicate key value violates unique constraint", StringComparison.OrdinalIgnoreCase) >= 0)
-                        throw new BadRequestException("Book with this Title and Pusblish Date is already exists");
+                        throw new BadRequestException(ex.Message);
                     throw;
 
                 }

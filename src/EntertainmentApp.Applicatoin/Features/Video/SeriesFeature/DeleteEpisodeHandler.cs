@@ -12,7 +12,7 @@ namespace EntertainmentApp.Applicatoin.Features.Video.SeriesFeature
             {
                 Episode episode = await seriesRepo.GetEpisodeByIdAsync(request.id);
                 if (episode == null) throw new NotFoundException("Series Not found");
-                await mediaService.DeleteMediaFilesAsync(episode.StreamUrl, "", true);
+                await mediaService.DeleteFileAsync(episode.StreamUrl, true);
                 return "Successfully Deleted";
             }
         }

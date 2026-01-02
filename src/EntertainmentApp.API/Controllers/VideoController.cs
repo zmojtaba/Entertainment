@@ -11,6 +11,7 @@ using EntertainmentApp.Applicatoin.Interfaces.Media;
 using EntertainmentApp.Domain.Entities.Video;
 using EntertainmentApp.Shared.Exceptions;
 using Mapster;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using NAudio.Wave;
 using static EntertainmentApp.Applicatoin.Features.Video.MoviesFeature.CreateMovieHandler;

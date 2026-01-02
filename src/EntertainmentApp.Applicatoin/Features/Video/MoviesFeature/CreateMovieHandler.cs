@@ -139,7 +139,8 @@
                     await _movieRepo.AddMovieAsync(movie);
                 }catch (DbUpdateException ex)
                 {
-                    await _mediaService.DeleteMediaFilesAsync(movie.StreamUrl, movie.PosterImageUrl, true);
+                    await _mediaService.DeleteFileAsync(movie.StreamUrl, true);
+                    await _mediaService.DeleteFileAsync(movie.PosterImageUrl, true);
                     await _mediaService.DeleteMediaDirecoryAsync(Path.GetDirectoryName(movie.StreamUrl), true);
                     if (ex.InnerException.Message.IndexOf("duplicate key value violates unique constraint", StringComparison.OrdinalIgnoreCase) >= 0)
                         throw new BadRequestException("Movie with this Title and Pusblish Date is already exists");

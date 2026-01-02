@@ -8,7 +8,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace EntertainmentApp.Infrastructure.Migrations
 {
     /// <inheritdoc />
-    public partial class addMusic : Migration
+    public partial class init : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -191,6 +191,21 @@ namespace EntertainmentApp.Infrastructure.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_PodCasts", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Publishers",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uuid", nullable: false),
+                    Name = table.Column<string>(type: "character varying(150)", maxLength: 150, nullable: false),
+                    ImagePath = table.Column<string>(type: "text", nullable: true),
+                    CreatedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    UpdatedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Publishers", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -572,6 +587,56 @@ namespace EntertainmentApp.Infrastructure.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Magazines",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uuid", nullable: false),
+                    Title = table.Column<string>(type: "text", nullable: false),
+                    Languages = table.Column<List<string>>(type: "text[]", nullable: false),
+                    PublishedDate = table.Column<long>(type: "bigint", nullable: false),
+                    StreamUrl = table.Column<string>(type: "text", nullable: false),
+                    PosterImageUrl = table.Column<string>(type: "text", nullable: false),
+                    PublisherId = table.Column<Guid>(type: "uuid", nullable: true),
+                    CreatedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    UpdatedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Magazines", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Magazines_Publishers_PublisherId",
+                        column: x => x.PublisherId,
+                        principalTable: "Publishers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "NewsPapers",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uuid", nullable: false),
+                    Title = table.Column<string>(type: "text", nullable: false),
+                    Languages = table.Column<List<string>>(type: "text[]", nullable: false),
+                    PublishedDate = table.Column<long>(type: "bigint", nullable: false),
+                    StreamUrl = table.Column<string>(type: "text", nullable: false),
+                    PosterImageUrl = table.Column<string>(type: "text", nullable: false),
+                    PublisherId = table.Column<Guid>(type: "uuid", nullable: true),
+                    CreatedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    UpdatedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_NewsPapers", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_NewsPapers_Publishers_PublisherId",
+                        column: x => x.PublisherId,
+                        principalTable: "Publishers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "ActorSeries",
                 columns: table => new
                 {
@@ -780,6 +845,54 @@ namespace EntertainmentApp.Infrastructure.Migrations
                         column: x => x.WritersName,
                         principalTable: "Writers",
                         principalColumn: "Name",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "GenreMagazine",
+                columns: table => new
+                {
+                    GenresTitle = table.Column<string>(type: "character varying(100)", nullable: false),
+                    MagazinesId = table.Column<Guid>(type: "uuid", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_GenreMagazine", x => new { x.GenresTitle, x.MagazinesId });
+                    table.ForeignKey(
+                        name: "FK_GenreMagazine_Genres_GenresTitle",
+                        column: x => x.GenresTitle,
+                        principalTable: "Genres",
+                        principalColumn: "Title",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_GenreMagazine_Magazines_MagazinesId",
+                        column: x => x.MagazinesId,
+                        principalTable: "Magazines",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "GenreNewsPaper",
+                columns: table => new
+                {
+                    GenresTitle = table.Column<string>(type: "character varying(100)", nullable: false),
+                    NewsPapersId = table.Column<Guid>(type: "uuid", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_GenreNewsPaper", x => new { x.GenresTitle, x.NewsPapersId });
+                    table.ForeignKey(
+                        name: "FK_GenreNewsPaper_Genres_GenresTitle",
+                        column: x => x.GenresTitle,
+                        principalTable: "Genres",
+                        principalColumn: "Title",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_GenreNewsPaper_NewsPapers_NewsPapersId",
+                        column: x => x.NewsPapersId,
+                        principalTable: "NewsPapers",
+                        principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
 
@@ -997,9 +1110,19 @@ namespace EntertainmentApp.Infrastructure.Migrations
                 unique: true);
 
             migrationBuilder.CreateIndex(
+                name: "IX_GenreMagazine_MagazinesId",
+                table: "GenreMagazine",
+                column: "MagazinesId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_GenreMovie_MoviesId",
                 table: "GenreMovie",
                 column: "MoviesId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_GenreNewsPaper_NewsPapersId",
+                table: "GenreNewsPaper",
+                column: "NewsPapersId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_GenrePodCast_PodCastsId",
@@ -1023,10 +1146,20 @@ namespace EntertainmentApp.Infrastructure.Migrations
                 column: "TracksId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Magazines_PublisherId",
+                table: "Magazines",
+                column: "PublisherId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Movies_Title_PublishedDate",
                 table: "Movies",
                 columns: new[] { "Title", "PublishedDate" },
                 unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_NewsPapers_PublisherId",
+                table: "NewsPapers",
+                column: "PublisherId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_PodCastEpisodes_PodCastId",
@@ -1037,6 +1170,12 @@ namespace EntertainmentApp.Infrastructure.Migrations
                 name: "IX_PodCastSpeaker_SpeakersName",
                 table: "PodCastSpeaker",
                 column: "SpeakersName");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Publishers_Name",
+                table: "Publishers",
+                column: "Name",
+                unique: true);
 
             migrationBuilder.CreateIndex(
                 name: "IX_Seasons_SeriesId_SeasonNumber",
@@ -1132,7 +1271,13 @@ namespace EntertainmentApp.Infrastructure.Migrations
                 name: "Episodes");
 
             migrationBuilder.DropTable(
+                name: "GenreMagazine");
+
+            migrationBuilder.DropTable(
                 name: "GenreMovie");
+
+            migrationBuilder.DropTable(
+                name: "GenreNewsPaper");
 
             migrationBuilder.DropTable(
                 name: "GenrePodCast");
@@ -1180,7 +1325,13 @@ namespace EntertainmentApp.Infrastructure.Migrations
                 name: "Seasons");
 
             migrationBuilder.DropTable(
+                name: "Magazines");
+
+            migrationBuilder.DropTable(
                 name: "Movies");
+
+            migrationBuilder.DropTable(
+                name: "NewsPapers");
 
             migrationBuilder.DropTable(
                 name: "Genres");
@@ -1196,6 +1347,9 @@ namespace EntertainmentApp.Infrastructure.Migrations
 
             migrationBuilder.DropTable(
                 name: "Series");
+
+            migrationBuilder.DropTable(
+                name: "Publishers");
 
             migrationBuilder.DropTable(
                 name: "Singers");

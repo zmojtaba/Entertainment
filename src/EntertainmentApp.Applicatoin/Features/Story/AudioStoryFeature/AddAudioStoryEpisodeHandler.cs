@@ -35,7 +35,7 @@ namespace EntertainmentApp.Applicatoin.Features.Story.AudioStoryFeature
                 AudioStory audioStory = await storyRepo.GetAudioStoryByIdAsync(command.AudioStoryId);
                 if (audioStory == null)
                 {
-                    mediaService.DeleteMediaFilesAsync(command.TempStreamUrl, "");
+                    mediaService.DeleteFileAsync(command.TempStreamUrl);
                     throw new NotFoundException("Audio Story Not found");
                 }
 
@@ -50,7 +50,7 @@ namespace EntertainmentApp.Applicatoin.Features.Story.AudioStoryFeature
                 }
                 catch (DbUpdateException ex)
                 {
-                    await mediaService.DeleteMediaFilesAsync(episode.StreamUrl, "", true);
+                    await mediaService.DeleteFileAsync(episode.StreamUrl, true);
                     if (ex.InnerException.Message.IndexOf("duplicate key value violates unique constraint", StringComparison.OrdinalIgnoreCase) >= 0)
                         throw new BadRequestException("Episode with this Title already exists for this Podcast");
                     throw;
@@ -58,7 +58,7 @@ namespace EntertainmentApp.Applicatoin.Features.Story.AudioStoryFeature
                 }
                 catch (Exception ex)
                 {
-                    await mediaService.DeleteMediaFilesAsync(episode.StreamUrl, "", true);
+                    await mediaService.DeleteFileAsync(episode.StreamUrl, true);
                     throw new InternalServerException(ex.Message);
                 }
 

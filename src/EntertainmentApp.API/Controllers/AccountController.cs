@@ -23,7 +23,7 @@ namespace EntertainmentApp.API.Controllers
         }
 
 
-        [Authorize]
+        [Authorize(Roles = "Admin")]
         [HttpPost]
         public async Task<IActionResult> RegisterAccountAsync([FromBody] RegisterDto dto)
         {

@@ -26,17 +26,17 @@ namespace EntertainmentApp.Infrastructure.Data
             }
 
             // Admin user
-            var adminEmail = config["AdminUser:Email"];
+            var adminUserName = config["AdminUser:UserName"];
             var adminPassword = config["AdminUser:Password"];
 
-            var admin = await userManager.FindByEmailAsync(adminEmail);
+            var admin = await userManager.FindByNameAsync(adminUserName);
 
             if (admin == null)
             {
                 admin = new ApplicationUser
                 {
-                    UserName = adminEmail,
-                    Email = adminEmail,
+                    UserName = adminUserName,
+                    Email = adminUserName,
                     EmailConfirmed = true
                 };
 

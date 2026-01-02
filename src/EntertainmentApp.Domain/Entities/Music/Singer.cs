@@ -8,8 +8,8 @@ namespace EntertainmentApp.Domain.Entities.Music
     {
         public string Name { get; private set; }
         public string? ImagePath { get; private set; } = string.Empty;
-        public List<Track> Tracks { get; private set; }
-        public List<Album> Albums { get; private set; }
+        public List<Track> Tracks { get; private set; } = new();
+        public List<Album> Albums { get; private set; } = new();
         private Singer() { }
 
 

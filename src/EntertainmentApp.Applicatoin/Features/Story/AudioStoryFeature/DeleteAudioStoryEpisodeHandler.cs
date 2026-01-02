@@ -19,7 +19,7 @@ namespace EntertainmentApp.Applicatoin.Features.Story.AudioStoryFeature
                 AudioStoryEpisode episode = await storyRepo.GetAudioStoryEpisodeByIdAsync(command.Id);
                 if (episode == null) throw new NotFoundException("Episode not found");
 
-                await mediaService.DeleteMediaFilesAsync(episode.StreamUrl, "", true);
+                await mediaService.DeleteFileAsync(episode.StreamUrl, true);
                 await storyRepo.DeleteAudioStoryEpisodeAsync(episode);
                 return Unit.Value;
             }

@@ -1,0 +1,46 @@
+
+
+
+<audio controls
+src="http://localhost:5030/media/story//podcast//asdf_5a3f02a9f2af4746a36c29eb05df3059//9443835d6f70409b928937d8780fbd82_01%20Halgheye%20Asheghy.mp3"></audio>
+
+<form id="uploadForm">
+  <!-- Video Input -->
+  <label>Video:</label>
+  <input type="file" id="ebook" /><br/>
+  <input type="file" id="image" accept="image/*" /><br/>
+  <input type="text" id="title" placeholder="Title" />
+  <input type="text" id="publisher" placeholder="publisher" />
+  <input type="number" id="publisheddate" placeholder="publisheddate" />
+  
+  <button type="submit">Upload</button>
+</form>
+
+<script>
+document.getElementById("uploadForm").addEventListener("submit", async (e) => {
+  e.preventDefault();
+
+  const fd = new FormData();
+
+  // 1. Append the Video
+  const videoFile = document.getElementById("ebook").files[0];
+  fd.append("ebook", videoFile);
+  const imageFile = document.getElementById("image").files[0];
+  fd.append("poster", imageFile); 
+  // 2. Append the Image (New)
+  // Ensure the key string "poster" matches exactly what your Backend DTO expects
+  // 3. Append other data
+  fd.append("Title", document.getElementById("title").value);
+  fd.append("publisher", document.getElementById("publisher").value);
+  fd.append("publisheddate", document.getElementById("publisheddate").value);
+  fd.append("Languages", JSON.stringify(["sundanese"]));
+  fd.append("Genres", JSON.stringify(["drama- book", "Thriller- book"]));
+
+// http://localhost:5030/api/video/series/season
+  await fetch("http://localhost:5030/api/publication/newspaper", {
+    method: "POST",
+    body: fd
+  });
+});
+</script>
+

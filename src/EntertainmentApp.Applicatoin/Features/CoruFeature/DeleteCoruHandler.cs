@@ -13,7 +13,7 @@ namespace EntertainmentApp.Applicatoin.Features.CoruFeature
             {
                 Coru coru = await coruRepository.GetCoruByIdAsync(command.Id);
                 if (coru == null) throw new NotFoundException("Coru Not Found");
-                await mediaService.DeleteMediaFilesAsync(coru.StreamUrl, "", true);
+                await mediaService.DeleteFileAsync(coru.StreamUrl, true);
                 await coruRepository.DeleteCoruAsync(coru);
                 return Unit.Value;
             }

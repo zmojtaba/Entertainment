@@ -15,7 +15,7 @@ namespace EntertainmentApp.Domain.Entities.Music
 
 
         private Album() { }
-        public Album(string title, string description, List<string> languages, int ageGroup, string posterImageUrl)
+        public Album(string title, List<string> languages, string posterImageUrl)
         {
             SetTitle(title);
             SetLanguages(languages);

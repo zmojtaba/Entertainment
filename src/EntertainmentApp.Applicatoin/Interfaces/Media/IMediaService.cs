@@ -16,7 +16,7 @@ namespace EntertainmentApp.Applicatoin.Interfaces.Media
         public Task<string> UploadPosterImage(IFormFile file);
         public Task<string> MovePosterImage(string sourceFilePath, string title, string category, string subcategory);
         public Task<string> MoveStreamToExistenceDirectoryAsync(string SourceFilePath, string destinationDirectory);
-        public Task DeleteMediaFilesAsync(string streamUrl, string posterUrl, bool addBaseAddress=false);
+        public Task DeleteFileAsync(string streamUrl, bool addBaseAddress=false);
         public Task DeleteMediaDirecoryAsync(string mediaDirectory, bool addBaseAddress = false);
         public Task<string> MoveMediaDirectory(string sourceDir, string title, string category, string subcategory, bool addBaseAddress = false);
     }

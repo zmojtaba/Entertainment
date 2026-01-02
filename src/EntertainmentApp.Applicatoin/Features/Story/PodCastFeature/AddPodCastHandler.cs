@@ -68,7 +68,7 @@ namespace EntertainmentApp.Applicatoin.Features.Story.PodCastFeature
                 }
                 catch (Exception ex)
                 {
-                    await _mediaService.DeleteMediaFilesAsync(command.PosterImageUrl, "");
+                    await _mediaService.DeleteFileAsync(command.PosterImageUrl);
                     throw new InternalServerException(ex.Message);
                 }
 

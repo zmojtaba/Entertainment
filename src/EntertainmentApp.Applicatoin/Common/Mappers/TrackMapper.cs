@@ -15,16 +15,39 @@ namespace EntertainmentApp.Applicatoin.Common.Mappers
                 StreamUrl = track.StreamUrl,
                 PosterImageUrl = track.PosterImageUrl,
                 Genres = track.Genres.Select(g => g.Title).ToList(),
-                Singer = track.Singer.ToTrackSingerDto()
+                Singer = track.Singer.ToSingerDto()
             };
         }
 
-        public static TrackSingerDto ToTrackSingerDto(this Singer singer)
+        public static SingerDto ToSingerDto(this Singer singer)
         {
-            return new TrackSingerDto
+            return new SingerDto
             {
                 Name = singer.Name,
                 ImagePath = singer.ImagePath
+            };
+        }
+
+        public static AlbumDto ToAlbumDto(this Album album)
+        {
+            return new AlbumDto
+            {
+                Id = album.Id,
+                Title = album.Title,
+                Languages = album.Languages,
+                PosterImageUrl = album.PosterImageUrl,
+                Genres = album.Genres.Select(g => g.ToGenreDto()).ToList(),
+                Singer = album.Singer.ToSingerDto(),
+                Episodes = album.Episodes.Select(e => e.ToAlbumEpisodeDto()).ToList()
+            };
+        }
+        public static AlbumEpisodeDto ToAlbumEpisodeDto(this AlbumEpisode episode)
+        {
+            return new AlbumEpisodeDto
+            {
+                Id = episode.Id,
+                Title = episode.Title,
+                StreamUrl = episode.StreamUrl,
             };
         }
 

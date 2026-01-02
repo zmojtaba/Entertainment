@@ -56,8 +56,6 @@ namespace EntertainmentApp.Domain.Entities.Music
             PosterImageUrl = posterImageUrl.Trim();
         }
 
-
-
         public void RemoveGenres()
         {
             Genres = new();

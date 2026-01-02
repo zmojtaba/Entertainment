@@ -1,5 +1,6 @@
 ﻿
 using EntertainmentApp.Domain.Entities.Music;
+using EntertainmentApp.Domain.Entities.Publication;
 using EntertainmentApp.Domain.Entities.Story;
 using System.Globalization;
 using static Microsoft.EntityFrameworkCore.DbLoggerCategory.Database;
@@ -16,6 +17,9 @@ namespace EntertainmentApp.Domain.Entities.Shared
         public List<Track> Tracks { get; private set; } = new List<Track>();
         public List<Album> Albums { get; private set; } = new List<Album>();
         public List<AudioStory> AudioStories { get; private set; } = new List<AudioStory>();
+        public List<Magazine> Magazines { get; private set; } = new List<Magazine>();
+        public List<NewsPaper> NewsPapers { get; private set; } = new List<NewsPaper>();
+
         private Genre() { } // For EF Core
         public Genre(string title)
         {

@@ -21,6 +21,7 @@ namespace EntertainmentApp.Infrastructure
             services.AddScoped<IAccountRepository, AccountRepository>();
             services.AddScoped<IStoryRepository, StoryRepository>();
             services.AddScoped<IMusicRepository, MusicRepository>();
+            services.AddScoped<IPublicationRepository, PublicationRepository>();
             services.AddScoped<ITokenService, TokenService>();
 
             // Use MySQL

@@ -46,6 +46,8 @@ namespace EntertainmentApp.Applicatoin.Features.Story.PodCastFeature
             }
         }
 
+        
+        
         public class UpdatePodCastCommandHandler(IStoryRepository storyRepo, IMediaService mediaService) : ICommandHandler<UpdatePodCastCommand, PodCastDto>
         {
             public async Task<PodCastDto> Handle(UpdatePodCastCommand command, CancellationToken cancellationToken)
@@ -59,7 +61,7 @@ namespace EntertainmentApp.Applicatoin.Features.Story.PodCastFeature
                         command.PosterImageUrl,
                         Path.GetDirectoryName(podCast.PosterImageUrl)  );
 
-                    mediaService.DeleteMediaFilesAsync("", podCast.PosterImageUrl, true);
+                    mediaService.DeleteFileAsync( podCast.PosterImageUrl, true);
 
                     podCast.SetPosterImageUrl(posterImageUrl);
                 }

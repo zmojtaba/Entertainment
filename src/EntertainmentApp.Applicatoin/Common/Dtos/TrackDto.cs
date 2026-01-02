@@ -15,10 +15,10 @@ namespace EntertainmentApp.Applicatoin.Common.Dtos
         public string PosterImageUrl { get; set; }
 
         public List<string> Genres { get; set; }
-        public TrackSingerDto Singer { get; set; }
+        public SingerDto Singer { get; set; }
     }
 
-    public class TrackSingerDto
+    public class SingerDto
     {
         public string Name { get; set; }
         public string? ImagePath { get; set; } = string.Empty;

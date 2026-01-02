@@ -1,5 +1,6 @@
 ﻿using EntertainmentApp.Domain.Entities.Music;
 using EntertainmentApp.Domain.Entities.Story;
+using Microsoft.EntityFrameworkCore;
 
 namespace EntertainmentApp.Applicatoin.Interfaces
 {
@@ -24,6 +25,34 @@ namespace EntertainmentApp.Applicatoin.Interfaces
         public Task<List<Track>> GetTrackByGenre(string genre);
         public Task<List<Track>> GetTracksByLanguage(string language);
         public Task<List<Track>> GetTrackByFilterAsync(string language, string genre);
+
+
+
+
+
+
+
+
+        public Task<Album> AddAlbumAsync(Album album);
+        public Task<List<Album>> GetAlbumsAsync();
+        public Task<Album?> GetAlbumByIdAsync(Guid id);
+        public Task<Album> UpdateAlbumAsync(Album album);
+        public Task DeleteAlbumAsync(Album album);
+        public Task<List<Album>> GetAlbumByGenre(string genre);
+        public Task<List<Album>> GetAlbumByLanguage(string language);
+        public Task<List<Album>> GetAlbumByFilterAsync(string language, string genre);
+        public Task<AlbumEpisode> AddAlbumEpisodeAsync(AlbumEpisode albumEpisode);
+        public Task<AlbumEpisode?> GetAlbumEpisodeByIdAsync(Guid id);
+        public Task DeleteAlbumEpisodeAsync(AlbumEpisode episode);
+        public Task<AlbumEpisode> UpdateAlbumEpisodeAsync(AlbumEpisode episode);
+
+
+
+
+
+
+
+
 
 
 

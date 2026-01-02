@@ -123,8 +123,8 @@ namespace EntertainmentApp.Infrastructure.Services
                         MapToDto(mediaUploadResult, key, value);
                     }catch (Exception ex)
                     {
-                        if (!string.IsNullOrEmpty(streamPath)) DeleteMediaFilesAsync(streamPath, "");
-                        if (!string.IsNullOrEmpty(posterPath)) DeleteMediaFilesAsync(posterPath, "");
+                        if (!string.IsNullOrEmpty(streamPath)) DeleteFileAsync(streamPath);
+                        if (!string.IsNullOrEmpty(posterPath)) DeleteFileAsync(posterPath);
                         throw new BadRequestException(ex.Message);
                     }
                 }
@@ -165,17 +165,15 @@ namespace EntertainmentApp.Infrastructure.Services
             return tempPath;
         }
 
-        public Task DeleteMediaFilesAsync(string streamUrl, string posterUrl, bool addBaseAddress = false)
+        public Task DeleteFileAsync(string fileUrl, bool addBaseAddress = false)
         {
+            if (string.IsNullOrEmpty(fileUrl)) return Task.CompletedTask;
             if (addBaseAddress)
             {
-                streamUrl = Path.Combine(_configuration["BaseStoragePath"], streamUrl);
-                posterUrl = Path.Combine(_configuration["BaseStoragePath"], posterUrl);
+                fileUrl = Path.Combine(_configuration["BaseStoragePath"], fileUrl);
             }
             // delete file from disk / cloud storage
-            if (File.Exists(streamUrl)) File.Delete(streamUrl);
-            if (File.Exists(posterUrl)) File.Delete(posterUrl);
-
+            if (File.Exists(fileUrl)) File.Delete(fileUrl);
             return Task.CompletedTask;
         }
 
@@ -228,6 +226,10 @@ namespace EntertainmentApp.Infrastructure.Services
             if (category.Equals("music", StringComparison.OrdinalIgnoreCase))
             {
                 //title should be singer here.
+                TitlePath = CleanFileName(title);
+            }
+            if (category.Equals("publication", StringComparison.OrdinalIgnoreCase) )
+            {
                 TitlePath = CleanFileName(title);
             }
             return Path.Combine(category, subcategory, TitlePath);
@@ -301,7 +303,13 @@ namespace EntertainmentApp.Infrastructure.Services
                     dto.Rating = decimal.Parse(value);
                     break;
                 case "publisheddate":
-                    dto.PublishedDate = int.Parse(value);
+                    bool canparseInt = int.TryParse(value, out int year);
+                    if (!canparseInt)
+                    {
+                        bool canparseLong = long.TryParse(value, out long publishedDateLong);
+                        if (!canparseLong) break;
+                        dto.PublishedTime = publishedDateLong;
+                    }
                     break;
 
                 case "genres":
@@ -316,9 +324,17 @@ namespace EntertainmentApp.Infrastructure.Services
                     dto.Writers = JsonSerializer.Deserialize<List<string>>(value);
                     break;
 
+                case "singer":
+                    dto.Singer = value;
+                    break;
+
+                case "publisher":
+                    dto.Publisher = value;
+                    break;
                 case "actors":
                     dto.Actors= JsonSerializer.Deserialize<List<string>>(value);
                     break;
+
                 case "languages":
                     dto.Languages = JsonSerializer.Deserialize<List<string>>(value);
                     break;

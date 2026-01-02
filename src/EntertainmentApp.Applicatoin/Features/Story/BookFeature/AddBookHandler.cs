@@ -115,7 +115,8 @@ namespace EntertainmentApp.Applicatoin.Features.Story.BookFeature
                 }
                 catch (DbUpdateException ex)
                 {
-                    await mediaService.DeleteMediaFilesAsync(book.StreamUrl, book.PosterImageUrl, true);
+                    await mediaService.DeleteFileAsync(book.StreamUrl, true);
+                    await mediaService.DeleteFileAsync(book.PosterImageUrl, true);
                     await mediaService.DeleteMediaDirecoryAsync(Path.GetDirectoryName(book.StreamUrl), true);
                     if (ex.InnerException.Message.IndexOf("duplicate key value violates unique constraint", StringComparison.OrdinalIgnoreCase) >= 0)
                         throw new BadRequestException("Book with this Title and Pusblish Date is already exists");

@@ -1,6 +1,7 @@
 ﻿using EntertainmentApp.Domain.Entities;
 using EntertainmentApp.Domain.Entities.Account;
 using EntertainmentApp.Domain.Entities.Music;
+using EntertainmentApp.Domain.Entities.Publication;
 using EntertainmentApp.Domain.Entities.Shared;
 using EntertainmentApp.Domain.Entities.Story;
 using EntertainmentApp.Domain.Entities.Video;
@@ -40,6 +41,10 @@ namespace EntertainmentApp.Infrastructure.Data
         public DbSet<Track> Tracks { get; set; }
         public DbSet<Album> Albums { get; set; }
         public DbSet<AlbumEpisode> AlbumEpisodes { get; set; }
+
+        public DbSet<Publisher> Publishers { get; set; }
+        public DbSet<NewsPaper> NewsPapers { get; set; }
+        public DbSet<Magazine> Magazines { get; set; }
 
 
         //public DbSet<Narrator> Narrators { get; set; }
@@ -182,6 +187,8 @@ namespace EntertainmentApp.Infrastructure.Data
                 entity.HasMany(e => e.Albums).WithOne(a => a.Singer).HasForeignKey(a => a.SingerId).OnDelete(DeleteBehavior.Cascade);
             });
 
+
+
             builder.Entity<Track>(entity =>
             {
                 entity.HasKey(e => e.Id);
@@ -204,6 +211,26 @@ namespace EntertainmentApp.Infrastructure.Data
                 entity.HasKey(e => e.Id);
             });
 
+
+            builder.Entity<Publisher>(entity =>
+            {
+                entity.HasKey(e => e.Id);
+                entity.Property(e => e.Name).IsRequired().HasMaxLength(150);
+                entity.HasIndex(e => e.Name).IsUnique();
+                entity.HasMany(e => e.NewsPapers).WithOne(n => n.Publisher).HasForeignKey(n => n.PublisherId).OnDelete(DeleteBehavior.Cascade);
+                entity.HasMany(e => e.Magazines).WithOne(m => m.Publisher).HasForeignKey(m => m.PublisherId).OnDelete(DeleteBehavior.Cascade);
+            });
+
+            builder.Entity<NewsPaper>(entity =>
+            {
+                entity.HasKey(e => e.Id);
+                entity.HasMany(e => e.Genres).WithMany(g => g.NewsPapers);
+            });
+            builder.Entity<Magazine>(entity =>
+            {
+                entity.HasKey(e => e.Id);
+                entity.HasMany(e => e.Genres).WithMany(g => g.Magazines);
+            });
 
 
         }

@@ -15,7 +15,7 @@ namespace EntertainmentApp.API
 {
     public class Program
     {
-        public static void Main(string[] args)
+        public static async Task Main(string[] args)
         {
             var builder = WebApplication.CreateBuilder(args);
             JsonWebTokenHandler.DefaultInboundClaimTypeMap.Clear();
@@ -113,9 +113,9 @@ namespace EntertainmentApp.API
                 var services = scope.ServiceProvider;
 
                 var dbContext = services.GetRequiredService<ApplicationDBContext>();
-                dbContext.Database.Migrate(); // applies migrations safely
+                await dbContext.Database.MigrateAsync();
 
-                IdentitySeeder.SeedAsync(services);
+                await IdentitySeeder.SeedAsync(services);
             }
 
             app.UseCors(MyAllowSpecificOrigins);
@@ -125,12 +125,12 @@ namespace EntertainmentApp.API
                 app.UseSwagger();
                 app.UseSwaggerUI();
             }
-
-            app.MapControllers();
-
             app.UseAuthentication();
 
             app.UseAuthorization();
+
+            app.MapControllers();
+
 
             app.UseStaticFiles(new StaticFileOptions
             {

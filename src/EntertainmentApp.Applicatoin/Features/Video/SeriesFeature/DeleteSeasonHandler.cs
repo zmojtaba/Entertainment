@@ -12,7 +12,7 @@ namespace EntertainmentApp.Applicatoin.Features.Video.SeriesFeature
                 if (season == null) throw new NotFoundException("Season Not found");
                 foreach(var episode in season.Episodes)
                 {
-                    await mediaService.DeleteMediaFilesAsync(episode.StreamUrl, "", true);
+                    await mediaService.DeleteFileAsync(episode.StreamUrl, true);
                 }
 
                 await seriesRepo.DeleteSeasonAsync(season);

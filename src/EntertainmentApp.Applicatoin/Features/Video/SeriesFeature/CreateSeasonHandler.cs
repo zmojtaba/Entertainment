@@ -34,7 +34,7 @@ namespace EntertainmentApp.Applicatoin.Features.Video.SeriesFeature
                 Series series = await _seriesRepository.GetSeriesByIdAsync(command.SeriesId);
                 if (series == null)
                 {
-                    await _mediaService.DeleteMediaFilesAsync(command.TempStreamUrl, "", false);
+                    await _mediaService.DeleteFileAsync(command.TempStreamUrl, false);
                     throw new NotFoundException("Series not found");
 
                 }

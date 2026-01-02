@@ -13,8 +13,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace EntertainmentApp.Infrastructure.Migrations
 {
     [DbContext(typeof(ApplicationDBContext))]
-    [Migration("20251226195922_addMusic")]
-    partial class addMusic
+    [Migration("20260102193403_init")]
+    partial class init
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -422,6 +422,116 @@ namespace EntertainmentApp.Infrastructure.Migrations
                     b.HasIndex("SingerId");
 
                     b.ToTable("Tracks");
+                });
+
+            modelBuilder.Entity("EntertainmentApp.Domain.Entities.Publication.Magazine", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<List<string>>("Languages")
+                        .IsRequired()
+                        .HasColumnType("text[]");
+
+                    b.Property<string>("PosterImageUrl")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<long>("PublishedDate")
+                        .HasColumnType("bigint");
+
+                    b.Property<Guid?>("PublisherId")
+                        .HasColumnType("uuid");
+
+                    b.Property<string>("StreamUrl")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("Title")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<DateTime?>("UpdatedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("PublisherId");
+
+                    b.ToTable("Magazines");
+                });
+
+            modelBuilder.Entity("EntertainmentApp.Domain.Entities.Publication.NewsPaper", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<List<string>>("Languages")
+                        .IsRequired()
+                        .HasColumnType("text[]");
+
+                    b.Property<string>("PosterImageUrl")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<long>("PublishedDate")
+                        .HasColumnType("bigint");
+
+                    b.Property<Guid?>("PublisherId")
+                        .HasColumnType("uuid");
+
+                    b.Property<string>("StreamUrl")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("Title")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<DateTime?>("UpdatedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("PublisherId");
+
+                    b.ToTable("NewsPapers");
+                });
+
+            modelBuilder.Entity("EntertainmentApp.Domain.Entities.Publication.Publisher", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("ImagePath")
+                        .HasColumnType("text");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(150)
+                        .HasColumnType("character varying(150)");
+
+                    b.Property<DateTime?>("UpdatedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("Name")
+                        .IsUnique();
+
+                    b.ToTable("Publishers");
                 });
 
             modelBuilder.Entity("EntertainmentApp.Domain.Entities.Shared.Actor", b =>
@@ -892,6 +1002,21 @@ namespace EntertainmentApp.Infrastructure.Migrations
                     b.ToTable("Series");
                 });
 
+            modelBuilder.Entity("GenreMagazine", b =>
+                {
+                    b.Property<string>("GenresTitle")
+                        .HasColumnType("character varying(100)");
+
+                    b.Property<Guid>("MagazinesId")
+                        .HasColumnType("uuid");
+
+                    b.HasKey("GenresTitle", "MagazinesId");
+
+                    b.HasIndex("MagazinesId");
+
+                    b.ToTable("GenreMagazine");
+                });
+
             modelBuilder.Entity("GenreMovie", b =>
                 {
                     b.Property<string>("GenresTitle")
@@ -905,6 +1030,21 @@ namespace EntertainmentApp.Infrastructure.Migrations
                     b.HasIndex("MoviesId");
 
                     b.ToTable("GenreMovie");
+                });
+
+            modelBuilder.Entity("GenreNewsPaper", b =>
+                {
+                    b.Property<string>("GenresTitle")
+                        .HasColumnType("character varying(100)");
+
+                    b.Property<Guid>("NewsPapersId")
+                        .HasColumnType("uuid");
+
+                    b.HasKey("GenresTitle", "NewsPapersId");
+
+                    b.HasIndex("NewsPapersId");
+
+                    b.ToTable("GenreNewsPaper");
                 });
 
             modelBuilder.Entity("GenrePodCast", b =>
@@ -1266,6 +1406,26 @@ namespace EntertainmentApp.Infrastructure.Migrations
                     b.Navigation("Singer");
                 });
 
+            modelBuilder.Entity("EntertainmentApp.Domain.Entities.Publication.Magazine", b =>
+                {
+                    b.HasOne("EntertainmentApp.Domain.Entities.Publication.Publisher", "Publisher")
+                        .WithMany("Magazines")
+                        .HasForeignKey("PublisherId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.Navigation("Publisher");
+                });
+
+            modelBuilder.Entity("EntertainmentApp.Domain.Entities.Publication.NewsPaper", b =>
+                {
+                    b.HasOne("EntertainmentApp.Domain.Entities.Publication.Publisher", "Publisher")
+                        .WithMany("NewsPapers")
+                        .HasForeignKey("PublisherId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.Navigation("Publisher");
+                });
+
             modelBuilder.Entity("EntertainmentApp.Domain.Entities.Story.AudioStoryEpisode", b =>
                 {
                     b.HasOne("EntertainmentApp.Domain.Entities.Story.AudioStory", "AudioStory")
@@ -1306,6 +1466,21 @@ namespace EntertainmentApp.Infrastructure.Migrations
                     b.Navigation("Series");
                 });
 
+            modelBuilder.Entity("GenreMagazine", b =>
+                {
+                    b.HasOne("EntertainmentApp.Domain.Entities.Shared.Genre", null)
+                        .WithMany()
+                        .HasForeignKey("GenresTitle")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("EntertainmentApp.Domain.Entities.Publication.Magazine", null)
+                        .WithMany()
+                        .HasForeignKey("MagazinesId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
             modelBuilder.Entity("GenreMovie", b =>
                 {
                     b.HasOne("EntertainmentApp.Domain.Entities.Shared.Genre", null)
@@ -1317,6 +1492,21 @@ namespace EntertainmentApp.Infrastructure.Migrations
                     b.HasOne("EntertainmentApp.Domain.Entities.Video.Movie", null)
                         .WithMany()
                         .HasForeignKey("MoviesId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("GenreNewsPaper", b =>
+                {
+                    b.HasOne("EntertainmentApp.Domain.Entities.Shared.Genre", null)
+                        .WithMany()
+                        .HasForeignKey("GenresTitle")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("EntertainmentApp.Domain.Entities.Publication.NewsPaper", null)
+                        .WithMany()
+                        .HasForeignKey("NewsPapersId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
@@ -1442,6 +1632,13 @@ namespace EntertainmentApp.Infrastructure.Migrations
                     b.Navigation("Albums");
 
                     b.Navigation("Tracks");
+                });
+
+            modelBuilder.Entity("EntertainmentApp.Domain.Entities.Publication.Publisher", b =>
+                {
+                    b.Navigation("Magazines");
+
+                    b.Navigation("NewsPapers");
                 });
 
             modelBuilder.Entity("EntertainmentApp.Domain.Entities.Story.AudioStory", b =>

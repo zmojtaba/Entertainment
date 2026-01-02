@@ -1,5 +1,6 @@
 ﻿using EntertainmentApp.Applicatoin.Interfaces;
 using EntertainmentApp.Domain.Entities.Music;
+using EntertainmentApp.Domain.Entities.Story;
 
 namespace EntertainmentApp.Infrastructure.Repository
 {
@@ -66,6 +67,7 @@ namespace EntertainmentApp.Infrastructure.Repository
             {
                 return await _context.Tracks
                     .Include(b => b.Genres)
+                    .Include(b => b.Singer)
                     .Where(b => b.Languages.Any(l => l.ToLower() == "persian") &&
                                 b.Genres.Any(g => g.Title.ToLower() == genre.ToLower()))
                     .OrderByDescending(b => b.CreatedAt)
@@ -73,6 +75,7 @@ namespace EntertainmentApp.Infrastructure.Repository
             }
             return await _context.Tracks
                 .Include(b => b.Genres)
+                .Include(b => b.Singer)
                 .Where(b => b.Languages.Any(l => l.ToLower() != "persian") &&
                             b.Genres.Any(g => g.Title.ToLower() == genre.ToLower()))
                 .OrderByDescending(b => b.CreatedAt)
@@ -84,6 +87,7 @@ namespace EntertainmentApp.Infrastructure.Repository
             
             return await _context.Tracks
                 .Include(b => b.Genres)
+                .Include(b => b.Singer)
                 .Where(b => b.Genres.Any(g => g.Title.ToLower() == genre.ToLower()))
                 .OrderByDescending(b => b.CreatedAt)
                 .ToListAsync();
@@ -94,6 +98,7 @@ namespace EntertainmentApp.Infrastructure.Repository
             
             return await _context.Tracks
                 .Include(m => m.Genres)
+                .Include(b => b.Singer)
                 .OrderByDescending(m => m.CreatedAt)
                 .FirstOrDefaultAsync(b => b.Id == id);
         }
@@ -102,6 +107,7 @@ namespace EntertainmentApp.Infrastructure.Repository
         {
             return await _context.Tracks
                 .Include(m => m.Genres)
+                .Include(b => b.Singer)
                 .OrderByDescending(m => m.CreatedAt)
                 .ToListAsync();
         }
@@ -111,6 +117,7 @@ namespace EntertainmentApp.Infrastructure.Repository
             if (language.ToLower() == "persian")
                 return await _context.Tracks
                     .Include(b => b.Genres)
+                    .Include(b => b.Singer)
                     .Where(b => b.Languages.Any(l => l.ToLower() == "persian"))
                     .OrderByDescending(b => b.CreatedAt)
                     .ToListAsync();
@@ -119,6 +126,7 @@ namespace EntertainmentApp.Infrastructure.Repository
 
             return await _context.Tracks
                 .Include(b => b.Genres)
+                .Include(b => b.Singer)
                 .Where(b => b.Languages.Any(l => l.ToLower() != "persian"))
                 .OrderByDescending(b => b.CreatedAt)
                 .ToListAsync();
@@ -130,5 +138,146 @@ namespace EntertainmentApp.Infrastructure.Repository
             await _context.SaveChangesAsync();
             return track;
         }
+
+
+
+
+
+        public async Task<Album> AddAlbumAsync(Album album)
+        {
+            await _context.Albums.AddAsync(album);
+            await _context.SaveChangesAsync();
+            return album;
+        }
+
+        public async Task<List<Album>> GetAlbumsAsync()
+        {
+            return await _context.Albums
+                .Include(p => p.Singer)
+                .Include(p => p.Genres)
+                .Include(p => p.Episodes)
+                .OrderByDescending(p => p.CreatedAt)
+                .ToListAsync();
+        }
+
+        public async Task<Album?> GetAlbumByIdAsync(Guid id)
+        {
+            return await _context.Albums
+                .Include(p => p.Singer)
+                .Include(p => p.Genres)
+                .Include(p => p.Episodes)
+                .OrderByDescending(p => p.CreatedAt)
+                .FirstOrDefaultAsync(p => p.Id == id);
+        }
+
+        public async Task<Album> UpdateAlbumAsync(Album album)
+        {
+            _context.Albums.Update(album);
+            await _context.SaveChangesAsync();
+            return album;
+        }
+
+        public async Task DeleteAlbumAsync(Album album)
+        {
+            _context.Albums.Remove(album);
+            await _context.SaveChangesAsync();
+        }
+
+        public async Task<List<Album>> GetAlbumByGenre(string genre)
+        {
+            return await _context.Albums
+                .Include(p => p.Genres)
+                .Include(p => p.Singer)
+                .Include(p => p.Episodes)
+                .Where(p => p.Genres.Any(g => g.Title.ToLower() == genre.ToLower()))
+                .OrderByDescending(p => p.CreatedAt)
+                .ToListAsync();
+        }
+
+        public async Task<List<Album>> GetAlbumByLanguage(string language)
+        {
+            if (language.ToLower() == "persian")
+                return await _context.Albums
+                    .Include(p => p.Genres)
+                    .Include(p => p.Singer)
+                    .Include(p => p.Episodes)
+                    .Where(b => b.Languages.Any(l => l.ToLower() == "persian"))
+                    .OrderByDescending(b => b.CreatedAt)
+                    .ToListAsync();
+
+
+
+            return await _context.Albums
+                .Include(p => p.Genres)
+                .Include(p => p.Singer)
+                .Include(p => p.Episodes)
+                .Where(b => b.Languages.Any(l => l.ToLower() != "persian"))
+                .OrderByDescending(b => b.CreatedAt)
+                .ToListAsync();
+        }
+
+        public async Task<List<Album>> GetAlbumByFilterAsync(string language, string genre)
+        {
+            if (language.ToLower() == "persian")
+            {
+                return await _context.Albums
+                    .Include(b => b.Genres)
+                    .Include(p => p.Singer)
+                    .Include(p => p.Episodes)
+                    .Where(b => b.Languages.Any(l => l.ToLower() == "persian") &&
+                                b.Genres.Any(g => g.Title.ToLower() == genre.ToLower()))
+                    .OrderByDescending(b => b.CreatedAt)
+                    .ToListAsync();
+            }
+            return await _context.Albums
+                .Include(b => b.Genres)
+                .Include(p => p.Singer)
+                .Include(p => p.Episodes)
+                .Where(b => b.Languages.Any(l => l.ToLower() != "persian") &&
+                            b.Genres.Any(g => g.Title.ToLower() == genre.ToLower()))
+                .OrderByDescending(b => b.CreatedAt)
+                .ToListAsync();
+        }
+
+
+
+        public async Task<AlbumEpisode> AddAlbumEpisodeAsync(AlbumEpisode albumEpisode)
+        {
+            await _context.AlbumEpisodes.AddAsync(albumEpisode);
+            await _context.SaveChangesAsync();
+            return albumEpisode;
+        }
+
+        public async Task<AlbumEpisode?> GetAlbumEpisodeByIdAsync(Guid id)
+        {
+            return await _context.AlbumEpisodes.FindAsync(id);
+        }
+        public async Task<AlbumEpisode> UpdateAlbumEpisodeAsync(AlbumEpisode episode)
+        {
+            _context.AlbumEpisodes.Update(episode);
+            await _context.SaveChangesAsync();
+            return episode;
+        }
+
+        public async Task DeleteAlbumEpisodeAsync(AlbumEpisode episode)
+        {
+            _context.AlbumEpisodes.Remove(episode);
+            await _context.SaveChangesAsync();
+        }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     }
 }
