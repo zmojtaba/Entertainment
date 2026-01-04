@@ -8,6 +8,7 @@ using EntertainmentApp.Domain.Entities.Video;
 using EntertainmentApp.Infrastructure.Services;
 using EntertainmentApp.Shared.Exceptions;
 using Mapster;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
@@ -20,6 +21,7 @@ using static EntertainmentApp.Applicatoin.Features.Video.MoviesFeature.CreateMov
 
 namespace EntertainmentApp.API.Controllers
 {
+    //[Authorize]
     [Route("api/coru")]
     [ApiController]
     public class CoruController : ControllerBase

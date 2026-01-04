@@ -4,7 +4,7 @@ namespace EntertainmentApp.Applicatoin.Common.Mappers
 {
     public static class AccountMapper
     {
-        public static UserDto ToUserDto(this ApplicationUser user, string? accessToken, string role)
+        public static UserDto ToUserDto(this ApplicationUser user, string? accessToken, string? role)
         {
             return new UserDto
             {

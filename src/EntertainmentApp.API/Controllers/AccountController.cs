@@ -1,5 +1,6 @@
 ﻿using EntertainmentApp.API.Dtos;
 using EntertainmentApp.Applicatoin.Common.Dtos;
+using EntertainmentApp.Applicatoin.Features.AccountFeature;
 using Mapster;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -20,6 +21,22 @@ namespace EntertainmentApp.API.Controllers
         public AccountController(IMediator mediator)
         {
             _mediator = mediator;
+        }
+
+        [Authorize(Roles = "Admin")]
+        [HttpGet("accounts")]
+        public async Task<IActionResult> GetAccountsAsync()
+        {
+            var result = await _mediator.Send(new GetAccountsQuery());
+            return Ok(result);
+        }
+
+        [Authorize(Roles = "Admin")]
+        [HttpDelete("accounts/{username}")]
+        public async Task<IActionResult> DeleteAccountAsync([FromRoute] string username)
+        {
+            var result = await _mediator.Send(new DeleteAccountCommand(username));
+            return Ok("Deleted Successfully");
         }
 
 
@@ -68,7 +85,7 @@ namespace EntertainmentApp.API.Controllers
         }
 
 
-        [Authorize]
+        [Authorize( Roles ="Admin" )]
         [HttpPost("change-pass")]
         public async Task<IActionResult> ResetPassword([FromBody] LoginDto dto)
         {
@@ -89,7 +106,7 @@ namespace EntertainmentApp.API.Controllers
 
         }
 
-        [Authorize]
+        [Authorize(Roles = "Admin")]
         [HttpGet("users-log-in-history")]
         public async Task<IActionResult> GetUsersLogInHistory()
         {
@@ -97,7 +114,7 @@ namespace EntertainmentApp.API.Controllers
             return Ok(result);
         }
 
-        [Authorize]
+        [Authorize(Roles = "Admin")]
         [HttpGet("users-log-in-history/{username}")]
         public async Task<IActionResult> GetUsersLogInHistory([FromRoute] string username)
         {

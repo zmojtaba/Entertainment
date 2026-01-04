@@ -37,7 +37,7 @@ document.getElementById("uploadForm").addEventListener("submit", async (e) => {
   fd.append("Genres", JSON.stringify(["drama- book", "Thriller- book"]));
 
 // http://localhost:5030/api/video/series/season
-  await fetch("http://localhost:5030/api/publication/newspaper", {
+  await fetch("http://localhost:5030/api/publication/magazine", {
     method: "POST",
     body: fd
   });

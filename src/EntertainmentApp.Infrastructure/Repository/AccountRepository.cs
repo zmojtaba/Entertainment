@@ -18,6 +18,11 @@ namespace EntertainmentApp.Infrastructure.Repository
             _context = context;
         }
 
+        public async Task<List<ApplicationUser>> GetAllUserAsync()
+        {
+            return await _userManager.Users.ToListAsync();
+        }
+
         public async Task<IdentityResult> CreateAccountAsync(ApplicationUser user, string password)
             => await _userManager.CreateAsync(user, password);
 
@@ -37,6 +42,11 @@ namespace EntertainmentApp.Infrastructure.Repository
         public async Task<IdentityResult> UpdateUserAsync(ApplicationUser user)
         {
             return await _userManager.UpdateAsync(user);
+        }
+
+        public async Task DeleteAccountAsync(ApplicationUser user)
+        {
+            await _userManager.DeleteAsync(user);
         }
 
         public async Task<string?> GetAccountRoleAsync(ApplicationUser user)

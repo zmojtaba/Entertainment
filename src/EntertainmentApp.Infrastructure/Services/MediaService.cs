@@ -309,7 +309,9 @@ namespace EntertainmentApp.Infrastructure.Services
                         bool canparseLong = long.TryParse(value, out long publishedDateLong);
                         if (!canparseLong) break;
                         dto.PublishedTime = publishedDateLong;
+                        break;
                     }
+                    dto.PublishedDate = year;
                     break;
 
                 case "genres":

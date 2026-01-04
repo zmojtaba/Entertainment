@@ -6,6 +6,7 @@ namespace EntertainmentApp.Applicatoin.Interfaces.Account
 {
     public interface IAccountRepository
     {
+        public Task<List<ApplicationUser>> GetAllUserAsync();
         public Task<ApplicationUser> GetAccountByUsernameAsync(string userName);
         public Task<IdentityResult> CreateAccountAsync(ApplicationUser user, string passwork);
         public Task<IdentityResult> AddToRoleAsync(ApplicationUser user, string role);
