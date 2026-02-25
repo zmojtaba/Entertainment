@@ -1,0 +1,65 @@
+.container {
+  -webkit-backdrop-filter: blur(7px);
+          backdrop-filter: blur(7px);
+  border-radius: 10px;
+  padding: 4px;
+  width: 100%;
+  container-type: inline-size;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  height: 100%;
+}
+.container > img.logo-icon {
+  width: 100%;
+  max-width: 120px;
+  max-height: 70%;
+}
+.container .main-label {
+  letter-spacing: 10px;
+  direction: ltr;
+  display: flex;
+  justify-content: center;
+  font-size: 24px;
+  font-weight: 700;
+  padding-bottom: 10px;
+  padding-top: 4px;
+}
+.container .main-label > span.char-item {
+  animation: highlight-effect 7s linear infinite;
+}
+.container .sub-label {
+  letter-spacing: 7px;
+  direction: ltr;
+  display: flex;
+  justify-content: center;
+  font-size: 12px;
+  font-weight: 100;
+  font-family: monospace;
+  animation: decrease-letter-spacing cubic-bezier(0.175, 1.4, 0.32, 1.7) 2s 6s forwards;
+}
+
+@container (width< 100px) {
+  .main-label {
+    font-size: 8px !important;
+    letter-spacing: 3px !important;
+  }
+  .sub-label {
+    display: none !important;
+  }
+}
+@keyframes highlight-effect {
+  from {
+    transform: scale(1);
+    opacity: 1;
+    color: rgb(36, 130, 219);
+  }
+  to {
+    transform: scale(1);
+  }
+}
+@keyframes decrease-letter-spacing {
+  to {
+    letter-spacing: 2px;
+  }
+}/*# sourceMappingURL=style.module.css.map */

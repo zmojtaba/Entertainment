@@ -1,0 +1,225 @@
+@use '../../../styles/animate.css';
+.container {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  background-color: #000;
+  overflow-x: hidden;
+  box-sizing: border-box;
+
+  .header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 30px;
+    box-shadow: rgba(89, 79, 63, 1) 0px 5px 10px -3px, rgb(89, 79, 63) 0px 4px 6px -2px;
+    z-index: 1000;
+
+    .backIcon {
+      cursor: pointer;
+    }
+
+    .nav {
+      font-size: 20px;
+      font-family: 'Urbanist', sans-serif;
+    }
+  }
+
+  .main {
+    display: flex;
+    flex: 1;
+  }
+
+  .bentoGrid {
+    display: grid;
+    gap: 20px;
+    padding: 20px;
+    position: relative;
+    width: 100%;
+    height: 100%;
+    --x: 0px;
+    --y: 0px;
+    background: #000;
+    z-index: 0;
+
+    img {
+      width: 100%;
+      height: 100%;
+      object-fit: fill;
+      display: block;
+      transition: transform 0.3s ease, filter 0.3s ease;
+      animation-name: flashIn;
+      animation-duration: 0.6s;
+      animation-fill-mode: forwards;
+      animation-timing-function: ease-out;
+    }
+
+    /* Desktop و لپ‌تاپ */
+    grid-template-columns: repeat(5, 1fr);
+    grid-template-areas:
+     "box1 box1 box2 box2 box2"
+    "box1 box1 box2 box2 box2"
+    "box3 box4 box4 box4 box4"
+    "box3 box4 box4 box4 box4";
+    // grid-auto-rows: 180px;
+
+    /* تبلت */
+
+
+    /* موبایل */
+    @media (max-width: 768px) {
+      // border: 5px solid red;
+      grid-template-columns: 1fr;
+      grid-template-areas:
+        "box1"
+        "box2"
+        "box3"
+        "box4";
+      grid-auto-rows: 120px;
+      gap: 10px;
+      padding: 10px;
+    }
+
+    .grid-item {
+      position: relative;
+      overflow: hidden;
+      border-radius: 15px;
+      cursor: pointer;
+      background: transparent;
+      filter: blur(0px);
+      transition: transform 0.3s ease, filter 0.3s ease;
+      opacity: 0;
+      animation-name: flash;
+      animation-duration: 0.6s;
+      animation-fill-mode: forwards;
+      animation-timing-function: ease-out;
+      animation-delay: var(--delay, 0s);
+      z-index: 14;
+
+
+
+
+      &.large {
+        grid-row: span 2;
+        grid-column: span 2;
+      }
+
+
+      &::after {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        opacity: 0;
+        transition: opacity 0.3s ease;
+        pointer-events: none;
+      }
+
+      &:hover::after {
+        opacity: 1;
+      }
+
+
+
+      &:hover image {
+        transform: scale(1.05);
+        filter: brightness(1.2);
+      }
+
+      .overlay {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        padding: 15px;
+        background: linear-gradient(to top, rgba(0, 0, 0, 0.6), transparent);
+        color: #fff;
+        transition: background 0.3s ease;
+
+        h2 {
+          margin: 0 0 5px 0;
+          font-family: 'Urbanist', sans-serif;
+          font-weight: 500;
+          font-size: 1.5rem;
+        }
+
+        p {
+          margin: 0;
+          font-size: 11px;
+        }
+      }
+    }
+
+    &::after {
+      content: "";
+      position: absolute;
+      width: 1000px;
+      height: 1000px;
+      border-radius: 50%;
+      pointer-events: none;
+      background: radial-gradient(circle,
+          rgba(89, 79, 63, 1) 0%,
+          rgba(89, 79, 63, 0.1) 40%,
+          rgba(89, 79, 63, 0.01) 80%,
+          transparent 100%);
+      transform: translate(-50%, -50%);
+      transition: top 0.05s ease, left 0.05s ease;
+      top: var(--mouse-y, 50%);
+      left: var(--mouse-x, 50%);
+      z-index: -10;
+    }
+
+    &:hover::after {
+      opacity: 1;
+    }
+  }
+@media (max-width: 896px) and (orientation: landscape) and (max-device-width: 896px) {
+  // @media ( max-width:1280px) {
+    
+  .main {
+    display: flex;
+    flex: 1;
+    // border: 1px solid red;
+      // border: 1px solid red;
+      max-height: calc(100vh - 105px);
+      overflow-y: scroll;
+
+    }
+
+    .header {
+      padding: 0;
+    }
+
+    .bentoGrid {
+      gap: 10px;
+      grid-template-columns: repeat(3, 1fr);
+      grid-template-areas:
+        "box1 box2  box2 box2"
+        "box3 box3 box4 box4";
+    }
+
+  }
+
+  .box1 {
+    grid-area: box1;
+  }
+
+  .box2 {
+    grid-area: box2;
+  }
+
+  .box3 {
+    grid-area: box3;
+  }
+
+  .box4 {
+    grid-area: box4;
+  }
+}
+
+/* کارت‌ها */
+.grid-item.loaded {
+  filter: blur(8px);
+}

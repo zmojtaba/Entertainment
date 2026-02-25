@@ -1,7 +1,5 @@
 ﻿using EntertainmentApp.Applicatoin.Features.Music.AlbumFeature;
 using EntertainmentApp.Applicatoin.Features.Music.TrackFeatur;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
 using static EntertainmentApp.Applicatoin.Features.Music.TrackFeatur.AddTrackHandler;
 
 namespace EntertainmentApp.API.Controllers

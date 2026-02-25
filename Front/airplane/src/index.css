@@ -1,0 +1,61 @@
+@font-face {
+  font-family: "Urbanist";
+  src: url("/src/assets/fonts/Urbanist-Black.woff2") format("woff2");
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "Urbanist_Medium";
+  src: url("/src/assets/fonts/Urbanist-Medium.woff2") format("woff2");
+  font-weight: normal;
+  font-style: normal;
+}
+
+:root {
+  font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
+  line-height: 1.5;
+  font-weight: 400;
+
+  color-scheme: light dark;
+  color: rgba(255, 255, 255, 0.87);
+  background-color: #242424;
+
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  --brownColor: rgba(89, 79, 63)
+}
+
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+  overflow: hidden;
+  scrollbar-width: thin;
+}
+
+html,
+body {
+  height: 100%;
+  width: 100%;
+  scroll-behavior: smooth;
+  -webkit-overflow-scrolling: touch;
+}
+
+::-webkit-scrollbar {
+  width: 5px;
+  /* عرض اسکرول بار عمودی */
+  height: 5px;
+  /* ارتفاع اسکرول بار افقی */
+}
+
+::-webkit-media-controls {
+  opacity: 1 !important;
+  visibility: visible !important;
+}
+
+::-webkit-media-controls-panel {
+  display: flex !important;
+}

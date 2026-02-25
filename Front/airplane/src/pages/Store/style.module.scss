@@ -1,0 +1,215 @@
+.snow {
+    position: relative;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    z-index: 2000;
+    pointer-events: none;
+}
+
+.container {
+    position: absolute;
+    background: #000;
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    height: 100%;
+    width: 100%;
+    overflow-x: hidden;
+
+    .header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 15px 30px;
+        box-shadow: rgba(89, 79, 63, 1) 0px 5px 10px -3px, rgb(89, 79, 63) 0px 4px 6px -2px;
+        z-index: 50;
+
+        .backIcon {
+            cursor: pointer;
+        }
+
+        .logo {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+
+            .hamburger {
+                z-index: 5000;
+                background: rgba(0, 0, 0, 0.7);
+                color: white;
+                border: none;
+                font-size: 25px;
+                width: 50px;
+                height: 50px;
+                border-radius: 50%;
+                cursor: pointer;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                transition: all 0.3s;
+            }
+
+            .hamburger:hover {
+                background: rgba(255, 255, 255, 0.1);
+            }
+        }
+    }
+
+    .main {
+        display: flex;
+        flex: 1;
+        justify-content: center;
+        align-items: center;
+    }
+
+
+    @media (max-width:1280px) {
+
+        /* Small Mobile */
+        .main {
+            .player {
+                height: calc(100vh - 110px);
+
+                // width: 50vw;
+            }
+        }
+
+        .header {
+            padding: 0 10px;
+        }
+
+        .main {
+            span {
+                font-size: 15px !important;
+            }
+
+            p {
+                font-size: 5px;
+                overflow: hidden;
+                text-overflow: ellipsis;
+                display: -webkit-box;
+                -webkit-line-clamp: 2;
+                -webkit-box-orient: vertical;
+            }
+
+            .imdb {
+                font-size: 8px !important;
+            }
+
+            .generList {
+                p {
+                    font-size: 8px !important;
+                }
+
+                .generItem {
+                    font-size: 8px !important;
+                    color: #fff;
+                }
+            }
+
+
+            // max-height: 100px;
+            .infoMovie {
+                // border: 1px solid red;
+                max-height: calc(100vh - 105px);
+                // padding-left: 1.5rem;
+
+                .info {
+                    margin: 0;
+                    gap: 2px;
+
+
+                }
+            }
+        }
+    }
+
+
+    @media (max-width: 896px) and (orientation: landscape) and (max-device-width: 896px) {
+        .main {
+            max-height: calc(100vh - 105px);
+
+            //   border: 5px solid red;
+            img {
+                padding: 10px;
+                height: 80vh;
+            }
+
+            .imageSection {
+                display: flex;
+                flex: 1;
+                height: 100%;
+
+                .infoMovie {
+                    display: flex;
+                    flex: 1;
+                    height: 100%;
+                    width: 100%;
+                    padding: 0;
+
+                    .info {
+                        gap: 2px;
+
+                        span {
+                            font-size: 26px;
+                        }
+
+                        p {
+                            font-size: 13px;
+                        }
+                    }
+                }
+            }
+
+            .player {
+                display: flex;
+                height: 100%;
+
+            }
+        }
+
+    }
+
+
+    @media (max-width: 480px) {
+        .header {
+            padding: 12px 16px;
+        }
+
+        .main {
+            .imageSection {
+                display: flex;
+                flex: 1;
+                height: 100%;
+
+                .infoMovie {
+                    display: flex;
+                    flex: 1;
+                    height: 100%;
+                    width: 100%;
+                    // border: 5px solid red;
+                    padding: 0;
+
+                    .info {
+                        span {
+
+                            font-size: 26px;
+                        }
+
+                        p {
+                            font-size: 13px;
+                        }
+                    }
+                }
+            }
+
+            .player {
+                display: flex;
+                height: 100%;
+
+            }
+        }
+    }
+}

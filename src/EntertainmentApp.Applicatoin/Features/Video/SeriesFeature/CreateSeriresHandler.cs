@@ -11,7 +11,7 @@ namespace EntertainmentApp.Applicatoin.Features.Video.SeriesFeature
             RuleFor(x => x.Title).NotEmpty().WithMessage("Title is required");
             RuleFor(x => x.PosterImageUrl).NotEmpty().WithMessage("Poster image is required");
             RuleFor(x => x.Description).NotEmpty().WithMessage("Description is required");
-            RuleFor(x => x.PublishedDate).NotNull().WithMessage("Published Date is required").GreaterThan(1200).WithMessage("Publishe Date must be grather than 1200");
+            RuleFor(x => x.PublishedDate).NotNull().WithMessage("Published Date is required").GreaterThan(0).WithMessage("Publishe Date must be grather than zero");
             RuleFor(x => x.AgeGroup).NotNull().WithMessage("Age group is required").GreaterThan(0).WithMessage("Age Group must be grather than Zero");
             RuleFor(x => x.ImdbRating).LessThanOrEqualTo(10).GreaterThan(0).WithMessage("IMDB rating must be between Zero and Ten");
 

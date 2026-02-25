@@ -1,0 +1,59 @@
+.snow {
+        position: relative;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        z-index: 300;
+        // border: 3px solid red;
+        pointer-events: none;
+}
+    .container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+        flex: 1;
+        height: 100%;
+        // background: transparent;
+        background-color: rgba($color: #000000, $alpha: 0.9);
+        z-index: 200;
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        overflow: hidden;
+
+        .panel {
+            position: relative;
+            display: flex;
+            width: 100%;
+            flex: 1;
+
+            .logo {
+                display: flex;
+                justify-content: center;
+                flex-direction: column;
+                gap: 10px;
+                align-items: center;
+                flex: 1;
+
+                span {
+                    font-family: 'Urbanist';
+                    font-size: 18px;
+                    color: whitesmoke;
+                    padding-top: 20px;
+                }
+            }
+
+            .smook {
+                position: absolute;
+                top: 0;
+                width: 100%;
+                height: 100%;
+                background-color: transparent;
+            }
+
+
+        }
+    }

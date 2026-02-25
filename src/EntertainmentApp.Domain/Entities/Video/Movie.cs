@@ -15,6 +15,7 @@ namespace EntertainmentApp.Domain.Entities.Video
 
         public string StreamUrl { get; private set; }
         public string PosterImageUrl { get; private set; }
+        public string SubtitleUrl { get; private set; } = string.Empty;
 
         public List<Genre> Genres { get; private set; } = new List<Genre>();
         public List<Director> Directors { get; private set; } = new List<Director>();
@@ -31,7 +32,8 @@ namespace EntertainmentApp.Domain.Entities.Video
             decimal imdbRating,
             int publishedDate,
             string streamUrl,
-            string posterImageUrl)
+            string posterImageUrl
+            )
         {
             SetTitle(title);
             SetDescription(description);
@@ -42,6 +44,7 @@ namespace EntertainmentApp.Domain.Entities.Video
             SetPublishedDate(publishedDate);
             SetStreamUrl(streamUrl);
             SetPosterImageUrl(posterImageUrl);
+            //SetSubtitleUrl(subtitleUrl);
         }
 
 
@@ -121,6 +124,12 @@ namespace EntertainmentApp.Domain.Entities.Video
             if (string.IsNullOrWhiteSpace(posterImageUrl))
                 throw new DomainException("Poster image url cannot be null");
             PosterImageUrl = posterImageUrl.Trim();
+        }
+
+        public void SetSubtitleUrl(string subtitleUrl)
+        {
+            if (string.IsNullOrWhiteSpace(subtitleUrl)) throw new DomainException("Subtitle url cannot be null");
+            SubtitleUrl = subtitleUrl?.Trim();
         }
 
         // ------------------------------

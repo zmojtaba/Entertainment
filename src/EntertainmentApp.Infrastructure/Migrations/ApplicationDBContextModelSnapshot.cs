@@ -859,6 +859,10 @@ namespace EntertainmentApp.Infrastructure.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
+                    b.Property<string>("SubtitleUrl")
+                        .IsRequired()
+                        .HasColumnType("text");
+
                     b.Property<DateTime?>("UpdatedAt")
                         .HasColumnType("timestamp with time zone");
 
@@ -905,6 +909,10 @@ namespace EntertainmentApp.Infrastructure.Migrations
                         .HasColumnType("integer");
 
                     b.Property<string>("StreamUrl")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("SubtitleUrl")
                         .IsRequired()
                         .HasColumnType("text");
 

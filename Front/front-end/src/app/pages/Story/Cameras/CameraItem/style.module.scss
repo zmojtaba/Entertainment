@@ -1,0 +1,201 @@
+@use "src/styles/utils" as *;
+
+@mixin grid {
+    display: grid;
+    grid-template-columns:
+        repeat(1, minmax(100px, 0.3fr))
+         repeat(1, minmax(200px, 0.2fr)) 
+         repeat(1, minmax(80px, 0.2fr)) 
+         repeat(1, minmax(80px, 0.2fr)) 
+        //  repeat(2, minmax(100px, 0.3fr)) 
+         repeat(3, 0.1fr);
+    column-gap: 4px;
+}
+
+.table-header {
+    @include grid();
+    height: auto;
+    border-radius: 8px;
+    font-weight: 500;
+    box-shadow: 0 4px 4px rgb($info-dark, .1);
+    background: rgb($info-dark, .01);
+    backdrop-filter: blur(12px);
+    @include px(spacing(1));
+    @include py(spacing(2));
+    z-index: 1000;
+    position: sticky;
+    top: 0;
+    overflow: visible;
+}
+
+.cell {
+    @include px(spacing(.5));
+    font-size: 1.2rem;
+    text-overflow: ellipsis;
+    text-align: center;
+    overflow: hidden;
+    color: rgb($text-primary);
+    span{        
+        font-size: 1rem;
+    }
+    &.direction {
+        direction: ltr;
+    }
+    direction: ltr;
+
+    .tags {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        text-align: center;
+        gap: 3px;
+
+
+        .active-tag {
+            border: 1px solid rgb($primary-light);
+        }
+    }
+
+    svg {
+        font-size: 2rem;
+    }
+}
+
+.camera-list-item {
+    @include grid;
+    border-radius: spacing(2);
+    overflow: hidden;
+    align-items: center;
+    padding: spacing(1.5) spacing(0);
+    background: rgb($text-secondary, .07);
+    flex-shrink: 0;
+    // column-gap: 4px;
+
+    // &.disabled {
+    //     // cursor: not-allowed;
+    // }
+
+    // &:hover:not(.disabled) {
+    //     // outline: 2px solid rgb($primary-light);
+    //     // &:hover {
+    //     // cursor: pointer;
+    // }
+
+    &.selected {
+        background: rgba($info-main, .1);
+    }
+
+    &.pinned {
+        border-right: 5px solid rgb($info-main, .5);
+        border-left: 5px solid rgb($info-main, .5);
+    }
+}
+
+.dialog-content {
+    display: flex;
+    padding: 5px;
+    min-height: 400px;
+
+    .container {
+        flex-direction: row-reverse;
+        display: flex;
+        direction: ltr !important;
+        flex: 1;
+        // border: 1px solid red;
+        padding: 0;
+        direction: ltr;
+        gap: 5px;
+
+        .right {
+            display: flex;
+            flex-direction: column;
+            flex: 0.5;
+            gap: 20px;
+
+            .up {
+                display: flex;
+                flex: 1;
+
+            }
+
+            .down {
+                display: flex;
+                flex-direction: column;
+                // border: 1px solid rgb(142, 222, 13);
+                justify-content: space-between;
+                // flex-direction: column-reverse;
+                flex: 1;
+
+                .action {
+                    display: flex;
+                }
+
+                .show-file {
+                    display: flex;
+                    align-items: center;
+                    justify-content: space-between;
+                    flex: 1;
+                    padding: 10px;
+                    direction: ltr;
+
+                    .file {
+                        display: flex;
+                        flex-direction: row;
+                        flex: 1;
+                        gap: 10px;
+                        color: rgb($text-secondary);
+
+                        img {
+                            width: 40px;
+                            height: 40px;
+                        }
+
+                        .file-info {
+                            display: flex;
+                            flex-direction: column;
+                            justify-content: space-between;
+
+                            span {
+                                overflow: hidden;
+                                white-space: nowrap;
+                                text-overflow: ellipsis;
+                                // width: 80%;
+                                font-size: 9px;
+                            }
+
+                            span:nth-child(2) {
+                                font-size: 9px;
+                            }
+                        }
+
+
+                    }
+                }
+            }
+        }
+
+        .left {
+            display: flex;
+            flex: 1;
+            // direction: rtl;
+            flex-direction: column;
+            // border: 1px solid rgb(142, 222, 13);
+            overflow: auto;
+            padding: 0px 10px;
+            gap: 10px;
+
+            .item {
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                border-radius: 10px;
+                padding: 5px 10px;
+                background-color: rgb($info-main, .1);
+
+                span {
+                    font-size: 12px;
+                }
+            }
+        }
+    }
+}

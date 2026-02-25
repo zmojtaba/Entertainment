@@ -1,0 +1,64 @@
+.page {
+    height: 100vh; // هر صفحه کل ارتفاع صفحه
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    scroll-snap-align: start; // هر بخش به ابتدای viewport بچسبد
+    font-size: 3rem;
+    color: white;
+    background-color: #4caf50;
+    overflow: hidden;
+}
+
+.container {
+    display: flex;
+    flex: 1;
+    background-color: rgba(0, 0, 0, 1);
+    flex-direction: column;
+    overflow: hidden;
+
+    // gap: 20px;
+    .header {
+        display: flex;
+        // flex: 1;
+        justify-content: space-between;
+        align-items: center;
+        padding-bottom: 10px;
+        padding-top: 15px;
+        padding-left: 30px;
+        padding-right: 30px;
+        // border-bottom: 3px solid rgba(89, 79, 63, 1);
+
+        // box-shadow: rgba(89, 79, 63, 1) 0px 25px 20px -20px;
+        box-shadow: rgba(89, 79, 63, 1) 0px 5px 10px -3px, rgb(89, 79, 63) 0px 4px 6px -2px;
+        z-index: 1000;
+
+        .nav {
+            font-size: 20px;
+            font-family: 'Urbanist';
+
+            // box-shadow:  rgba(89, 79, 63, 1) 0px 25px 20px -20px;
+        }
+    }
+
+    .main {
+        display: flex;
+        flex: 1;
+        background-color: rgba(0, 0, 0, 1);
+    }
+
+    @media (max-width: 896px) and (orientation: landscape) and (max-device-width: 896px) {
+        .header {
+            padding: 0;
+        }
+
+        .main {
+            // border: 1px solid white;
+            max-height: calc(100vh - 100px);
+        }
+        // .logo{
+        //     // border: 1px solid red;
+        // }
+    }
+}
