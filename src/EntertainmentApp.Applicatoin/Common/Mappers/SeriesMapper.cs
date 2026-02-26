@@ -11,6 +11,7 @@ namespace EntertainmentApp.Applicatoin.Common.Mappers
                 Id = episode.Id,
                 EpisodeNumber = episode.EpisodeNumber,
                 StreamUrl = episode.StreamUrl,
+                SubtitleUrl = episode.SubtitleUrl
 
             };
         }

@@ -10,7 +10,10 @@
 
         public async Task<Genre?> GetGenreAsync(string movieGenre)
         {
-            return await _context.Genres.FirstOrDefaultAsync(g => g.Title.ToLower() == movieGenre.ToLower());
+            return await _context.Genres
+                .Include(g => g.Movies).ThenInclude(m => m.Genres)
+                .Include(g => g.Series).ThenInclude(m => m.Genres)
+                .FirstOrDefaultAsync(g => g.Title.ToLower() == movieGenre.ToLower());
         }
 
         public async Task<Genre> AddGenreAsync(Genre genre)
@@ -23,6 +26,12 @@
         public async Task<List<Genre>> GetMovieGenresAsync()
         {
             return await _context.Genres.Where(g => g.Movies.Any() || g.Series.Any()).ToListAsync(); 
+        }
+
+        public async Task DeleteGenreAsync(Genre genre)
+        {
+            _context.Genres.Remove(genre);
+            await _context.SaveChangesAsync();
         }
 
         public async Task<Director?> GetDirectorAsync(string directorName)

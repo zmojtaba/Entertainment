@@ -1,4 +1,6 @@
-﻿namespace EntertainmentApp.Applicatoin.Features.Video.MoviesFeature
+﻿using EntertainmentApp.Applicatoin.Interfaces.Media;
+
+namespace EntertainmentApp.Applicatoin.Features.Video.MoviesFeature
 {
     public class UpdateMovieCommand : ICommand<MovieDto>
     {
@@ -79,6 +81,12 @@
                     newMediaDirectory,
                     Path.GetFileName(movie.PosterImageUrl)
                     ));
+                if (!string.IsNullOrWhiteSpace(movie.SubtitleUrl))
+                    movie.SetSubtitleUrl(
+                    Path.Combine(
+                        newMediaDirectory,
+                        Path.GetFileName(movie.SubtitleUrl))
+                    );
                 Console.WriteLine(newMediaDirectory);
                 
             }
@@ -131,7 +139,19 @@
 
             }
 
-            await movieRepo.UpdateMovieAsync(movie);
+            try
+            {
+                await movieRepo.UpdateMovieAsync(movie);
+            }
+            catch (DbUpdateException ex)
+            {
+                if (ex.InnerException.Message.IndexOf("duplicate key value violates unique constraint", StringComparison.OrdinalIgnoreCase) >= 0)
+                    throw new BadRequestException("Movie with this Title and Pusblish Date is already exists");
+                throw;
+
+            }
+
+            //await movieRepo.UpdateMovieAsync(movie);
 
             return movie.ToMoveDto();
 

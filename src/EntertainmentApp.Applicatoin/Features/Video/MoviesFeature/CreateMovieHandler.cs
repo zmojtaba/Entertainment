@@ -19,6 +19,8 @@
             public string PosterImageFileName { get; set; } = string.Empty;
             public string TempStreamUrl { get; set; } = string.Empty;
             public string StreamFileName { get; set; } = string.Empty;
+            public string TempSubtitleUrl { get; set; } = string.Empty;
+            public string SubtitleFileName { get; set; } = string.Empty;
         }
         public class CreateMovieCommandVlidator : AbstractValidator<CreateMovieCommand>
         {
@@ -70,7 +72,13 @@
                     .WithMessage($"Invalid video file extension. Supported extensions are: {string.Join(", ", ValidExtensionList.VideoExtension)}");
                 RuleFor(x => x.PosterImageFileName).NotEmpty().WithMessage("Poster Image must be valid.")
                     .Must(x => ValidExtensionList.ImageExtension.Contains(Path.GetExtension(x), StringComparer.OrdinalIgnoreCase))
-                    .WithMessage($"Invalid image file extension. Supported extensions are: {string.Join(", ", ValidExtensionList.ImageExtension)}"); ;
+                    .WithMessage($"Invalid image file extension. Supported extensions are: {string.Join(", ", ValidExtensionList.ImageExtension)}");
+                RuleFor(x => x.SubtitleFileName)
+                    .Must(x => ValidExtensionList.SubtitleExtension.Contains(
+                        Path.GetExtension(x),
+                        StringComparer.OrdinalIgnoreCase))
+                    .WithMessage($"Invalid subtitle extension. Supported extensions are: {string.Join(", ", ValidExtensionList.SubtitleExtension)}")
+                    .When(x => !string.IsNullOrWhiteSpace(x.SubtitleFileName));
             }
         }
         public class CreateMovieCommandHandler : ICommandHandler<CreateMovieCommand, Movie>
@@ -88,6 +96,10 @@
                 string posterImagePath = await _mediaService.MovePosterImage(command.TempPosterImageUrl, command.Title, "video", "movie");
                 string streamPath = await _mediaService.MoveStreamToExistenceDirectoryAsync(command.TempStreamUrl,
                     Path.GetDirectoryName(posterImagePath));
+                string subtitlePath = "";
+                if (!string.IsNullOrWhiteSpace(command.TempSubtitleUrl))
+                    subtitlePath = await _mediaService.MoveStreamToExistenceDirectoryAsync(command.TempSubtitleUrl,
+                       Path.GetDirectoryName(posterImagePath));
 
                 Movie movie = new Movie(
                     command.Title,
@@ -103,7 +115,9 @@
                     command.ImdbRating,
                     command.PublishedDate,
                     streamPath, 
-                    posterImagePath
+                    posterImagePath,
+                    subtitlePath
+
 
                     );
 

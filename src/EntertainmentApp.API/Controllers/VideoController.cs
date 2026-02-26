@@ -103,12 +103,30 @@ namespace EntertainmentApp.API.Controllers
             return Ok("Deleted Successfully");
         }
 
+        [HttpPost("genre/")]
+        public async Task<IActionResult> CreateGenreAsync([FromBody] CreateGenreDto dto)
+        {
+            CreateGenreCommand command = dto.Adapt<CreateGenreCommand>();
+            CreateGenreResponse result = await _mediator.Send(command);
+            return Ok(result);
+        }
+
+        [HttpDelete("genre/{title}")]
+        public async Task<IActionResult> DeleteGenreAsync([FromRoute] string title)
+        {
+            DeleteGenreCommand command = new DeleteGenreCommand(title);
+            await _mediator.Send(command);
+            return Ok("Deleted Successfully");
+        }
+
+
         [HttpGet("actors")]
         public async Task<IActionResult> GetAllActor()
         {
             List<ActorDto> result = await _mediator.Send(new GetAllActorsQuery());
             return Ok(result);
         }
+
 
 
         [HttpGet("movie-genres")]

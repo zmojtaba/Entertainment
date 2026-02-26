@@ -30,6 +30,9 @@ namespace EntertainmentApp.Infrastructure.Services
             string posterFileName = null;
             string posterPath = null;
 
+            string subtitlePath = null;
+            string subtitleFileName = null;
+
             while ((section = await reader.ReadNextSectionAsync()) != null)
             {
 
@@ -55,7 +58,9 @@ namespace EntertainmentApp.Infrastructure.Services
                     {
                         if (!IsValidExtension(fileName, "video"))
                         {
-                            if (File.Exists(posterPath)) File.Delete(posterPath);
+                            //if (File.Exists(posterPath)) File.Delete(posterPath);
+                            await DeleteFileAsync(subtitlePath);
+                            await DeleteFileAsync(posterPath);
                             throw new BadRequestException($"Invalid video file extension. Supported extensions are: {string.Join(", ", ValidExtensionList.VideoExtension)}");
                         }
 
@@ -66,7 +71,8 @@ namespace EntertainmentApp.Infrastructure.Services
                     {
                         if (!IsValidExtension(fileName, "audio"))
                         {
-                            if (File.Exists(posterPath)) File.Delete(posterPath);
+                            //if (File.Exists(posterPath)) File.Delete(posterPath);
+                            await DeleteFileAsync(posterPath);
                             throw new BadRequestException($"Invalid Audio file extension. Supported extensions are: {string.Join(", ", ValidExtensionList.AudioExtension)}");
                         }
 
@@ -95,12 +101,26 @@ namespace EntertainmentApp.Infrastructure.Services
                         streamPath = storagePath;
                         streamFileName = fileName;
                     }
+                    if (name.Equals("subtitle", StringComparison.OrdinalIgnoreCase))
+                    {
+                        if (!IsValidExtension(fileName, "subtitle"))
+                        {
+                            //if (File.Exists(subtitlePath)) File.Delete(posterPath);
+                            await DeleteFileAsync(posterPath);
+                            await DeleteFileAsync(streamPath);
+                            throw new BadRequestException($"Invalid subtitle file extension. Supported extensions are: {string.Join(", ", ValidExtensionList.SubtitleExtension)}");
+                        }
+
+                        subtitlePath = storagePath;
+                        subtitleFileName = fileName;
+                    }
 
                     else if (name.Equals("poster", StringComparison.OrdinalIgnoreCase))
                     {
                         if (!IsValidExtension(fileName, "image"))
                         {
                             if (File.Exists(streamPath)) File.Delete(streamPath);
+                            await DeleteFileAsync(subtitlePath);
                             throw new BadRequestException($"Invalid poster file extension. Supported extensions are: {string.Join(", ", ValidExtensionList.ImageExtension)}");
 
                         }
@@ -137,8 +157,10 @@ namespace EntertainmentApp.Infrastructure.Services
 
             mediaUploadResult.TempStreamUrl = streamPath;
             mediaUploadResult.TempPosterImageUrl =posterPath ;
+            mediaUploadResult.TempSubtitleUrl = subtitlePath;
             mediaUploadResult.StreamFileName = streamFileName;
             mediaUploadResult.PosterImageFileName = posterFileName;
+            mediaUploadResult.TempSubtitleFileName = subtitleFileName;
             return mediaUploadResult;
 
 
@@ -239,10 +261,16 @@ namespace EntertainmentApp.Infrastructure.Services
         private static bool IsValidExtension(string fileName, string category)
         {
             string extension = Path.GetExtension(fileName);
-            if (category.Equals("video", StringComparison.OrdinalIgnoreCase)) return ValidExtensionList.VideoExtension.Contains(extension, StringComparer.OrdinalIgnoreCase);
-            if (category.Equals("audio", StringComparison.OrdinalIgnoreCase)) return ValidExtensionList.AudioExtension.Contains(extension, StringComparer.OrdinalIgnoreCase);
-            if (category.Equals("image", StringComparison.OrdinalIgnoreCase)) return ValidExtensionList.ImageExtension.Contains(extension, StringComparer.OrdinalIgnoreCase);
-            if (category.Equals("ebook", StringComparison.OrdinalIgnoreCase)) return ValidExtensionList.BookExtension.Contains(extension, StringComparer.OrdinalIgnoreCase) ||
+            if (category.Equals("video",    StringComparison.OrdinalIgnoreCase)) 
+                return ValidExtensionList.VideoExtension.Contains(extension, StringComparer.OrdinalIgnoreCase);
+            if (category.Equals("subtitle", StringComparison.OrdinalIgnoreCase)) 
+                return ValidExtensionList.SubtitleExtension.Contains(extension, StringComparer.OrdinalIgnoreCase);
+            if (category.Equals("audio",    StringComparison.OrdinalIgnoreCase)) 
+                return ValidExtensionList.AudioExtension.Contains(extension, StringComparer.OrdinalIgnoreCase);
+            if (category.Equals("image",    StringComparison.OrdinalIgnoreCase)) 
+                return ValidExtensionList.ImageExtension.Contains(extension, StringComparer.OrdinalIgnoreCase);
+            if (category.Equals("ebook",    StringComparison.OrdinalIgnoreCase)) 
+                return ValidExtensionList.BookExtension.Contains(extension, StringComparer.OrdinalIgnoreCase) ||
                     ValidExtensionList.AudioExtension.Contains(extension, StringComparer.OrdinalIgnoreCase);
             return false;
 
@@ -254,6 +282,7 @@ namespace EntertainmentApp.Infrastructure.Services
                 ValidExtensionList.BookExtension.Contains(extension, StringComparer.OrdinalIgnoreCase) ||
                 ValidExtensionList.AudioExtension.Contains(extension, StringComparer.OrdinalIgnoreCase) ||
                 ValidExtensionList.VideoExtension.Contains(extension, StringComparer.OrdinalIgnoreCase) ||
+                ValidExtensionList.SubtitleExtension.Contains(extension, StringComparer.OrdinalIgnoreCase) ||
                 ValidExtensionList.ImageExtension.Contains(extension, StringComparer.OrdinalIgnoreCase)
                 ) return true;
             return false;

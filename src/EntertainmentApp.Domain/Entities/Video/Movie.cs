@@ -32,7 +32,8 @@ namespace EntertainmentApp.Domain.Entities.Video
             decimal imdbRating,
             int publishedDate,
             string streamUrl,
-            string posterImageUrl
+            string posterImageUrl,
+            string? subtitleUrl
             )
         {
             SetTitle(title);
@@ -44,7 +45,8 @@ namespace EntertainmentApp.Domain.Entities.Video
             SetPublishedDate(publishedDate);
             SetStreamUrl(streamUrl);
             SetPosterImageUrl(posterImageUrl);
-            //SetSubtitleUrl(subtitleUrl);
+            if (!string.IsNullOrWhiteSpace(subtitleUrl)) 
+                SetSubtitleUrl(subtitleUrl);
         }
 
 
@@ -139,6 +141,14 @@ namespace EntertainmentApp.Domain.Entities.Video
         public void RemoveGenres()
         {
             Genres = new();
+        }
+
+        public bool RemoveGenre(Genre genre)
+        {
+            if (genre == null)
+                throw new DomainException("Genre cannot be null.");
+            Genres.Remove(genre);
+            return Genres.Count == 0;
         }
 
         public void AddGenre(Genre genre)

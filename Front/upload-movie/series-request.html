@@ -38,6 +38,9 @@ document.getElementById("uploadForm").addEventListener("submit", async (e) => {
   <label>Video:</label>
   <input type="file" id="video" accept="video/*" /><br/>
 
+    <label>Subtitle:</label>
+  <input type="file" id="subtitle" /><br/>
+
   <input type="text" id="guid" placeholder="guid" />
   <input type="number" id="EpisodeNumber" placeholder="EpisodeNumber" />
   <input type="number" id="SeasonNumber" placeholder="SeasonNumber" />
@@ -66,6 +69,9 @@ document.getElementById("uploadForm").addEventListener("submit", async (e) => {
   // 1. Append the Video
   const videoFile = document.getElementById("video").files[0];
   fd.append("video", videoFile);
+
+  const subtitleFiel = document.getElementById("subtitle").files[0];
+  fd.append("subtitle", subtitleFiel);
 
   // 2. Append the Image (New)
   // Ensure the key string "poster" matches exactly what your Backend DTO expects

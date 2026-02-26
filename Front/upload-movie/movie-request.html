@@ -40,20 +40,34 @@ document.getElementById("uploadForm").addEventListener("submit", async (e) => {
   <label>Poster/Image:</label>
   <input type="file" id="image" accept="image/*" /><br/>
 
+  <label>Subtitle:</label>
+  <input type="file" id="subtitle" /><br/>
+
   <input type="text" id="title" placeholder="Title" />
   <input type="text" id="description" placeholder="Description" />
   <button type="submit">Upload</button>
 </form>
-<video
+<!-- <video
   width="500"
   height="500"
   controls
   preload="metadata"
 >
   <source
-    src="http://localhost:5030/media/video\\movie\\new updated title_f78fcffd13a3417d82a454ed47bf1db6\\99c62119c0274486bd18aef170cce0dc_Test.mp4"
+    src="http://localhost:5030/media/video\\movie\\aaaaaaaaaaaaaaa_0d095b8d62f74474a47806bef90bbff9\\d07a3c42369a4c6fba9331c087ee4ad1_memento.mp4"
     type="video/mp4"
   />
+</video> -->
+
+<video controls width="600" crossorigin="anonymous">
+    <source src="http://localhost:5030/media/video/movie/assdfaaaaaa_ca4567da3e274503a4f24eac3e9a9219/a925a7a894334dfc922ef5ef7afd7333_memento.mp4" type="video/mp4">
+
+    <track
+        src="http://localhost:5030/media/video/movie/assdfaaaaaa_ca4567da3e274503a4f24eac3e9a9219/b06a9d538df94616a6a463522c15d96c_subtitle.vtt"
+        kind="subtitles"
+        srclang="en"
+        label="English"
+        default>
 </video>
 
 
@@ -70,6 +84,8 @@ document.getElementById("uploadForm").addEventListener("submit", async (e) => {
   const imageFile = document.getElementById("image").files[0];
   fd.append("poster", imageFile); 
 
+  const subtitleFile = document.getElementById("subtitle").files[0];
+  fd.append("subtitle", subtitleFile); 
   // 2. Append the Image (New)
   // Ensure the key string "poster" matches exactly what your Backend DTO expects
 

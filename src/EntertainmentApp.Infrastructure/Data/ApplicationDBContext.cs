@@ -56,7 +56,7 @@ namespace EntertainmentApp.Infrastructure.Data
             builder.Entity<Series>(entity =>
             {
                 entity.HasKey(e => e.Id);
-                entity.HasIndex(e => new { e.Title, e.PublishedDate }).IsUnique();
+                //entity.HasIndex(e => new { e.Title, e.PublishedDate }).IsUnique();
                 entity.HasMany(e => e.Genres).WithMany(g => g.Series);
                 entity.HasMany(e => e.Actors).WithMany(a => a.Series);
                 entity.HasMany(e => e.Directors).WithMany(d => d.Series);
@@ -70,7 +70,7 @@ namespace EntertainmentApp.Infrastructure.Data
             builder.Entity<Season>(entity =>
             {
                 entity.HasKey(e => e.Id);
-                entity.HasIndex(e => new { e.SeriesId, e.SeasonNumber }).IsUnique();
+                //entity.HasIndex(e => new { e.SeriesId, e.SeasonNumber }).IsUnique();
                 entity.HasMany(e => e.Episodes)
                 .WithOne(episode => episode.Season)
                 .HasForeignKey(episode => episode.SeasonId)
@@ -80,7 +80,7 @@ namespace EntertainmentApp.Infrastructure.Data
             builder.Entity<Episode>(entity =>
             {
                 entity.HasKey(e => e.Id);
-                entity.HasIndex(entity => new { entity.SeasonId, entity.EpisodeNumber }).IsUnique();
+                //entity.HasIndex(entity => new { entity.SeasonId, entity.EpisodeNumber }).IsUnique();
             });
 
 
@@ -88,12 +88,10 @@ namespace EntertainmentApp.Infrastructure.Data
             {
                 entity.HasKey(e => e.Id);
                 entity.Property(e => e.Title).IsRequired().HasMaxLength(200);
-                entity.HasIndex(e => new { e.Title, e.PublishedDate }).IsUnique();
+                //entity.HasIndex(e => new { e.Title, e.PublishedDate }).IsUnique();
                 entity.HasMany(e => e.Genres).WithMany(g => g.Movies);
                 entity.HasMany(e => e.Actors).WithMany(a => a.Movies);
                 entity.HasMany(e => e.Directors).WithMany(d => d.Movies);
-                //entity.HasOne(e => e.Media).WithOne(Media => Media.Movie).HasForeignKey<Media>(m => m.MovieId)
-                //        .OnDelete(DeleteBehavior.Cascade);
             });
 
             builder.Entity<Genre>(entity =>

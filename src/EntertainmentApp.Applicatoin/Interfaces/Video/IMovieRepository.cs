@@ -6,6 +6,7 @@ namespace EntertainmentApp.Applicatoin.Interfaces.Video
         public Task<Genre?> GetGenreAsync(string movieGenre);
         public Task<Genre> AddGenreAsync(Genre genre);
         public Task<List<Genre>> GetMovieGenresAsync();
+        public Task DeleteGenreAsync(Genre genre);
 
 
         public Task<Director?> GetDirectorAsync(string directorName);

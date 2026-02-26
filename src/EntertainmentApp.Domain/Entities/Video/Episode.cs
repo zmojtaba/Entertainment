@@ -8,10 +8,12 @@
         public Guid? SeasonId { get;  set; }
         public Season? Season { get;  set; }
         private Episode() { } // For EF Core
-        public Episode(int episodeNumber, string streamUrl)
+        public Episode(int episodeNumber, string streamUrl, string? subtitleUrl)
         {
             SetEpisodeNumber(episodeNumber);
             SetStreamUrl(streamUrl);
+            if (!string.IsNullOrWhiteSpace(subtitleUrl))
+                SetSubtitleUrl(subtitleUrl);
         }
 
 

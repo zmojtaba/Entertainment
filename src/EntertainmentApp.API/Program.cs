@@ -3,6 +3,7 @@ using EntertainmentApp.Infrastructure.Data;
 using EntertainmentApp.Shared.Exceptions.Handler;
 using Microsoft.AspNetCore.Http.Features;
 using Microsoft.AspNetCore.HttpOverrides;
+using Microsoft.AspNetCore.StaticFiles;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.FileProviders;
 using Microsoft.IdentityModel.JsonWebTokens;
@@ -84,7 +85,7 @@ namespace EntertainmentApp.API
             builder.Services.AddInfrastructure(builder.Configuration);
 
 
-            var MyAllowSpecificOrigins = "_myAllowSpecificOrigins";
+            var MyAllowSpecificOrigins = "AllowAll";
             builder.Services.AddCors(options =>
             {
                 options.AddPolicy(name: MyAllowSpecificOrigins,
@@ -136,7 +137,14 @@ namespace EntertainmentApp.API
             {
                 FileProvider = new PhysicalFileProvider("C://EnternainmentMedia"),
                 RequestPath = "/media",
-                ServeUnknownFileTypes = true // Optional, use carefully
+                ServeUnknownFileTypes = true ,// Optional, use carefully
+                ContentTypeProvider = new FileExtensionContentTypeProvider
+                {
+                    Mappings =
+                    {
+                        [".vtt"] = "text/vtt"
+                    }
+                }
             });
 
             app.UseForwardedHeaders(new ForwardedHeadersOptions

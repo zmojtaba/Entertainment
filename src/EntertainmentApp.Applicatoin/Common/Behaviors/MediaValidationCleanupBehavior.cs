@@ -10,6 +10,7 @@ using static EntertainmentApp.Applicatoin.Features.Story.AudioStoryFeature.AddAu
 using static EntertainmentApp.Applicatoin.Features.Story.BookFeature.AddBookHandler;
 using static EntertainmentApp.Applicatoin.Features.Story.PodCastFeature.AddPodCastEpisodeHandler;
 using static EntertainmentApp.Applicatoin.Features.Story.PodCastFeature.AddPodCastHandler;
+using static EntertainmentApp.Applicatoin.Features.Video.SeriesFeature.CreateSeasonHandler;
 
 namespace EntertainmentApp.Shared.Behaviors
 {
@@ -45,6 +46,9 @@ namespace EntertainmentApp.Shared.Behaviors
                     await _mediaService.DeleteFileAsync(
                         cmd?.TempPosterImageUrl ?? ""
                     );
+                    await _mediaService.DeleteFileAsync(
+                        cmd?.TempSubtitleUrl ?? ""
+                    );
                     await _mediaService.DeleteMediaDirecoryAsync(Path.GetDirectoryName(cmd.TempStreamUrl), true);
                 }
 
@@ -53,6 +57,12 @@ namespace EntertainmentApp.Shared.Behaviors
                     await _mediaService.DeleteFileAsync(
                         cmmd.PosterImageUrl
                     );
+                }
+
+                if (request is CreateSeasonCommand createSeasonCommand)
+                {
+                    await _mediaService.DeleteFileAsync(createSeasonCommand.TempStreamUrl ?? "") ;
+                    await _mediaService.DeleteFileAsync(createSeasonCommand.TempSubtitleUrl ?? "");
                 }
 
                 if (request is AddBookCommand bookCommand)

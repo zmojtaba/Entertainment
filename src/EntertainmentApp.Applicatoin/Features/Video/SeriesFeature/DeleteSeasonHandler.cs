@@ -13,6 +13,7 @@ namespace EntertainmentApp.Applicatoin.Features.Video.SeriesFeature
                 foreach(var episode in season.Episodes)
                 {
                     await mediaService.DeleteFileAsync(episode.StreamUrl, true);
+                    await mediaService.DeleteFileAsync(episode.SubtitleUrl, true);
                 }
 
                 await seriesRepo.DeleteSeasonAsync(season);

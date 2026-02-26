@@ -173,6 +173,13 @@ namespace EntertainmentApp.Domain.Entities.Video
             Genres = new();
         }
 
+        public bool RemoveGenre(Genre genre)
+        {
+            if (genre == null) throw new DomainException("Genre cannot be null.");
+            Genres.Remove(genre);
+            return Genres.Count() == 0;
+        }
+
         public void AddGenre(Genre genre)
         {
             if (genre == null)

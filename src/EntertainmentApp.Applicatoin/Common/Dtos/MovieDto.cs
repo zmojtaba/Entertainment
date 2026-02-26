@@ -32,6 +32,7 @@
         public int AgeGroup { get;  set; }
         public string StreamUrl { get; set; }
         public string PosterImageUrl { get; set; }
+        public string? SubtitleUrl { get; set; }
 
 
         public List<string> Genres { get;  set; }

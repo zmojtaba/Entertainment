@@ -13,7 +13,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace EntertainmentApp.Infrastructure.Migrations
 {
     [DbContext(typeof(ApplicationDBContext))]
-    [Migration("20260202155320_init")]
+    [Migration("20260226101710_init")]
     partial class init
     {
         /// <inheritdoc />
@@ -871,8 +871,7 @@ namespace EntertainmentApp.Infrastructure.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("SeasonId", "EpisodeNumber")
-                        .IsUnique();
+                    b.HasIndex("SeasonId");
 
                     b.ToTable("Episodes");
                 });
@@ -929,9 +928,6 @@ namespace EntertainmentApp.Infrastructure.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("Title", "PublishedDate")
-                        .IsUnique();
-
                     b.ToTable("Movies");
                 });
 
@@ -955,8 +951,7 @@ namespace EntertainmentApp.Infrastructure.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("SeriesId", "SeasonNumber")
-                        .IsUnique();
+                    b.HasIndex("SeriesId");
 
                     b.ToTable("Seasons");
                 });
@@ -1003,9 +998,6 @@ namespace EntertainmentApp.Infrastructure.Migrations
                         .HasColumnType("timestamp with time zone");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("Title", "PublishedDate")
-                        .IsUnique();
 
                     b.ToTable("Series");
                 });

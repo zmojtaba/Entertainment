@@ -21,6 +21,8 @@ namespace EntertainmentApp.Applicatoin.Common.Mappers
                 Actors = movie.Actors.Select( a => new ActorDto { Name = a.Name, ImagePath = a.ImagePath}).ToList(),
                 PosterImageUrl = movie.PosterImageUrl,
                 StreamUrl = movie.StreamUrl,
+                SubtitleUrl = movie.SubtitleUrl
+
             };
             return movieDto;
         }

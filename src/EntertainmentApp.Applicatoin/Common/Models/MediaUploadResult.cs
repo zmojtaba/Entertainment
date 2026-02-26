@@ -22,7 +22,8 @@
         public string PosterImageFileName { get; set; }
         public string TempStreamUrl { get;  set; }
         public string StreamFileName { get; set; }
-
+        public string TempSubtitleUrl { get; set; }
+        public string TempSubtitleFileName { get; set; }
         public int SeasonNumber { get; set; }
         public int EpisodeNumber { get; set; }
         public Guid SeriesId { get; set; }

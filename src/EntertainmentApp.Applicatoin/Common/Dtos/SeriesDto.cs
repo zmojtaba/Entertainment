@@ -12,6 +12,7 @@ namespace EntertainmentApp.Applicatoin.Common.Dtos
         public Guid Id { get; set; }
         public int EpisodeNumber { get; set; }
         public string StreamUrl { get; set; }
+        public string SubtitleUrl { get; set; }
     }
     public class SeasonDto
     {

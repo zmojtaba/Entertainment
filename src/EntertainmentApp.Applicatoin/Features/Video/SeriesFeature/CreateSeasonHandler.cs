@@ -8,7 +8,7 @@ namespace EntertainmentApp.Applicatoin.Features.Video.SeriesFeature
 {
     public class CreateSeasonHandler
     {
-        public record CreateSeasonCommand(Guid SeriesId, int SeasonNumber, int EpisodeNumber, string TempStreamUrl) : ICommand<SeasonDto>;
+        public record CreateSeasonCommand(Guid SeriesId, int SeasonNumber, int EpisodeNumber, string TempStreamUrl, string TempSubtitleUrl ) : ICommand<SeasonDto>;
         public class CreateSeasonCommandValidator : AbstractValidator<CreateSeasonCommand>
         {
             public CreateSeasonCommandValidator()
@@ -39,10 +39,6 @@ namespace EntertainmentApp.Applicatoin.Features.Video.SeriesFeature
 
                 }
 
-                string streamUrl = await _mediaService.MoveStreamToExistenceDirectoryAsync(command.TempStreamUrl, Path.GetDirectoryName(series.PosterImageUrl));
-
-
-
                 Season season = series.Seasons.FirstOrDefault(s => s.SeasonNumber == command.SeasonNumber);
                 if (season == null)
                 {
@@ -53,9 +49,23 @@ namespace EntertainmentApp.Applicatoin.Features.Video.SeriesFeature
                 Episode episode = season.Episodes.FirstOrDefault(s => s.EpisodeNumber == command.EpisodeNumber);
                 if (episode != null)
                 {
+                    await _mediaService.DeleteFileAsync(command.TempStreamUrl);
+                    await _mediaService.DeleteFileAsync(command.TempSubtitleUrl);
+
                     throw new BadRequestException("This Episode Exists for this Season");
                 }
-                episode = new Episode(command.EpisodeNumber, streamUrl);
+
+                string streamUrl = await _mediaService.MoveStreamToExistenceDirectoryAsync(command.TempStreamUrl, Path.GetDirectoryName(series.PosterImageUrl));
+                string subtitleUrl = "";
+                if (!string.IsNullOrWhiteSpace(command.TempSubtitleUrl)) 
+                    subtitleUrl = await _mediaService.MoveStreamToExistenceDirectoryAsync(command.TempSubtitleUrl, Path.GetDirectoryName(series.PosterImageUrl));
+
+
+
+
+
+
+                episode = new Episode(command.EpisodeNumber, streamUrl, subtitleUrl);
                 episode = await _seriesRepository.AddEpisodeAsync(episode);
                 season.AddEpisode(episode);
 

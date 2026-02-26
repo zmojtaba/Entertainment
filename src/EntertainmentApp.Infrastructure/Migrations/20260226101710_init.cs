@@ -1106,10 +1106,9 @@ namespace EntertainmentApp.Infrastructure.Migrations
                 column: "SeriesId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Episodes_SeasonId_EpisodeNumber",
+                name: "IX_Episodes_SeasonId",
                 table: "Episodes",
-                columns: new[] { "SeasonId", "EpisodeNumber" },
-                unique: true);
+                column: "SeasonId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_GenreMagazine_MagazinesId",
@@ -1153,12 +1152,6 @@ namespace EntertainmentApp.Infrastructure.Migrations
                 column: "PublisherId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Movies_Title_PublishedDate",
-                table: "Movies",
-                columns: new[] { "Title", "PublishedDate" },
-                unique: true);
-
-            migrationBuilder.CreateIndex(
                 name: "IX_NewsPapers_PublisherId",
                 table: "NewsPapers",
                 column: "PublisherId");
@@ -1180,16 +1173,9 @@ namespace EntertainmentApp.Infrastructure.Migrations
                 unique: true);
 
             migrationBuilder.CreateIndex(
-                name: "IX_Seasons_SeriesId_SeasonNumber",
+                name: "IX_Seasons_SeriesId",
                 table: "Seasons",
-                columns: new[] { "SeriesId", "SeasonNumber" },
-                unique: true);
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Series_Title_PublishedDate",
-                table: "Series",
-                columns: new[] { "Title", "PublishedDate" },
-                unique: true);
+                column: "SeriesId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Singers_Name",
