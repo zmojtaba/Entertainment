@@ -25,7 +25,9 @@
 
         public async Task<List<Genre>> GetMovieGenresAsync()
         {
-            return await _context.Genres.Where(g => g.Movies.Any() || g.Series.Any()).ToListAsync(); 
+            return await _context.Genres.Where(g => g.Movies.Any() || g.Series.Any() || 
+            g.Categories.Any(x => x.ToLower() == "video")
+            ).ToListAsync(); 
         }
 
         public async Task DeleteGenreAsync(Genre genre)

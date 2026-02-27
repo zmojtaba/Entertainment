@@ -45,7 +45,8 @@ namespace EntertainmentApp.Infrastructure.Repository
         {
             return await _context.Genres.Where(g => g.Books.Any() ||
                 g.AudioStories.Any()||
-                g.PodCasts.Any()
+                g.PodCasts.Any() ||
+                g.Categories.Any(x => x.ToLower() == "story")
             ).ToListAsync();
         }
 

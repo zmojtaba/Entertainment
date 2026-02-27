@@ -60,6 +60,11 @@ namespace EntertainmentApp.Domain.Entities.Music
         {
             Genres = new();
         }
+        public bool RemoveGenre(Genre genre)
+        {
+            Genres.Remove(genre);
+            return Genres.Count() == 0;
+        }
 
         public void AddGenre(Genre genre)
         {

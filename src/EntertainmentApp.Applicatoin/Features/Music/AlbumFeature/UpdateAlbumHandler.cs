@@ -76,7 +76,7 @@ namespace EntertainmentApp.Applicatoin.Features.Music.AlbumFeature
                 if (genre == null)
                 {
                     genre = await _musicRepository.AddGenreAsync(new Genre(g));
-
+                    genre.AddCategory("music");
                 }
                 album.AddGenre(genre);
             }

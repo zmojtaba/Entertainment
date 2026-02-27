@@ -127,6 +127,7 @@
                     if (genre == null)
                     {
                         genre = await _movieRepo.AddGenreAsync(new Genre(g));
+                        genre.AddCategory("video");
                         
                     }
                     movie.AddGenre(genre);

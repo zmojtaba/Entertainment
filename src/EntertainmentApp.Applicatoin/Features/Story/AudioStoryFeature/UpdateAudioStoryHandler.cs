@@ -87,7 +87,7 @@ namespace EntertainmentApp.Applicatoin.Features.Story.AudioStoryFeature
                     if (genre == null)
                     {
                         genre = await storyRepo.AddGenreAsync(new Genre(g));
-
+                        genre.AddCategory("story");
                     }
                     audioStory.AddGenre(genre);
                 }

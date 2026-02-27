@@ -87,6 +87,12 @@
             return Ok(result);
         }
 
+        //[HttpPost("genre/")]
+        //public async Task<IActionResult> CreateGenreAsync([FromBody]  CreateGenreDto dto)
+        //{
+
+        //}
+
         
         
         

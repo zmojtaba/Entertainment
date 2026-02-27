@@ -25,7 +25,8 @@ namespace EntertainmentApp.Infrastructure.Repository
         public async Task<List<Genre>> GetMusicGenresAsync()
         {
             return await _context.Genres.Where(g => g.Tracks.Any() ||
-                g.Albums.Any()
+                g.Albums.Any() ||
+                g.Categories.Any(x => x.ToLower() == "music")
             ).ToListAsync();
         }
 
@@ -237,6 +238,11 @@ namespace EntertainmentApp.Infrastructure.Repository
                             b.Genres.Any(g => g.Title.ToLower() == genre.ToLower()))
                 .OrderByDescending(b => b.CreatedAt)
                 .ToListAsync();
+        }
+
+        public async Task<List<Album>> GetAlbumsBySingerName(string singer)
+        {
+            return await _context.Albums.Include(x => x.Singer).Where(x => x.Singer.Name.ToLower() == singer.ToLower()).ToListAsync();
         }
 
 

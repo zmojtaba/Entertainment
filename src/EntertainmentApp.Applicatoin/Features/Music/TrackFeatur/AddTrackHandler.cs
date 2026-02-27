@@ -72,7 +72,7 @@ namespace EntertainmentApp.Applicatoin.Features.Music.TrackFeatur
                     if (genre == null)
                     {
                         genre = await musicRepo.AddGenreAsync(new Genre(g));
-
+                        genre.AddCategory("music");
                     }
                     track.AddGenre(genre);
                 }

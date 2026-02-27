@@ -18,4 +18,10 @@ namespace EntertainmentApp.Applicatoin.Common.Dtos
         public string Title { get; set; } = string.Empty;
         public string StreamUrl { get; set; } = string.Empty;
     }
+
+    public class SingerAlbumsDto
+    {
+        public SingerDto Singer { get; set; }
+        public List<AlbumDto> Albums { get; set; }
+    }
 }

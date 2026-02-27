@@ -86,7 +86,7 @@ namespace EntertainmentApp.Applicatoin.Features.Story.PodCastFeature
                     if (genre == null)
                     {
                         genre = await storyRepo.AddGenreAsync(new Genre(g));
-
+                        genre.AddCategory("story");
                     }
                     podCast.AddGenre(genre);
                 }

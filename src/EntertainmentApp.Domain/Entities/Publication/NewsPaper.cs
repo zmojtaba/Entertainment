@@ -69,7 +69,11 @@ namespace EntertainmentApp.Domain.Entities.Publication
         {
             Genres = new();
         }
-
+        public bool RemoveGenre(Genre genre)
+        {
+            Genres.Remove(genre);
+            return Genres.Count() == 0;
+        }
         public void AddGenre(Genre genre)
         {
             if (genre == null)

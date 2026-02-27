@@ -26,7 +26,8 @@ namespace EntertainmentApp.Infrastructure.Repository
         public async Task<List<Genre>> GetPublicationGenresAsync()
         {
             return await _context.Genres.Where(g => g.NewsPapers.Any() ||
-                g.Magazines.Any()
+                g.Magazines.Any() ||
+                g.Categories.Any(x => x.ToLower() == "publication")
             ).ToListAsync();
         }
 

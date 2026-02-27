@@ -13,8 +13,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace EntertainmentApp.Infrastructure.Migrations
 {
     [DbContext(typeof(ApplicationDBContext))]
-    [Migration("20260226101710_init")]
-    partial class init
+    [Migration("20260227081228_addCategoryTogenreeeeeeasdf")]
+    partial class addCategoryTogenreeeeeeasdf
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -591,6 +591,9 @@ namespace EntertainmentApp.Infrastructure.Migrations
                     b.Property<string>("Title")
                         .HasMaxLength(100)
                         .HasColumnType("character varying(100)");
+
+                    b.Property<List<string>>("Categories")
+                        .HasColumnType("text[]");
 
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("timestamp with time zone");

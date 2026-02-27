@@ -41,6 +41,7 @@ namespace EntertainmentApp.Applicatoin.Interfaces
         public Task<List<Album>> GetAlbumByGenre(string genre);
         public Task<List<Album>> GetAlbumByLanguage(string language);
         public Task<List<Album>> GetAlbumByFilterAsync(string language, string genre);
+        public Task<List<Album>> GetAlbumsBySingerName(string singer);
         public Task<AlbumEpisode> AddAlbumEpisodeAsync(AlbumEpisode albumEpisode);
         public Task<AlbumEpisode?> GetAlbumEpisodeByIdAsync(Guid id);
         public Task DeleteAlbumEpisodeAsync(AlbumEpisode episode);

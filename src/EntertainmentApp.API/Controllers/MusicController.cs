@@ -149,6 +149,20 @@ namespace EntertainmentApp.API.Controllers
             return Ok(result);
         }
 
+        [HttpGet("singer-album")]
+        public async Task<IActionResult> GetSingersAlbumsAsync([FromQuery] string? language, [FromQuery] string? genre)
+        {
+            var result = await _mediator.Send(new GetSingersAlbumsQuery(language, genre));
+            return Ok(result);
+        }
+
+        [HttpGet("singer-album/{singer}")]
+        public async Task<IActionResult> GetSingerAlbumsByName([FromRoute] string singer)
+        {
+            var result = await _mediator.Send(new GetSingerAlbumsByNameQuery(singer));
+            return Ok(result);
+        }
+
         [HttpGet("album/{id}")]
         public async Task<IActionResult> GetAlbumByIdAsync([FromRoute] Guid id)
         {

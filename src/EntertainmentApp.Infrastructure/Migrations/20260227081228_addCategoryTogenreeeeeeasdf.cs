@@ -8,7 +8,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace EntertainmentApp.Infrastructure.Migrations
 {
     /// <inheritdoc />
-    public partial class init : Migration
+    public partial class addCategoryTogenreeeeeeasdf : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -144,6 +144,7 @@ namespace EntertainmentApp.Infrastructure.Migrations
                 columns: table => new
                 {
                     Title = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: false),
+                    Categories = table.Column<List<string>>(type: "text[]", nullable: true),
                     Id = table.Column<Guid>(type: "uuid", nullable: false),
                     CreatedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
                     UpdatedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: true)

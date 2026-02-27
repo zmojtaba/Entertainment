@@ -19,7 +19,7 @@ namespace EntertainmentApp.Applicatoin.Features.Music.AlbumFeature
             else albums = await musicRepo.GetAlbumsAsync();
 
             if (albums == null || !albums.Any())
-                throw new NotFoundException("Movie Not found");
+                throw new NotFoundException("album Not found");
 
             List<AlbumDto> result = albums.Select(m => m.ToAlbumDto()).ToList();
 

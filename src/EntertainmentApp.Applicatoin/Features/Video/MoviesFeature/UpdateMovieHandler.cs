@@ -115,7 +115,7 @@ namespace EntertainmentApp.Applicatoin.Features.Video.MoviesFeature
                 if (genre == null)
                 {
                     genre = await movieRepo.AddGenreAsync(new Genre(g));
-
+                    genre.AddCategory("story");
                 }
                 movie.AddGenre(genre);
             }

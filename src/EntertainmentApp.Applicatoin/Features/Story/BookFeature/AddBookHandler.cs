@@ -93,7 +93,7 @@ namespace EntertainmentApp.Applicatoin.Features.Story.BookFeature
                     if (genre == null)
                     {
                         genre = await storyRepo.AddGenreAsync(new Genre(g));
-
+                        genre.AddCategory("story");
                     }
                     book.AddGenre(genre);
                 }

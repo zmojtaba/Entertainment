@@ -91,7 +91,7 @@ namespace EntertainmentApp.Applicatoin.Features.Publication.MagazineFeature
                 if (genre == null)
                 {
                     genre = await _publicationRepo.AddGenreAsync(new Genre(g));
-
+                    genre.AddCategory("publication");
                 }
                 paper.AddGenre(genre);
             }
