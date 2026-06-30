@@ -1,0 +1,126 @@
+// -----------------------------------------------------------------------------
+// This file contains all application-wide Sass mixins.
+// -----------------------------------------------------------------------------
+
+
+/// Event wrapper
+/// @author Harry Roberts
+/// @param {Bool} $self [false] - Whether or not to include current selector
+/// @link https://twitter.com/csswizardry/status/478938530342006784 Original tweet from Harry Roberts
+@mixin on-event($self: false) {
+  @if $self {
+
+    &,
+    &:hover,
+    &:active,
+    &:focus,
+    &:focus-within {
+      @content;
+    }
+  }
+
+  @else {
+
+    &:hover,
+    &:active,
+    &:focus,
+    &:focus-within {
+      @content;
+    }
+  }
+}
+
+/// Make a context based selector a little more friendly
+/// @author Kitty Giraudel
+/// @param {String} $context
+@mixin when-inside($context) {
+  #{$context} & {
+    @content;
+  }
+}
+
+@function getTextColorBasedOnBG($color) {
+  @if (lightness($color) > 50) {
+    @return $dark-text;
+  }
+
+  @else {
+    @return $light-text;
+  }
+}
+
+@mixin applyBgWithCorrectTextColor($color) {
+  background: $color;
+  color: getTextColorBasedOnBG($color)
+}
+
+@mixin centralize($direction: row) {
+  display: flex;
+  flex-direction: $direction;
+  justify-content: center;
+  align-items: center;
+}
+
+@mixin mx($size) {
+  margin-right: $size;
+  margin-left: $size;
+}
+
+@mixin my($size) {
+  margin-top: $size;
+  margin-bottom: $size;
+}
+
+@mixin px($size) {
+  padding-right: $size;
+  padding-left: $size;
+}
+
+@mixin py($size) {
+  padding-top: $size;
+  padding-bottom: $size;
+}
+
+//GRADIENTS
+@mixin linear-gradient($from, $to) {
+  background: $to;
+  background: -moz-linear-gradient(top, $from 0%, $to 100%);
+  background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, $from), color-stop(100%, $to));
+  background: -webkit-linear-gradient(top, $from 0%, $to 100%);
+  background: -o-linear-gradient(top, $from 0%, $to 100%);
+  background: linear-gradient(to bottom, $from 0%, $to 100%);
+  filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0, startColorstr=#{$from}, endColorstr=#{$to})
+}
+
+//SHADOWS
+@mixin box-shadow($top, $left, $blur, $color, $inset: false) {
+  @if $inset {
+    -webkit-box-shadow: $top $left $blur $color, $inset;
+    -moz-box-shadow: $top $left $blur $color, $inset;
+    box-shadow: $top $left $blur $color, $inset;
+  }
+
+  @else {
+    -webkit-box-shadow: $top $left $blur $color;
+    -moz-box-shadow: $top $left $blur $color;
+    box-shadow: $top $left $blur $color;
+  }
+}
+
+@mixin ltr {
+  [dir="ltr"] & {
+    @content;
+  }
+}
+
+@mixin rtl {
+  [dir="rtl"] & {
+    @content;
+  }
+}
+
+// @mixin ltr($dir) {
+//  &:dir($dir){
+
+//  }
+// }

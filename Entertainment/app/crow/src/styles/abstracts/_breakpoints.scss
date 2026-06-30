@@ -1,0 +1,28 @@
+// main breakpoints
+$HD: 1280px;
+$FHD: 1920px;
+
+@mixin Tablet {
+  @media (max-width: #{$HD - 1px}) {
+    @content;
+  }
+}
+
+@mixin HD {
+  @media (min-width: #{$HD}) and (max-width: #{$FHD - 1px}) {
+    @content;
+  }
+}
+
+// for FHD and higher resolution like QHD and UHD
+@mixin FHD {
+  @media (min-width: #{$FHD}) {
+    @content;
+  }
+}
+
+@mixin Mobile {
+  @media (max-width: 900px) {
+    @content;
+  }
+}

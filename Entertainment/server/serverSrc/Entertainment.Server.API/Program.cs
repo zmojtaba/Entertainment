@@ -1,0 +1,155 @@
+﻿namespace Entertainment.Server.API
+{
+    public class Program
+    {
+        public static async Task Main(string[] args)
+        {
+            var builder = WebApplication.CreateBuilder(args);
+            JsonWebTokenHandler.DefaultInboundClaimTypeMap.Clear();
+            builder.WebHost.UseKestrel(o => o.Limits.MaxRequestBodySize = null);
+
+
+
+            // Configure Kestrel (the server) to allow large bodies (e.g., 500MB)
+            builder.WebHost.ConfigureKestrel(serverOptions =>
+            {
+                //serverOptions.Limits.MaxRequestBodySize = 1_024_288_000; // 500 MB
+                serverOptions.Limits.MaxRequestBodySize = null;
+                serverOptions.Limits.MinRequestBodyDataRate = null;
+
+            });
+            builder.Services.AddControllers().AddJsonOptions(options =>
+            {
+                options.JsonSerializerOptions.ReferenceHandler = System.Text.Json.Serialization.ReferenceHandler.IgnoreCycles;
+                options.JsonSerializerOptions.DefaultIgnoreCondition =
+                    System.Text.Json.Serialization.JsonIgnoreCondition.WhenWritingNull;
+            });
+
+
+
+            builder.Services.AddEndpointsApiExplorer();
+            builder.WebHost.UseUrls("http://0.0.0.0:5031");
+
+            //builder.Services.AddSwaggerGen();
+            builder.Services.AddSwaggerGen(c =>
+            {
+                c.SwaggerDoc("v1", new OpenApiInfo { Title = "Entertainment API", Version = "v1" });
+
+                // Add JWT authentication to Swagger
+                c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
+                {
+                    Description = "JWT Authorization header using the Bearer scheme. Example: \"Authorization: Bearer {token}\"",
+                    Name = "Authorization",
+                    In = ParameterLocation.Header,
+                    Type = SecuritySchemeType.ApiKey,
+                    Scheme = "Bearer"
+                });
+
+                c.AddSecurityRequirement(new OpenApiSecurityRequirement
+    {
+        {
+            new OpenApiSecurityScheme
+            {
+                Reference = new OpenApiReference
+                {
+                    Type = ReferenceType.SecurityScheme,
+                    Id = "Bearer"
+                }
+            },
+            Array.Empty<string>()
+        }
+    });
+            });
+
+            builder.Services.Configure<FormOptions>(x =>
+            {
+                x.ValueLengthLimit = int.MaxValue;
+                x.MultipartBodyLengthLimit = int.MaxValue;
+                x.MultipartBoundaryLengthLimit = int.MaxValue;
+                x.MultipartHeadersCountLimit = int.MaxValue;
+                x.MultipartHeadersLengthLimit = int.MaxValue;
+            });
+
+            builder.Services.AddApplication();
+            builder.Services.AddInfrastructure(builder.Configuration);
+
+
+            var MyAllowSpecificOrigins = "AllowAll";
+            builder.Services.AddCors(options =>
+            {
+                options.AddPolicy(name: MyAllowSpecificOrigins,
+                                  policy =>
+                                  {
+                                    policy.SetIsOriginAllowed(origin =>
+                                    {
+                                        if (origin.EndsWith(":3000")) return true;
+                                        if (origin.EndsWith(":3001")) return true;
+                                        return false;
+                                    })
+                                                .AllowAnyHeader()
+                                                .AllowAnyMethod()
+                                                .AllowCredentials();
+                                      //policy.AllowAnyOrigin()
+                                      //      .AllowAnyHeader()
+                                      //      .AllowAnyMethod();
+                                  });
+            });
+
+
+            builder.Services.AddExceptionHandler<CustomExceptionHandler>();
+
+
+            var app = builder.Build();
+
+            using (var scope = app.Services.CreateScope())
+            {
+                var services = scope.ServiceProvider;
+
+                var dbContext = services.GetRequiredService<ApplicationDBContext>();
+                await dbContext.Database.MigrateAsync();
+
+                await IdentitySeeder.SeedAsync(services);
+            }
+
+            app.UseCors(MyAllowSpecificOrigins);
+            app.UseExceptionHandler(options => { });
+            if (app.Environment.IsDevelopment())
+            {
+                app.UseSwagger();
+                app.UseSwaggerUI();
+            }
+            app.UseAuthentication();
+
+            app.UseAuthorization();
+
+            app.MapControllers();
+
+
+            app.UseStaticFiles(new StaticFileOptions
+            {
+                FileProvider = new PhysicalFileProvider(builder.Configuration["BaseStoragePath"]),
+                RequestPath = "/media",
+                ServeUnknownFileTypes = true,// Optional, use carefully
+                ContentTypeProvider = new FileExtensionContentTypeProvider
+                {
+                    Mappings =
+                    {
+                        [".vtt"] = "text/vtt"
+                    }
+                }
+            });
+
+            app.UseForwardedHeaders(new ForwardedHeadersOptions
+            {
+                ForwardedHeaders = ForwardedHeaders.XForwardedFor |
+                       ForwardedHeaders.XForwardedProto |
+                       ForwardedHeaders.XForwardedHost
+            });
+            app.MapGet("/health", () => Results.Ok("Healthy"));
+
+            app.Run();
+        }
+    }
+
+
+}

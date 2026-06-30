@@ -1,18 +1,23 @@
+@use "src/styles/utils" as *;
+
 .container {
   position: relative;
   background: #000;
   display: flex;
   flex: 1;
   flex-direction: column;
-  min-height: 100vh;
 
-  /* ================= HEADER ================= */
+  @include Tablet {
+    height: calc(100vh - 58px) !important;
+  }
+
   .header {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 15px 30px;
-    box-shadow: rgba(89, 79, 63, 1) 0px 5px 10px -3px,
+    padding: 8px 20px;
+    box-shadow:
+      rgba(89, 79, 63, 1) 0px 5px 10px -3px,
       rgb(89, 79, 63) 0px 4px 6px -2px;
     z-index: 50;
 
@@ -25,443 +30,457 @@
       align-items: center;
       gap: 10px;
       cursor: pointer;
+    }
 
-      .hamburger {
-        z-index: 5000;
-        background: rgba(0, 0, 0, 0.7);
-        color: white;
-        border: none;
-        font-size: 25px;
-        width: 50px;
-        height: 50px;
-        border-radius: 50%;
-        cursor: pointer;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        transition: all 0.3s;
-      }
-
-      .hamburger:hover {
-        background: rgba(255, 255, 255, 0.1);
-      }
+    @include Tablet {
+      padding: 10px 15px;
     }
   }
 
-  /* ================= MAIN ================= */
   .main {
     display: flex;
     flex: 1;
-    flex-direction: column;
-    // position: relative;
     overflow: hidden;
 
-    .menu {
-      position: fixed;
-      top: 0;
-      right: -250px;
-      width: 250px;
-      height: 100%;
-      background: rgba(0, 0, 0, 0.95);
-      padding: 20px;
+    .musicList {
+      position: absolute;
+      width: 400px;
+      right: 0;
+      height: calc(100vh - 160px);
+      background-color: rgb(rgb(255, 255, 255), 0.1);
+      backdrop-filter: blur(5px);
+      z-index: 1000;
+      padding: 15px;
+      border: 1px solid rgb(255, 255, 255, 0.2);
+      border-radius: 10px;
       display: flex;
       flex-direction: column;
-      gap: 5px;
-      border-radius: 10px 0 0 10px;
-      transition: all 0.3s ease;
-      z-index: 54;
+      flex: 1;
+      overflow: hidden;
 
+      div[data-titlelist] {
+        width: 100%;
+        font-size: 25px;
+        font-weight: bolder;
+        font-family:
+          "Lucida Sans", "Lucida Sans Regular", "Lucida Grande",
+          "Lucida Sans Unicode", Geneva, Verdana, sans-serif;
+        // border: 1px solid red;
+        text-align: center;
+      }
+      .gradientTaperLine {
+        width: 100%;
+        max-width: 600px;
+        height: 3px;
+        // padding: 10px 0;
+        margin: 0.8rem auto;
+        position: relative;
+        background: linear-gradient(
+          90deg,
+          transparent 0%,
+          orange 20%,
+          #ffffff 50%,
+          orange 80%,
+          transparent 100%
+        );
+        border-radius: 50%;
+        box-shadow:
+          0 1px 12px rgba(255, 255, 255, 0.6),
+          0 -1px 8px rgba(255, 255, 255, 0.3);
 
-      .menuTitle {
+        // اختیاری: انیمیشن ظریف
+        animation: shine 4s linear infinite;
+
+        @keyframes shine {
+          0% {
+            opacity: 0.85;
+          }
+          50% {
+            opacity: 1;
+          }
+          100% {
+            opacity: 0.85;
+          }
+        }
+
+        &.thin {
+          height: 2px;
+        }
+        &.medium {
+          height: 3px;
+        }
+        &.thick {
+          height: 5px;
+        }
+
+        // عرض‌های مختلف
+        &.w-full {
+          width: 100%;
+          max-width: none;
+        }
+        &.w-90 {
+          width: 90%;
+        }
+        &.w-70 {
+          width: 70%;
+        }
+      }
+      .musics {
         display: flex;
-        align-items: end;
-        // color: rgb();
-
-        .closeIcon {
-          background: rgba(0, 0, 0, 0.7);
-          color: white;
-          border: none;
-          font-size: 25px;
-          width: 40px;
-          height: 40px;
-          border-radius: 50%;
-          cursor: pointer;
+        flex-direction: column;
+        flex: 1;
+        gap: 8px;
+        overflow-y: auto;
+        .item {
           display: flex;
           align-items: center;
-          justify-content: center;
-          transition: all 0.3s;
-        }
-
-        .title {
-          flex: 1;
-          display: flex;
-          align-items: start;
-          border-bottom: 2px solid gray;
-        }
-      }
-    }
-
-    .menu.open {
-      right: 0;
-    }
-
-    .menuItem {
-      color: whitesmoke;
-      cursor: pointer;
-      padding: 10px 15px;
-      border-radius: 6px;
-      transition: background 0.2s;
-
-
-      &:hover {
-        background: rgba(255, 255, 255, 0.1);
-        color: white;
-
-      }
-    }
-
-    .isSelect {
-      border-left: 3px solid whitesmoke;
-      border-right: 3px solid whitesmoke;
-    }
-
-    .menuContent {
-      display: flex;
-      flex: 1;
-      height: 100%;
-      overflow: hidden;
-      overflow-y: auto;
-      flex-direction: column;
-
-      gap: 10px;
-
-      .seasons {
-        display: flex;
-        flex: 1;
-        min-height: 40px;
-        // height: auto;
-        justify-content: space-between;
-        align-items: center;
-        padding: 0px 10px;
-        box-shadow: rgb(255, 255, 255) 0px 5px 5px -3px;
-        // border-bottom: 1px solid whitesmoke;  
-        overflow: hidden;
-        cursor: pointer;
-        transition: all 0.5s;
-
-        &.selected {
-          background-color: whitesmoke;
-          color: #000;
-          border-radius: 10px;
-        }
-
-        &:hover {
-          background-color: gray;
-          border-radius: 10px;
-        }
-      }
-
-      .episod {
-        display: flex;
-        flex: 1;
-        flex-direction: column;
-        padding: 10px;
-        cursor: pointer;
-        transition: all 0.8s ease;
-        // border: 1px solid red;
-        overflow-y: auto;
-        gap: 10px;
-
-
-        // &.selected {
-        //   // min-height: 200px;
-        // }
-
-        span {
-          min-height: 30px;
-          padding-left: 10px;
-          border-radius: 5px;
-
-          &.selected {
-            background-color: whitesmoke;
-            color: #000000af;
+          border: 1px solid rgba(236, 234, 234, 0.295);
+          cursor: pointer;
+          flex-shrink: 0;
+          border-radius: 25px;
+          padding: 5px 15px 5px 5px;
+          span {
+            flex: 1;
+            font-size: 20px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
           }
 
           &:hover {
-            background-color: gray;
-            color: white;
+            background-color: rgb(rgb(214, 214, 214), 0.2);
           }
         }
+        .isSelected {
+          background-color: rgb(rgb(214, 214, 214), 0.2);
+        }
+      }
+
+  
+      @include Tablet {
+        // display: none;
+        // top:27%;
+        // width: 200px;
+        // border: 5px solid red;
+        height: calc(100vh - 200px);
+        
+        div[data-titlelist] {
+          width: 100%;
+          font-size: 12px;
+          font-weight: bolder;
+        }
+      .musics {
+        display: flex;
+        flex-direction: column;
+        flex: 1;
+        gap: 8px;
+        overflow-y: auto;
+        .item {
+          display: flex;
+          align-items: center;
+          border: 1px solid rgba(236, 234, 234, 0.295);
+          cursor: pointer;
+          flex-shrink: 0;
+          border-radius: 25px;
+          padding: 0px 10px 0px 5px;
+          span {
+            flex: 1;
+            font-size: 12px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+          }
+
+          &:hover {
+            background-color: rgb(rgb(214, 214, 214), 0.2);
+          }
+        }
+        .isSelected {
+          background-color: rgb(rgb(214, 214, 214), 0.2);
+        }
+      }
+      }
+      @include Mobile {
+        // display: none;
+        top:30%;
+        // width: 200px;
+        // border: 5px solid red;
+        height: calc(100vh - 380px);
+
+        div[data-titlelist] {
+        width: 100%;
+        font-size: 15px;
+        font-weight: bolder;
+      }
+      .musics {
+        display: flex;
+        flex-direction: column;
+        flex: 1;
+        gap: 8px;
+        overflow-y: auto;
+        .item {
+          display: flex;
+          align-items: center;
+          border: 1px solid rgba(236, 234, 234, 0.295);
+          cursor: pointer;
+          flex-shrink: 0;
+          border-radius: 25px;
+          padding: 5px 15px 5px 5px;
+          span {
+            flex: 1;
+            font-size: 15px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+          }
+
+          &:hover {
+            background-color: rgb(rgb(214, 214, 214), 0.2);
+          }
+        }
+        .isSelected {
+          background-color: rgb(rgb(214, 214, 214), 0.2);
+        }
+      }
       }
     }
 
+    .posterImage {
+      position: relative;
+      // flex: 2;
+      flex: 1;
+      width: 100vw;
+      object-fit: fill;
+      object-position: center;
+    }
 
-    .imageSection {
+    .infoMovie {
+      // border: 5px solid red;
+      position: absolute;
       display: flex;
       flex: 1;
-      position: relative;
-
-      .posterImage {
-        position: absolute;
-        display: flex;
-        height: 100%;
-        flex: 1;
-        width: 100vw;
-        object-fit: fill;
-        object-position: center;
-      }
-
-      .infoMovie {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        position: absolute;
-        flex: 1;
-        height: 100%;
-
-        .info {
-          display: flex;
-          justify-content: center;
-          // flex: 1;
-          flex-direction: column;
-          gap: 12px;
-          padding: 20px;
-          height: 100%;
-          min-width: 100vw !important;
-          // border-radius: 10px;
-          background: linear-gradient(to top, rgba(0, 0, 0, 1), transparent);
-
-          .description {
-            width: 350px;
-            font-size: 14px;
-            word-wrap: break-word;
-            overflow-wrap: break-word;
-            text-align: justify;
-          }
-
-          span {
-            font-size: 42px;
-            font-weight: bold;
-            color: #fff;
-          }
-
-          p {
-            color: #ddd;
-            font-size: 14px;
-            line-height: 1.6;
-          }
-
-          .imdb {
-            color: #f5c518;
-            font-size: 15px;
-          }
-
-          .generList {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 8px;
-
-            .generItem {
-              font-size: 12px;
-              padding: 4px 12px;
-              background: rgba(0, 0, 0, 0.5);
-              border-radius: 20px;
-              color: #fff;
-            }
-          }
-
-          .actions {
-            display: flex;
-            gap: 12px;
-            margin-top: 10px;
-
-            .playBtn {
-              width: 55px;
-              height: 55px;
-              border-radius: 50%;
-              border: 1px solid rgba(89, 79, 63, 1);
-              background: rgba(89, 79, 63, 1);
-              color: #fff;
-              cursor: pointer;
-              display: flex;
-              align-items: center;
-              justify-content: center;
-              transition: 0.3s;
-
-              &:hover {
-                border-color: #fff;
-              }
-            }
-          }
-        }
-      }
-    }
-
-    .player {
-      // flex: 0.15;
-      width: 100%;
-
       justify-content: center;
-      align-items: center;
-      display: flex;
-      // border: 5px solid red;
+      flex-direction: column;
+      padding: 20px;
+      min-width: 100vw !important;
+      // height: 100%;
+      height: calc(100vh - 50px);
+      border-radius: 10px;
+      background: linear-gradient(to top, rgba(0, 0, 0, 1), transparent);
 
       &.hiddenPoster {
         display: none;
       }
-    }
-  }
 
-  /* ================= IMAGE ================= */
-  .image {
-    width: 100%;
-    height: 100%;
-    object-fit: contain; // 🔥 تصویر کامل دیده شود
-    object-position: center;
-    display: block;
-  }
+      .title {
+        display: flex;
+        flex-direction: column;
 
-  /* ================= RESPONSIVE ================= */
-  @media (max-width:1280px) {
+        span {
+          font-size: 60px;
+          font-weight: bold;
+          color: #fff;
+        }
 
-    /* Small Mobile */
-    .main {
-      .player {
-        height: calc(100vh - 110px);
-
-        // width: 50vw;
-      }
-    }
-
-    .header {
-      padding: 0 10px;
-    }
-
-    .main {
-      span {
-        font-size: 15px !important;
-      }
-
-      .description {
-        width: 100% !important;
+        .description {
+          width: 50%;
+          font-size: 23px;
+          font-weight: 100;
+          color: rgba(whitesmoke, 0.8);
+          word-wrap: break-word;
+          overflow-wrap: break-word;
+          text-align: justify;
+        }
       }
 
       p {
-        font-size: 5px;
-        overflow: hidden;
-        text-overflow: ellipsis;
-        display: -webkit-box;
-        -webkit-line-clamp: 3;
-        -webkit-box-orient: vertical;
+        color: #ddd;
+        font-size: 14px;
+        // width: 300px;
+        // max-width: 400px;
+        line-height: 1.6;
       }
 
-      .imdb {
-        font-size: 8px !important;
-      }
-
-      .generList {
-        p {
-          font-size: 8px !important;
-        }
-
-        .generItem {
-          font-size: 8px !important;
-        }
-      }
-
-
-      // max-height: 100px;
-      .infoMovie {
-        // border: 1px solid red;
-        // height: calc(100% - 165px);
-        // padding-left: 1.5rem;
-
-        .info {
-          margin: 0;
-          gap: 2px;
-        }
-      }
-    }
-  }
-
-
-  @media (max-width: 896px) and (orientation: landscape) and (max-device-width: 896px) {
-    .main {
-      max-height: calc(100vh - 105px);
-
-      //  border: 5px solid red;
-      .imageSection {
+      .more {
         display: flex;
-        flex: 1;
-        height: 100%;
+        flex-direction: column;
+        gap: 10px;
 
-        .infoMovie {
+        .imdb {
           display: flex;
-          flex: 1;
-          height: 100%;
-          width: 100%;
+          span {
+            display: flex;
+            padding: 3px 10px;
+            border-radius: 10px;
+            background-color: rgba(orange, 0.7);
+            color: rgb(32, 32, 32);
+            font-size: 20px;
+          }
+        }
+
+        .generList {
+          display: flex;
+          flex-wrap: wrap;
+          gap: 8px;
+
+          .lable {
+            font-size: 21px;
+            font-weight: bold;
+            // border: 1px solid red;
+          }
+
+          .generItem {
+            font-size: 18px;
+            padding: 4px 12px;
+            background: rgba(0, 0, 0, 0.6);
+            border-radius: 20px;
+            color: rgba(whitesmoke, 0.8);
+          }
+        }
+
+        .actions {
+          display: flex;
+          gap: 12px;
+          margin-top: 10px;
+
+          .playBtn {
+            width: 55px;
+            height: 55px;
+            border-radius: 50%;
+            background: rgba(89, 79, 63, 1);
+            color: #fff;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: 0.3s;
+            border: 1px solid white;
+
+            &:hover {
+              border-color: #fff;
+            }
+          }
+        }
+
+        @include Tablet {
+          gap:1px
+        }
+      }
+
+      @include Mobile {
+        // border: 5px solid red;
+        height: calc(100vh - 200px) !important;
+        display: flex;
+        padding: 5px 20px;
+        justify-content: start;
+        gap: 5px;
+        flex-direction: column !important;
+        // align-items: center !important;
+        // justify-content: center;
+
+        .title {
+          display: flex;
+          flex: none !important;
           padding: 0;
+          // border: 1px solid red;
 
-          .info {
-            gap: 3px;
-            // padding: 16px;
-            .description {
-              font-size: 9px;
-            }
+          span {
+            font-size: 35px !important;
+          }
 
+          .description {
+            // border: 1px solid red;
+            font-weight: 250;
+            color: rgba(white, 1) !important;
+            width: 100%;
+            font-size: 14px !important;
+          }
+        }
+
+        .more {
+          // border: 1px solid red;
+          display: flex;
+          // flex-direction: column;
+
+          .imdb {
             span {
-              font-size: 32px;
+              font-size: 14px !important;
             }
+          }
+
+          .generList {
+            .lable {
+              font-size: 14px !important;
+            }
+          }
+
+          .generItem {
+            font-size: 14px !important;
           }
         }
       }
 
-      .player {
-        // border: 5px solid rgb(168, 223, 19);
+      @include Tablet {
+        height: calc(100vh - 200px);
         display: flex;
-        flex: 0.4;
+        padding: 0 10px;
 
-      }
-    }
-  }
-
-
-  @media (max-width: 480px) {
-    .header {
-      padding: 12px 16px;
-    }
-
-    .main {
-      .imageSection {
-        display: flex;
-        flex: 1;
-        height: 100%;
-
-        .infoMovie {
+        .title {
           display: flex;
-          flex: 1;
-          height: 100%;
-          width: 100%;
-          padding: 0;
+          // flex: 1;
 
-          .info {
+          // border: 1px solid yellow;
+          span {
+            font-size: 20px !important;
+          }
+
+          .description {
+            font-weight: 250;
+            color: rgba(white, 1) !important;
+            width: 100%;
+            font-size: 14px !important;
+          }
+        }
+
+        .more {
+          .imdb {
             span {
-              font-size: 26px;
+              font-size: 14px !important;
             }
+          }
 
-            p {
-              font-size: 13px;
+          .generList {
+            .lable {
+              font-size: 14px !important;
             }
+          }
+
+          .actions {
+            .playBtn {
+              width: 45px;
+              height: 45px;
+            }
+          }
+
+          .generItem {
+            font-size: 14px !important;
           }
         }
       }
-
-      .player {
-        // border: 5px solid rgb(168, 223, 19);
-        display: flex;
-        flex: 0.35;
-
-      }
     }
+  }
+  .player {
+    justify-content: center;
+    align-items: center;
+    display: flex;
+    z-index: 100;
+  }
+
+  .image {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    object-position: center;
+    display: block;
   }
 }

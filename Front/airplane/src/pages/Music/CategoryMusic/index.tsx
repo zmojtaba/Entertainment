@@ -6,7 +6,7 @@ import { Outlet, useNavigate } from 'react-router-dom';
 import logoImage from '@assets/images/download.png'
 import { IoReturnUpBackOutline } from "react-icons/io5";
 import type { CategoryMusic } from '../types';
-import { categoreyMusic } from '../constant/utils';
+import { categoreyMusic } from '../constants/utils';
 // import "../../styles/animate.css";
 
 function CategoryMusicPage() {

@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <script src="signalr.min.js"></script>
+</head>
+<body>
+
+<h2>Download Progress</h2>
+<ul id="log"></ul>
+
+<script>
+const connection = new signalR.HubConnectionBuilder()
+    .withUrl("http://localhost:5030/downloadHub")
+    .build();
+
+connection.on("DownloadProgress", (data) => {
+    const li = document.createElement("li");
+    li.innerText = `${data.type} - ${data.id} → ${data.percentage.toFixed(2)}%`;
+    document.getElementById("log").appendChild(li);
+});
+
+connection.start();
+</script>
+
+</body>
+</html>

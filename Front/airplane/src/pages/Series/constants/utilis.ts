@@ -1,7 +1,8 @@
-import { ItemSize, type CategoryMovie, type Categorys } from "../store/types";
-import type { Tile } from "./types";
+
 import montain from '@assets/images/iceland1.jpg'
 import home from '@assets/images/home.png'
+import type { Tile } from "@/constants/types";
+import { ItemSize, type CategoryMovie, type Categorys } from './types';
 
 export const tilesSample: Tile[] = [
   { id: 1, title: 'Tile 1', size: 'large', color: '#2196f3' },

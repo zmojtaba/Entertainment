@@ -1,0 +1,36 @@
+<form id="uploadForm">
+  <!-- Video Input -->
+  <label>audio:</label>
+  <input type="file" id="audio" accept="video/*" /><br/>
+
+  <input type="text" id="country" placeholder="country" />
+  <input type="text" id="title" placeholder="title" />
+  <input type="text" id="city" placeholder="city" />
+  <button type="submit">Upload</button>
+</form>
+
+
+<script>
+document.getElementById("uploadForm").addEventListener("submit", async (e) => {
+  e.preventDefault();
+
+  const fd = new FormData();
+
+  // 1. Append the Video
+  const videoFile = document.getElementById("audio").files[0];
+  fd.append("audio", videoFile);
+
+  // 2. Append the Image (New)
+  // Ensure the key string "poster" matches exactly what your Backend DTO expects
+  // 3. Append other data
+  fd.append("Title", document.getElementById("title").value);
+  fd.append("Country", document.getElementById("country").value);
+  fd.append("City", document.getElementById("city").value);
+// http://localhost:5030/api/video/series/season
+  await fetch("http://localhost:5030/api/coru", {
+    method: "POST",
+    body: fd
+  });
+});
+</script>
+

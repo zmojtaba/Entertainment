@@ -1,0 +1,18 @@
+@use "src/styles/utils" as *;
+
+.actionBox {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+
+
+    span {
+        font-size: 12px;
+        font-family: Verdana, Geneva, Tahoma, sans-serif;
+        color: red;
+        padding: 10px 15px;
+        border-radius: 10px;
+        background-color: rgb(red, 0.1);
+    }
+}

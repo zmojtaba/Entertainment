@@ -1,0 +1,889 @@
+{
+    "movie": [
+        {
+            "title": "Second Movie",
+            "description": "this is second movie",
+            "languages": [
+                "English",
+                "Persian"
+            ],
+            "countries": [
+                "Iran",
+                "United States"
+            ],
+            "ageGroup": 15,
+            "imdbRating": 6,
+            "publishedDate": 2024,
+            "streamUrl": "video\\movie\\second movie_6608a2cd98944b5ba03f180977eaed78\\ad1e1c165d1c4935819c473c8bb9211f_MARS.Inside.SpaceX.2018.WEBRip.x264-ION10_www.Downloadha.com_.mp4",
+            "posterImageUrl": "video\\movie\\second movie_6608a2cd98944b5ba03f180977eaed78\\56e66aa8b9d64cda857a0fa20ccabe44_istockphoto-2157211707-2048x2048.jpg",
+            "subtitleUrl": "",
+            "genres": [],
+            "directors": [],
+            "actors": [],
+            "id": "9781649e-1598-4c7b-bd00-408e376a0fb2",
+            "createdAt": "2026-06-19T14:12:19.904943Z",
+            "downloadStatus": 2,
+            "downloadErrorMessage": "",
+            "currentlyDownload": false,
+            "downloadRetryCount": 0
+        },
+        {
+            "title": "First Movie",
+            "description": "this is first movie description",
+            "languages": [
+                "English",
+                "Persian"
+            ],
+            "countries": [
+                "Iran"
+            ],
+            "ageGroup": 18,
+            "imdbRating": 8,
+            "publishedDate": 2026,
+            "streamUrl": "video\\movie\\first movie_452b5863acbe42be9e08bfe30150b493\\8404e42705a0460baca2695bb31a1cc8_Army-of-Shadows-1969-720p-BluRay-x264-YIFY-1.19-GB-[AlmasMovie].mp4",
+            "posterImageUrl": "video\\movie\\first movie_452b5863acbe42be9e08bfe30150b493\\0e0fb2ebd115494baee8b78130c3afaf_Avatar (2009) فانتزی، اکشن، ماجراجویی دوبله.jpg",
+            "subtitleUrl": "",
+            "genres": [],
+            "directors": [],
+            "actors": [],
+            "id": "f26c9d33-8730-44ab-8260-cf1da7f018ed",
+            "createdAt": "2026-06-19T14:12:19.971617Z",
+            "downloadStatus": 2,
+            "downloadErrorMessage": "",
+            "currentlyDownload": false,
+            "downloadRetryCount": 0
+        },
+        {
+            "title": "Third Movie",
+            "description": "this is third movie description",
+            "languages": [
+                "English",
+                "Persian"
+            ],
+            "countries": [
+                "Iran"
+            ],
+            "ageGroup": 13,
+            "imdbRating": 5,
+            "publishedDate": 2024,
+            "streamUrl": "video\\movie\\third movie_53dcaa5147074d67b822efcd75e8ad56\\b049dcc34c774eebaabf3bf2dc2fdef3_memento.mp4",
+            "posterImageUrl": "video\\movie\\third movie_53dcaa5147074d67b822efcd75e8ad56\\ac2b39309ee640f7b69ffb67a313bbe8_daniel-guerra-MjZwrERreuY-unsplash.jpg",
+            "subtitleUrl": "",
+            "genres": [],
+            "directors": [],
+            "actors": [],
+            "id": "22213241-3771-4c2f-8a8f-ae685f98df0a",
+            "createdAt": "2026-06-19T14:12:19.818446Z",
+            "downloadStatus": 6,
+            "downloadErrorMessage": "The operation was canceled.",
+            "currentlyDownload": true,
+            "downloadRetryCount": 0
+        }
+    ],
+    "series": [
+        {
+            "title": "Second Seires",
+            "description": "this is long series desctiption for testing this is long series desctiption for testing this is long series desctiption for testing this is long series desctiption for testing this is long series desctiption for testing this is long series desctiption for testing this is long series desctiption for testing this is long series desctiption for testing this is long series desctiption for testing this is long series desctiption for testing this is long series desctiption for testing this is long series desctiption for testing",
+            "languages": [
+                "Persian"
+            ],
+            "countries": [
+                "Iran"
+            ],
+            "ageGroup": 11,
+            "imdbRating": 3,
+            "publishedDate": 2026,
+            "posterImageUrl": "video\\series\\second seires_24998776a8554e0389979d9c1cbdfd98\\a4951669-9c51-4eb6-ae58-82772e9e5e24_daniel-guerra-MjZwrERreuY-unsplash.jpg",
+            "seasons": [
+                {
+                    "seasonNumber": 1,
+                    "seriesId": "8f0377a9-3169-4c9e-9f9a-b1eaafb82e03",
+                    "episodes": [
+                        {
+                            "episodeNumber": 3,
+                            "streamUrl": "video\\series\\second seires_24998776a8554e0389979d9c1cbdfd98\\4e2498d660794fa0968ddf2ebb20e9e3_testing_null_video.mp4",
+                            "subtitleUrl": "",
+                            "seasonId": "46339b02-9bff-49a2-bc15-7544a9aecf23",
+                            "id": "7b1d3b11-0b12-443a-b2a2-db7dce7a0c54",
+                            "createdAt": "2026-06-19T14:12:20.299826Z",
+                            "downloadStatus": 2,
+                            "downloadErrorMessage": "",
+                            "currentlyDownload": false,
+                            "downloadRetryCount": 0
+                        },
+                        {
+                            "episodeNumber": 4,
+                            "streamUrl": "video\\series\\second seires_24998776a8554e0389979d9c1cbdfd98\\270114813db04aed9c43f2fa9f1a9f87_testing_null_video.mp4",
+                            "subtitleUrl": "",
+                            "seasonId": "46339b02-9bff-49a2-bc15-7544a9aecf23",
+                            "id": "91f7d3b9-62d3-41cf-a555-c5b681827344",
+                            "createdAt": "2026-06-19T14:12:20.300683Z",
+                            "downloadStatus": 2,
+                            "downloadErrorMessage": "",
+                            "currentlyDownload": false,
+                            "downloadRetryCount": 0
+                        },
+                        {
+                            "episodeNumber": 2,
+                            "streamUrl": "video\\series\\second seires_24998776a8554e0389979d9c1cbdfd98\\3f0246b532384bcdb538ffa35c52315d_memento.mp4",
+                            "subtitleUrl": "",
+                            "seasonId": "46339b02-9bff-49a2-bc15-7544a9aecf23",
+                            "id": "a63f9df8-ad47-49fa-b6e8-b86b3459d842",
+                            "createdAt": "2026-06-19T14:12:20.300683Z",
+                            "downloadStatus": 2,
+                            "downloadErrorMessage": "",
+                            "currentlyDownload": false,
+                            "downloadRetryCount": 0
+                        },
+                        {
+                            "episodeNumber": 1,
+                            "streamUrl": "video\\series\\second seires_24998776a8554e0389979d9c1cbdfd98\\17ab6032af09493d9e5235a7fa952704_memento.mp4",
+                            "subtitleUrl": "",
+                            "seasonId": "46339b02-9bff-49a2-bc15-7544a9aecf23",
+                            "id": "1580979f-d79d-493a-a07f-41280b4917c9",
+                            "createdAt": "2026-06-19T14:12:20.300681Z",
+                            "downloadStatus": 2,
+                            "downloadErrorMessage": "",
+                            "currentlyDownload": false,
+                            "downloadRetryCount": 0
+                        }
+                    ],
+                    "id": "46339b02-9bff-49a2-bc15-7544a9aecf23",
+                    "createdAt": "2026-06-19T14:12:20.299086Z",
+                    "downloadStatus": 1,
+                    "downloadErrorMessage": "",
+                    "currentlyDownload": false,
+                    "downloadRetryCount": 0
+                },
+                {
+                    "seasonNumber": 2,
+                    "seriesId": "8f0377a9-3169-4c9e-9f9a-b1eaafb82e03",
+                    "episodes": [
+                        {
+                            "episodeNumber": 2,
+                            "streamUrl": "video\\series\\second seires_24998776a8554e0389979d9c1cbdfd98\\7ab67d616a1b49efad24211dea3cba27_testing_null_video.mp4",
+                            "subtitleUrl": "",
+                            "seasonId": "5e25ccf6-074a-403d-8df1-3b8862d5889e",
+                            "id": "a9819c6e-9adb-4b40-828c-dadd3246dd04",
+                            "createdAt": "2026-06-19T14:12:20.301198Z",
+                            "downloadStatus": 2,
+                            "downloadErrorMessage": "",
+                            "currentlyDownload": false,
+                            "downloadRetryCount": 0
+                        },
+                        {
+                            "episodeNumber": 3,
+                            "streamUrl": "video\\series\\second seires_24998776a8554e0389979d9c1cbdfd98\\601b3c35321d42b49583e6bc602129fc_testing_null_video.mp4",
+                            "subtitleUrl": "",
+                            "seasonId": "5e25ccf6-074a-403d-8df1-3b8862d5889e",
+                            "id": "49016ed8-0a32-4204-84e9-577971d56949",
+                            "createdAt": "2026-06-19T14:12:20.301198Z",
+                            "downloadStatus": 2,
+                            "downloadErrorMessage": "",
+                            "currentlyDownload": false,
+                            "downloadRetryCount": 0
+                        },
+                        {
+                            "episodeNumber": 1,
+                            "streamUrl": "video\\series\\second seires_24998776a8554e0389979d9c1cbdfd98\\8863fc5185064fb5a4b38a3a53b66c51_testing_null_video.mp4",
+                            "subtitleUrl": "",
+                            "seasonId": "5e25ccf6-074a-403d-8df1-3b8862d5889e",
+                            "id": "70677027-e492-4746-b0a5-41866420f158",
+                            "createdAt": "2026-06-19T14:12:20.301196Z",
+                            "downloadStatus": 2,
+                            "downloadErrorMessage": "",
+                            "currentlyDownload": false,
+                            "downloadRetryCount": 0
+                        },
+                        {
+                            "episodeNumber": 4,
+                            "streamUrl": "video\\series\\second seires_24998776a8554e0389979d9c1cbdfd98\\65f6994311484c5394f21eb9de530fe1_memento.mp4",
+                            "subtitleUrl": "",
+                            "seasonId": "5e25ccf6-074a-403d-8df1-3b8862d5889e",
+                            "id": "8986196f-8d03-4f43-9cef-3bd2deb63404",
+                            "createdAt": "2026-06-19T14:12:20.301199Z",
+                            "downloadStatus": 2,
+                            "downloadErrorMessage": "",
+                            "currentlyDownload": false,
+                            "downloadRetryCount": 0
+                        }
+                    ],
+                    "id": "5e25ccf6-074a-403d-8df1-3b8862d5889e",
+                    "createdAt": "2026-06-19T14:12:20.301192Z",
+                    "downloadStatus": 1,
+                    "downloadErrorMessage": "",
+                    "currentlyDownload": false,
+                    "downloadRetryCount": 0
+                }
+            ],
+            "genres": [],
+            "directors": [],
+            "actors": [],
+            "id": "8f0377a9-3169-4c9e-9f9a-b1eaafb82e03",
+            "createdAt": "2026-06-19T14:12:20.264516Z",
+            "downloadStatus": 2,
+            "downloadErrorMessage": "",
+            "currentlyDownload": false,
+            "downloadRetryCount": 0
+        }
+    ],
+    "coru": [],
+    "track": [
+        {
+            "title": "Selole Bi Marz",
+            "languages": [
+                "Persian"
+            ],
+            "streamUrl": "music\\track\\dariush\\f88864ac0b4944b89bd080fd133755ff_Dariush-Seloole_Bi_Marz.mp3",
+            "posterImageUrl": "music\\track\\dariush\\f6427146fc3e49f885af066eea9ecc25_COVER.JPG",
+            "genres": [],
+            "singerId": "7bf02f1b-e57a-47ec-9aef-b099597ec7cc",
+            "id": "fb158795-8d53-4e73-a08e-5064eae03f3c",
+            "createdAt": "2026-06-19T14:12:20.464301Z",
+            "downloadStatus": 2,
+            "downloadErrorMessage": "",
+            "currentlyDownload": false,
+            "downloadRetryCount": 0
+        },
+        {
+            "title": "Khoon Baze",
+            "languages": [
+                "Persian"
+            ],
+            "streamUrl": "music\\track\\dariush\\c4659e18ee7740bc8bcf2840b08af2b5_Dariush - Khoon Bazi.mp3",
+            "posterImageUrl": "music\\track\\dariush\\2f65f1afd07a40aba8a0122430fa8de1_COVER.JPG",
+            "genres": [],
+            "singerId": "7bf02f1b-e57a-47ec-9aef-b099597ec7cc",
+            "id": "fdf6cf69-abed-419a-a02e-f833e82cdab0",
+            "createdAt": "2026-06-19T14:12:20.627712Z",
+            "downloadStatus": 2,
+            "downloadErrorMessage": "",
+            "currentlyDownload": false,
+            "downloadRetryCount": 0
+        },
+        {
+            "title": "Man Az To",
+            "languages": [
+                "Persian"
+            ],
+            "streamUrl": "music\\track\\dariush\\d08aee97263c49608d103f753831c4c1_Dariush-man_az_to.mp3",
+            "posterImageUrl": "music\\track\\dariush\\bc9b86c3bbb04338aa27bbec6a17f988_COVER.JPG",
+            "genres": [],
+            "singerId": "7bf02f1b-e57a-47ec-9aef-b099597ec7cc",
+            "id": "8bef5a43-a64b-4fd2-b291-4dea867659a3",
+            "createdAt": "2026-06-19T14:12:20.638403Z",
+            "downloadStatus": 2,
+            "downloadErrorMessage": "",
+            "currentlyDownload": false,
+            "downloadRetryCount": 0
+        },
+        {
+            "title": "Mey Zadeh",
+            "languages": [
+                "Persian"
+            ],
+            "streamUrl": "music\\track\\shadmehr aghili\\03e6a2a8d1ff44b0b3bb6bd4ac8c74c7_04 Mey Zadeh.mp3",
+            "posterImageUrl": "music\\track\\shadmehr aghili\\97402a5584c6453fa52513661ea3ccdd_myke-simon-atsUqIm3wxo-unsplash.jpg",
+            "genres": [],
+            "singerId": "e5894d03-a17c-443d-86bf-de349e8c7383",
+            "id": "80b8db25-0bed-4380-ab2a-ce39bc5191f3",
+            "createdAt": "2026-06-19T14:12:20.650972Z",
+            "downloadStatus": 2,
+            "downloadErrorMessage": "",
+            "currentlyDownload": false,
+            "downloadRetryCount": 0
+        }
+    ],
+    "album": [
+        {
+            "title": "Golden Hits",
+            "languages": [
+                "Persian"
+            ],
+            "posterImageUrl": "music\\album\\moein\\4f27f836-a354-4f8a-912b-97199e2e8dc3_Moein - 40 Golden Hits Of Moein.jpg",
+            "genres": [],
+            "singerId": "834adfa9-118d-4de8-9b6d-1d90abb5e66b",
+            "episodes": [
+                {
+                    "title": "01 Milad.Mp3",
+                    "streamUrl": "music\\album\\moein\\d9bc91ba5e6b42ea832891ea071422c9_01 Milad.mp3",
+                    "albumId": "11574064-842a-4b8c-becc-89c91302d961",
+                    "id": "c11acfb6-d8b7-4ff5-bf2a-b8e413a83911",
+                    "createdAt": "2026-06-19T14:12:20.842264Z",
+                    "downloadStatus": 2,
+                    "downloadErrorMessage": "",
+                    "currentlyDownload": false,
+                    "downloadRetryCount": 0
+                },
+                {
+                    "title": "04 Arbabe Vafa.Mp3",
+                    "streamUrl": "music\\album\\moein\\cdd6144e5d4e460fb79070841d082857_04 Arbabe Vafa.mp3",
+                    "albumId": "11574064-842a-4b8c-becc-89c91302d961",
+                    "id": "12290ca4-234f-45d8-84ca-b3a1134610c0",
+                    "createdAt": "2026-06-19T14:12:20.84224Z",
+                    "downloadStatus": 2,
+                    "downloadErrorMessage": "",
+                    "currentlyDownload": false,
+                    "downloadRetryCount": 0
+                },
+                {
+                    "title": "09 Ey Ankeh.Mp3",
+                    "streamUrl": "music\\album\\moein\\dd4010da1e354fce923b86a2efd11db7_09 Ey Ankeh.mp3",
+                    "albumId": "11574064-842a-4b8c-becc-89c91302d961",
+                    "id": "7bb61cc9-a962-44be-9521-f5d129ecad6b",
+                    "createdAt": "2026-06-19T14:12:20.842257Z",
+                    "downloadStatus": 2,
+                    "downloadErrorMessage": "",
+                    "currentlyDownload": false,
+                    "downloadRetryCount": 0
+                },
+                {
+                    "title": "13 Baraye Didane Tou.Mp3",
+                    "streamUrl": "music\\album\\moein\\4a9f8361348f472c83a0e08257222f9b_13 Baraye Didane Tou.mp3",
+                    "albumId": "11574064-842a-4b8c-becc-89c91302d961",
+                    "id": "93e541bf-943f-444b-935b-458e2f51eba6",
+                    "createdAt": "2026-06-19T14:12:20.842253Z",
+                    "downloadStatus": 2,
+                    "downloadErrorMessage": "",
+                    "currentlyDownload": false,
+                    "downloadRetryCount": 0
+                }
+            ],
+            "id": "11574064-842a-4b8c-becc-89c91302d961",
+            "createdAt": "2026-06-19T14:12:20.831314Z",
+            "downloadStatus": 2,
+            "downloadErrorMessage": "",
+            "currentlyDownload": false,
+            "downloadRetryCount": 0
+        },
+        {
+            "title": "Sale 2000",
+            "languages": [
+                "Persian"
+            ],
+            "posterImageUrl": "music\\album\\dariush\\43400c5b-078d-462a-b016-899c9b5abe80_COVER.JPG",
+            "genres": [],
+            "singerId": "7bf02f1b-e57a-47ec-9aef-b099597ec7cc",
+            "episodes": [
+                {
+                    "title": "Dariush-Parandeye Mohajer.Mp3",
+                    "streamUrl": "music\\album\\dariush\\db0da6e60f574efebc9e0262ef15650b_Dariush-parandeye mohajer.mp3",
+                    "albumId": "7685b1cc-b497-4729-b2e0-99e2485187e3",
+                    "id": "3984ad2b-181a-4bcd-ab8b-94dff1b3a682",
+                    "createdAt": "2026-06-19T14:12:20.898205Z",
+                    "downloadStatus": 2,
+                    "downloadErrorMessage": "",
+                    "currentlyDownload": false,
+                    "downloadRetryCount": 0
+                },
+                {
+                    "title": "Dariush-Be_Name_Man.Mp3",
+                    "streamUrl": "music\\album\\dariush\\e0c6912fb5144a9ba8281cb9905aab14_Dariush-be_name_man.mp3",
+                    "albumId": "7685b1cc-b497-4729-b2e0-99e2485187e3",
+                    "id": "adc7aa23-1a37-4a1d-86a4-1eabd22c1698",
+                    "createdAt": "2026-06-19T14:12:20.898186Z",
+                    "downloadStatus": 2,
+                    "downloadErrorMessage": "",
+                    "currentlyDownload": false,
+                    "downloadRetryCount": 0
+                },
+                {
+                    "title": "Dariush-Man_Az_To.Mp3",
+                    "streamUrl": "music\\album\\dariush\\e6f6985316384420ba7501cccc1ceb20_Dariush-man_az_to.mp3",
+                    "albumId": "7685b1cc-b497-4729-b2e0-99e2485187e3",
+                    "id": "a93e5665-b213-464c-ad5e-eabfb4b2629a",
+                    "createdAt": "2026-06-19T14:12:20.898201Z",
+                    "downloadStatus": 2,
+                    "downloadErrorMessage": "",
+                    "currentlyDownload": false,
+                    "downloadRetryCount": 0
+                },
+                {
+                    "title": "Dariush - Khoon Bazi.Mp3",
+                    "streamUrl": "music\\album\\dariush\\28c42a4e1d124ac08bbc1b58fc8bd81b_Dariush - Khoon Bazi.mp3",
+                    "albumId": "7685b1cc-b497-4729-b2e0-99e2485187e3",
+                    "id": "5a9093d7-2df1-4d76-abbc-9e980eae4726",
+                    "createdAt": "2026-06-19T14:12:20.898199Z",
+                    "downloadStatus": 2,
+                    "downloadErrorMessage": "",
+                    "currentlyDownload": false,
+                    "downloadRetryCount": 0
+                }
+            ],
+            "id": "7685b1cc-b497-4729-b2e0-99e2485187e3",
+            "createdAt": "2026-06-19T14:12:20.895008Z",
+            "downloadStatus": 2,
+            "downloadErrorMessage": "",
+            "currentlyDownload": false,
+            "downloadRetryCount": 0
+        },
+        {
+            "title": "Donyaye In Roozay Man",
+            "languages": [
+                "Persian"
+            ],
+            "posterImageUrl": "music\\album\\dariush\\b152da42-3287-4167-ab46-747687a53de8_COVER.JPG",
+            "genres": [],
+            "singerId": "7bf02f1b-e57a-47ec-9aef-b099597ec7cc",
+            "episodes": [
+                {
+                    "title": "Dastay To.Mp3",
+                    "streamUrl": "music\\album\\dariush\\378cb358993c4c19ac9e67a06ab3f6bf_Dastay to.mp3",
+                    "albumId": "d3621a7b-b75b-4ee6-afe7-9a554d25bb05",
+                    "id": "7e5cc493-8b80-4b52-ae8c-03bacbaeccb9",
+                    "createdAt": "2026-06-19T14:12:20.883712Z",
+                    "downloadStatus": 2,
+                    "downloadErrorMessage": "",
+                    "currentlyDownload": false,
+                    "downloadRetryCount": 0
+                },
+                {
+                    "title": "Nazanin.Mp3",
+                    "streamUrl": "music\\album\\dariush\\8302f5aaf4f54eb193ea80bd046605ad_Nazanin.mp3",
+                    "albumId": "d3621a7b-b75b-4ee6-afe7-9a554d25bb05",
+                    "id": "95871a9d-d090-4e2c-a242-f8a8bc1777dc",
+                    "createdAt": "2026-06-19T14:12:20.883715Z",
+                    "downloadStatus": 2,
+                    "downloadErrorMessage": "",
+                    "currentlyDownload": false,
+                    "downloadRetryCount": 0
+                },
+                {
+                    "title": "Parandeh Mohajer.Mp3",
+                    "streamUrl": "music\\album\\dariush\\b1ed1119cf274004aa335e0a7973b83b_Parandeh Mohajer.mp3",
+                    "albumId": "d3621a7b-b75b-4ee6-afe7-9a554d25bb05",
+                    "id": "db5edf93-ca01-487d-a1c5-46119d6e6092",
+                    "createdAt": "2026-06-19T14:12:20.883713Z",
+                    "downloadStatus": 2,
+                    "downloadErrorMessage": "",
+                    "currentlyDownload": false,
+                    "downloadRetryCount": 0
+                },
+                {
+                    "title": "Cheshme Man.Mp3",
+                    "streamUrl": "music\\album\\dariush\\fa2798d603d34a2fa237401195e2e681_Cheshme man.mp3",
+                    "albumId": "d3621a7b-b75b-4ee6-afe7-9a554d25bb05",
+                    "id": "dd9a84a1-ee1e-47a4-a066-52a8fd66a304",
+                    "createdAt": "2026-06-19T14:12:20.883695Z",
+                    "downloadStatus": 2,
+                    "downloadErrorMessage": "",
+                    "currentlyDownload": false,
+                    "downloadRetryCount": 0
+                }
+            ],
+            "id": "d3621a7b-b75b-4ee6-afe7-9a554d25bb05",
+            "createdAt": "2026-06-19T14:12:20.860009Z",
+            "downloadStatus": 2,
+            "downloadErrorMessage": "",
+            "currentlyDownload": false,
+            "downloadRetryCount": 0
+        },
+        {
+            "title": "New Golden Hits",
+            "languages": [
+                "Persian"
+            ],
+            "posterImageUrl": "music\\album\\moein\\93af5b81-b576-4e9e-8f6a-14e00b5142fe_Moein - 40 Golden Hits Of Moein 04.jpg",
+            "genres": [],
+            "singerId": "834adfa9-118d-4de8-9b6d-1d90abb5e66b",
+            "episodes": [
+                {
+                    "title": "37 Doaye Shab.Mp3",
+                    "streamUrl": "music\\album\\moein\\b92c6be9364b48128051e67569c97dd3_37 Doaye Shab.mp3",
+                    "albumId": "e7ff562d-1c11-48dd-9d21-668d7b6f2610",
+                    "id": "2d4ce5d6-dc9e-46f1-b038-06ff346aca9e",
+                    "createdAt": "2026-06-19T14:12:20.706783Z",
+                    "downloadStatus": 2,
+                    "downloadErrorMessage": "",
+                    "currentlyDownload": false,
+                    "downloadRetryCount": 0
+                },
+                {
+                    "title": "18 Tamana.Mp3",
+                    "streamUrl": "music\\album\\moein\\951caa4df1b445479470cf5e002d0be7_18 Tamana.mp3",
+                    "albumId": "e7ff562d-1c11-48dd-9d21-668d7b6f2610",
+                    "id": "687c660b-305e-4e8c-b594-123e0a9a0c75",
+                    "createdAt": "2026-06-19T14:12:20.707757Z",
+                    "downloadStatus": 2,
+                    "downloadErrorMessage": "",
+                    "currentlyDownload": false,
+                    "downloadRetryCount": 0
+                },
+                {
+                    "title": "32 Man Az Rah Oumadam.Mp3",
+                    "streamUrl": "music\\album\\moein\\ff85883a01174c428a238b0151127345_32 Man Az Rah Oumadam.mp3",
+                    "albumId": "e7ff562d-1c11-48dd-9d21-668d7b6f2610",
+                    "id": "502580ab-916f-4a03-a6bc-0c9066c2afbf",
+                    "createdAt": "2026-06-19T14:12:20.707771Z",
+                    "downloadStatus": 2,
+                    "downloadErrorMessage": "",
+                    "currentlyDownload": false,
+                    "downloadRetryCount": 0
+                },
+                {
+                    "title": "19 Pareecheh.Mp3",
+                    "streamUrl": "music\\album\\moein\\26614e744f6340f68f92fd5e47b5458b_19 Pareecheh.mp3",
+                    "albumId": "e7ff562d-1c11-48dd-9d21-668d7b6f2610",
+                    "id": "4c418517-bba5-4d02-91c3-a6768917af98",
+                    "createdAt": "2026-06-19T14:12:20.707778Z",
+                    "downloadStatus": 2,
+                    "downloadErrorMessage": "",
+                    "currentlyDownload": false,
+                    "downloadRetryCount": 0
+                }
+            ],
+            "id": "e7ff562d-1c11-48dd-9d21-668d7b6f2610",
+            "createdAt": "2026-06-19T14:12:20.6862Z",
+            "downloadStatus": 2,
+            "downloadErrorMessage": "",
+            "currentlyDownload": false,
+            "downloadRetryCount": 0
+        }
+    ],
+    "magazine": [
+        {
+            "title": "Better Approach",
+            "languages": [
+                "Afar",
+                "Persian"
+            ],
+            "publishedDate": 1845183600,
+            "streamUrl": "publication\\magazine\\fake news\\050f84fd2d7d47d180ad5617b00cebbf_ehsaniseresht2015.pdf",
+            "posterImageUrl": "publication\\magazine\\fake news\\db9028df8917465a8912f8c1f55d271d_myke-simon-atsUqIm3wxo-unsplash.jpg",
+            "genres": [],
+            "publisherId": "45e2bcce-e920-49c0-bc17-764d06b34034",
+            "id": "ad167e53-01c5-4ee6-80a2-e89316989490",
+            "createdAt": "2026-06-19T14:12:21.60326Z",
+            "downloadStatus": 2,
+            "downloadErrorMessage": "",
+            "currentlyDownload": false,
+            "downloadRetryCount": 0
+        },
+        {
+            "title": "Asdf Asdf Asdf",
+            "languages": [
+                "Persian"
+            ],
+            "publishedDate": 1781862938,
+            "streamUrl": "publication\\magazine\\fake news\\db3d5de4e1de443299f0a307fc006366_ehsaniseresht2015.pdf",
+            "posterImageUrl": "publication\\magazine\\fake news\\c493fd91e81243848c46c7e6e1777d00_myke-simon-atsUqIm3wxo-unsplash.jpg",
+            "genres": [],
+            "publisherId": "45e2bcce-e920-49c0-bc17-764d06b34034",
+            "id": "629f32b0-6826-4f81-97b3-3336858c596b",
+            "createdAt": "2026-06-19T14:12:21.675756Z",
+            "downloadStatus": 2,
+            "downloadErrorMessage": "",
+            "currentlyDownload": false,
+            "downloadRetryCount": 0
+        },
+        {
+            "title": "Akhbar Azad",
+            "languages": [
+                "Persian"
+            ],
+            "publishedDate": 1781862609,
+            "streamUrl": "publication\\magazine\\fake_news\\736752c593db488b8d570d0259d2eae6_ehsaniseresht2015.pdf",
+            "posterImageUrl": "publication\\magazine\\fake_news\\44bc65023e6a43d39eace986a49ed826_lance-reis-H5EW96bwj7k-unsplash.jpg",
+            "genres": [],
+            "publisherId": "fc599793-079b-480e-a296-f6034a4676bb",
+            "id": "7aa331b4-b445-4832-a1c5-ae17b09fcc0d",
+            "createdAt": "2026-06-19T14:12:21.687049Z",
+            "downloadStatus": 2,
+            "downloadErrorMessage": "",
+            "currentlyDownload": false,
+            "downloadRetryCount": 0
+        },
+        {
+            "title": "Another Future Magazine",
+            "languages": [
+                "Persian"
+            ],
+            "publishedDate": 1781861810,
+            "streamUrl": "publication\\magazine\\new_another_publisher\\804f0996e6c247cebc60c6a21e154eef_ehsaniseresht2015.pdf",
+            "posterImageUrl": "publication\\magazine\\new_another_publisher\\c6882c874ad142298a3733c6be1daf3f_istockphoto-2157211707-2048x2048.jpg",
+            "genres": [],
+            "publisherId": "e913e059-2cd0-4f64-a187-f91dcc70a692",
+            "id": "c64c2efd-076c-4c0f-b5d3-c110c5708b88",
+            "createdAt": "2026-06-19T14:12:21.702619Z",
+            "downloadStatus": 2,
+            "downloadErrorMessage": "",
+            "currentlyDownload": false,
+            "downloadRetryCount": 0
+        },
+        {
+            "title": "Future Magazine",
+            "languages": [
+                "Persian"
+            ],
+            "publishedDate": 1781861729,
+            "streamUrl": "publication\\magazine\\new_publisher\\05b580fdfeb74bce9d20cb1df6c82e37_ehsaniseresht2015.pdf",
+            "posterImageUrl": "publication\\magazine\\new_publisher\\fe93976a5bb14a67bfcde8e84547bdc7_daniel-guerra-MjZwrERreuY-unsplash.jpg",
+            "genres": [],
+            "publisherId": "95875ab7-c18a-4251-ac4f-14c4e25f8cf9",
+            "id": "a273cf27-a924-4da2-913a-2c038e45a7a7",
+            "createdAt": "2026-06-19T14:12:21.723348Z",
+            "downloadStatus": 2,
+            "downloadErrorMessage": "",
+            "currentlyDownload": false,
+            "downloadRetryCount": 0
+        },
+        {
+            "title": "Seconf Magazine",
+            "languages": [
+                "Persian"
+            ],
+            "publishedDate": 1781816183,
+            "streamUrl": "publication\\magazine\\me\\01d78d4ebfb24db7a87bbcbd405a3af1_book.pdf",
+            "posterImageUrl": "publication\\magazine\\me\\27d936ddcb3348808def5236a872fdb5_myke-simon-atsUqIm3wxo-unsplash.jpg",
+            "genres": [],
+            "publisherId": "1212c3b6-958c-4c31-9056-947d2f100279",
+            "id": "c7aa3782-da2c-49ea-ab79-86d7856dd33e",
+            "createdAt": "2026-06-19T14:12:21.739208Z",
+            "downloadStatus": 2,
+            "downloadErrorMessage": "",
+            "currentlyDownload": false,
+            "downloadRetryCount": 0
+        },
+        {
+            "title": "First Magazine",
+            "languages": [
+                "Persian"
+            ],
+            "publishedDate": 1781813469,
+            "streamUrl": "publication\\magazine\\publisher1\\0bd9481b04ba4cab86eb14727ef2bcb8_435b-4fc8-957f-a44394b2b673.pdf",
+            "posterImageUrl": "publication\\magazine\\publisher1\\fb9296fba9544507b1de5bc7e4aaa7ea_myke-simon-atsUqIm3wxo-unsplash.jpg",
+            "genres": [],
+            "publisherId": "06e37639-dbbc-4a0b-b682-9cf86e672afd",
+            "id": "59824790-579a-4d34-b385-53c6bcc2d86b",
+            "createdAt": "2026-06-19T14:12:21.754589Z",
+            "downloadStatus": 2,
+            "downloadErrorMessage": "",
+            "currentlyDownload": false,
+            "downloadRetryCount": 0
+        }
+    ],
+    "newsPaper": [
+        {
+            "title": "Hhhg",
+            "languages": [
+                "Abkhazian",
+                "Persian"
+            ],
+            "publishedDate": 1781865732,
+            "streamUrl": "publication\\newspaper\\asdf\\43cb27c9ec254f98bc34cbb0ffb3b43d_ehsaniseresht2015.pdf",
+            "posterImageUrl": "publication\\newspaper\\asdf\\90d932c28bda4ece90b53339b445d390_daniel-guerra-MjZwrERreuY-unsplash.jpg",
+            "genres": [],
+            "publisherId": "601fb044-1b7c-4861-93dd-b3e0a9f8eaa0",
+            "id": "294f9efc-5d1a-4071-8e0f-e6a8900cc9b4",
+            "createdAt": "2026-06-19T14:12:21.409235Z",
+            "downloadStatus": 2,
+            "downloadErrorMessage": "",
+            "currentlyDownload": false,
+            "downloadRetryCount": 0
+        },
+        {
+            "title": "Seconf Asdf",
+            "languages": [
+                "Abkhazian",
+                "Persian"
+            ],
+            "publishedDate": 1781865697,
+            "streamUrl": "publication\\newspaper\\asdf asdf\\3323029452f14556a9aae0a1522d5a9b_ehsaniseresht2015.pdf",
+            "posterImageUrl": "publication\\newspaper\\asdf asdf\\f73643213f7c44048e39bc8ca4a47804_lance-reis-H5EW96bwj7k-unsplash.jpg",
+            "genres": [],
+            "publisherId": "c62e2805-0d3b-440d-bc11-0b77189c9801",
+            "id": "f76ec77b-c08d-453a-adb9-e307c4f42547",
+            "createdAt": "2026-06-19T14:12:21.548606Z",
+            "downloadStatus": 2,
+            "downloadErrorMessage": "",
+            "currentlyDownload": false,
+            "downloadRetryCount": 0
+        },
+        {
+            "title": "First Magazine",
+            "languages": [
+                "Afar",
+                "Persian"
+            ],
+            "publishedDate": 1855292400,
+            "streamUrl": "publication\\newspaper\\fake newss\\c0ff957b727f4e918f56306e2748913c_ehsaniseresht2015.pdf",
+            "posterImageUrl": "publication\\newspaper\\fake newss\\8c4debaabc10411394216034e594c313_myke-simon-atsUqIm3wxo-unsplash.jpg",
+            "genres": [],
+            "publisherId": "9096beb2-dbdb-4948-9d1c-4c58fec8882e",
+            "id": "0af69c51-3790-473f-ab11-d147b9c2ad31",
+            "createdAt": "2026-06-19T14:12:21.565716Z",
+            "downloadStatus": 2,
+            "downloadErrorMessage": "",
+            "currentlyDownload": false,
+            "downloadRetryCount": 0
+        }
+    ],
+    "audioStory": [],
+    "book": [],
+    "podCast": [
+        {
+            "title": "Asdfasdf",
+            "description": "Search services have new settings to manage history and personalised recommendations that reflect your prior Web & App Activity preferences. Media (such as your images and audio) from your interactions will now also be saved in your history. You can make changes to your settings at any time.",
+            "languages": [
+                "Bashkir",
+                "Persian"
+            ],
+            "ageGroup": 12,
+            "posterImageUrl": "story\\podcast\\asdfasdf_de59d39c4b3345548d88055ae1cffab3\\19e56938-bde2-400a-aee9-117aecc796b3_myke-simon-atsUqIm3wxo-unsplash.jpg",
+            "genres": [],
+            "speakers": [],
+            "episodes": [
+                {
+                    "title": "01 Halgheye Asheghy.Mp3",
+                    "streamUrl": "story\\podcast\\asdfasdf_de59d39c4b3345548d88055ae1cffab3\\757ccd6ef25e41b8b4fa7c3edb6f7d63_01 Halgheye Asheghy.mp3",
+                    "podCastId": "4c95ecba-70b6-42b7-a738-a058aea6fb01",
+                    "id": "30996fbb-bafb-4851-8880-2085879c5143",
+                    "createdAt": "2026-06-19T14:12:21.193915Z",
+                    "downloadStatus": 2,
+                    "downloadErrorMessage": "",
+                    "currentlyDownload": false,
+                    "downloadRetryCount": 0
+                },
+                {
+                    "title": "01 Halgheye Asheghy.Mp3",
+                    "streamUrl": "story\\podcast\\asdfasdf_de59d39c4b3345548d88055ae1cffab3\\fba826a3170c4d1d9dc2525ee5b83e6a_01 Halgheye Asheghy.mp3",
+                    "podCastId": "4c95ecba-70b6-42b7-a738-a058aea6fb01",
+                    "id": "d016326d-2606-4500-8fa6-1621c24f229b",
+                    "createdAt": "2026-06-19T14:12:21.194825Z",
+                    "downloadStatus": 2,
+                    "downloadErrorMessage": "",
+                    "currentlyDownload": false,
+                    "downloadRetryCount": 0
+                },
+                {
+                    "title": "01 Halgheye Asheghy.Mp3",
+                    "streamUrl": "story\\podcast\\asdfasdf_de59d39c4b3345548d88055ae1cffab3\\4f50a45bd87c432eba650beb743f2c17_01 Halgheye Asheghy.mp3",
+                    "podCastId": "4c95ecba-70b6-42b7-a738-a058aea6fb01",
+                    "id": "daf1f92e-3bf5-419d-8722-b71deb07593e",
+                    "createdAt": "2026-06-19T14:12:21.194831Z",
+                    "downloadStatus": 2,
+                    "downloadErrorMessage": "",
+                    "currentlyDownload": false,
+                    "downloadRetryCount": 0
+                }
+            ],
+            "id": "4c95ecba-70b6-42b7-a738-a058aea6fb01",
+            "createdAt": "2026-06-19T14:12:21.176473Z",
+            "downloadStatus": 2,
+            "downloadErrorMessage": "",
+            "currentlyDownload": false,
+            "downloadRetryCount": 0
+        },
+        {
+            "title": "First Podcast",
+            "description": "Search services have new settings to manage history and personalised recommendations that reflect your prior Web & App Activity preferences. Media (such as your images and audio) from your interactions will now also be saved in your history. You can make changes to your settings at any time. Search services have new settings to manage history and personalised recommendations that reflect your prior Web & App Activity preferences. Media (such as your images and audio) from your interactions will now also be saved in your history. You can make changes to your settings at any time.",
+            "languages": [
+                "Persian"
+            ],
+            "ageGroup": 2,
+            "posterImageUrl": "story\\podcast\\first podcast_5b9aa724f886433b9b51390d53ab4fca\\5f9be52f-fd97-48b6-8780-f13ae7a3e6ef_daniel-guerra-MjZwrERreuY-unsplash.jpg",
+            "genres": [],
+            "speakers": [],
+            "episodes": [
+                {
+                    "title": "01 Halgheye Asheghy.Mp3",
+                    "streamUrl": "story\\podcast\\first podcast_5b9aa724f886433b9b51390d53ab4fca\\9246229d19464515b259932c785e284d_01 Halgheye Asheghy.mp3",
+                    "podCastId": "65caf39c-0cea-4d5d-95c3-5c4ba6e45fb2",
+                    "id": "3cef7da6-b194-45ba-ae38-6c9eaab21e60",
+                    "createdAt": "2026-06-19T14:12:21.378824Z",
+                    "downloadStatus": 2,
+                    "downloadErrorMessage": "",
+                    "currentlyDownload": false,
+                    "downloadRetryCount": 0
+                },
+                {
+                    "title": "01 Halgheye Asheghy.Mp3",
+                    "streamUrl": "story\\podcast\\first podcast_5b9aa724f886433b9b51390d53ab4fca\\9b1dffa226214bfc9ca975c8fce05e43_01 Halgheye Asheghy.mp3",
+                    "podCastId": "65caf39c-0cea-4d5d-95c3-5c4ba6e45fb2",
+                    "id": "0f7853bb-7e0c-49bd-b1d3-970da2525337",
+                    "createdAt": "2026-06-19T14:12:21.378821Z",
+                    "downloadStatus": 2,
+                    "downloadErrorMessage": "",
+                    "currentlyDownload": false,
+                    "downloadRetryCount": 0
+                },
+                {
+                    "title": "01 Halgheye Asheghy.Mp3",
+                    "streamUrl": "story\\podcast\\first podcast_5b9aa724f886433b9b51390d53ab4fca\\06b02e3a81b84b8e99d8bca48e2ef0e8_01 Halgheye Asheghy.mp3",
+                    "podCastId": "65caf39c-0cea-4d5d-95c3-5c4ba6e45fb2",
+                    "id": "1e8e69c4-b96b-436e-8b6c-c2d9392853c0",
+                    "createdAt": "2026-06-19T14:12:21.3788Z",
+                    "downloadStatus": 2,
+                    "downloadErrorMessage": "",
+                    "currentlyDownload": false,
+                    "downloadRetryCount": 0
+                }
+            ],
+            "id": "65caf39c-0cea-4d5d-95c3-5c4ba6e45fb2",
+            "createdAt": "2026-06-19T14:12:21.365227Z",
+            "downloadStatus": 2,
+            "downloadErrorMessage": "",
+            "currentlyDownload": false,
+            "downloadRetryCount": 0
+        },
+        {
+            "title": "Asdf",
+            "description": "sadf",
+            "languages": [
+                "Bashkir"
+            ],
+            "ageGroup": 2,
+            "posterImageUrl": "story\\podcast\\asdf_84f33995403d44a99100030707fae2ac\\3e02f00d-5e43-49a7-8188-1b3c3ff52916_myke-simon-atsUqIm3wxo-unsplash.jpg",
+            "genres": [],
+            "speakers": [],
+            "episodes": [
+                {
+                    "title": "01 Halgheye Asheghy.Mp3",
+                    "streamUrl": "story\\podcast\\asdf_84f33995403d44a99100030707fae2ac\\fda69359d7f64b299c0634690363d7c1_01 Halgheye Asheghy.mp3",
+                    "podCastId": "9573a882-2e5a-440b-a19b-66c30f7ed224",
+                    "id": "0fe6c7f7-3dfe-41af-9c01-be7a126ad571",
+                    "createdAt": "2026-06-19T14:12:21.356172Z",
+                    "downloadStatus": 2,
+                    "downloadErrorMessage": "",
+                    "currentlyDownload": false,
+                    "downloadRetryCount": 0
+                },
+                {
+                    "title": "01 Halgheye Asheghy.Mp3",
+                    "streamUrl": "story\\podcast\\asdf_84f33995403d44a99100030707fae2ac\\7969ac21118149439226bfec4883c3d0_01 Halgheye Asheghy.mp3",
+                    "podCastId": "9573a882-2e5a-440b-a19b-66c30f7ed224",
+                    "id": "17414d40-6752-4d8d-9e3a-2e065047105c",
+                    "createdAt": "2026-06-19T14:12:21.35617Z",
+                    "downloadStatus": 2,
+                    "downloadErrorMessage": "",
+                    "currentlyDownload": false,
+                    "downloadRetryCount": 0
+                },
+                {
+                    "title": "01 Halgheye Asheghy.Mp3",
+                    "streamUrl": "story\\podcast\\asdf_84f33995403d44a99100030707fae2ac\\4909298c10eb47038455cc2c518c7cff_01 Halgheye Asheghy.mp3",
+                    "podCastId": "9573a882-2e5a-440b-a19b-66c30f7ed224",
+                    "id": "f8e24138-0060-4036-b3b6-1b3038cd4e48",
+                    "createdAt": "2026-06-19T14:12:21.356159Z",
+                    "downloadStatus": 2,
+                    "downloadErrorMessage": "",
+                    "currentlyDownload": false,
+                    "downloadRetryCount": 0
+                }
+            ],
+            "id": "9573a882-2e5a-440b-a19b-66c30f7ed224",
+            "createdAt": "2026-06-19T14:12:21.319858Z",
+            "downloadStatus": 2,
+            "downloadErrorMessage": "",
+            "currentlyDownload": false,
+            "downloadRetryCount": 0
+        }
+    ],
+    "currentlyDownload": [
+        {
+            "id": "22213241-3771-4c2f-8a8f-ae685f98df0a",
+            "type": "Movie",
+            "currentlyDownload": true
+        }
+    ]
+}

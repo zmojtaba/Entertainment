@@ -1,3 +1,5 @@
+@use "src/styles/utils" as *;
+
 .container {
   position: relative;
   background: #000;
@@ -6,13 +8,13 @@
   flex-direction: column;
   min-height: 100vh;
 
-  /* ================= HEADER ================= */
   .header {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 15px 30px;
-    box-shadow: rgba(89, 79, 63, 1) 0px 5px 10px -3px,
+    padding: 8px 20px;
+    box-shadow:
+      rgba(89, 79, 63, 1) 0px 5px 10px -3px,
       rgb(89, 79, 63) 0px 4px 6px -2px;
     z-index: 50;
 
@@ -26,121 +28,238 @@
       gap: 10px;
       cursor: pointer;
     }
+
+    @include Tablet {
+      padding: 10px 15px;
+    }
   }
 
   /* ================= MAIN ================= */
-   .main {
+  .main {
     display: flex;
     flex: 1;
-    flex-direction: column;
-    // position: relative;
     overflow: hidden;
 
-    .imageSection {
+    .posterImage {
+      position: relative;
+      // flex: 2;
+      flex: 1;
+      width: 100vw;
+      object-fit: fill;
+      object-position: center;
+    }
+
+    .infoMovie {
+      // border: 5px solid red;
+      position: absolute;
       display: flex;
       flex: 1;
-      position: relative;
+      justify-content: center;
+      flex-direction: column;
+      gap: 12px;
+      padding: 20px;
+      min-width: 100vw !important;
+      // height: 100%;
+      height: calc(100vh - 50px);
+      border-radius: 10px;
+      background: linear-gradient(to top, rgba(0, 0, 0, 1), transparent);
 
-      .posterImage {
-        position: absolute;
-        display: flex;
-        height: 100%;
-        flex: 1;
-        width: 100vw;
-        object-fit: fill;
-        object-position: center;
+      &.hiddenPoster {
+        display: none;
       }
 
-      .infoMovie {
+      .title {
         display: flex;
-        justify-content: center;
-        align-items: center;
-        position: absolute;
-        flex: 1;
-        height: 100%;
+        flex-direction: column;
 
-        .info {
+        span {
+          font-size: 60px;
+          font-weight: bold;
+          color: #fff;
+        }
+
+        .description {
+          width: 50%;
+          font-size: 23px;
+          font-weight: 100;
+          color: rgba(whitesmoke, 0.8);
+          word-wrap: break-word;
+          overflow-wrap: break-word;
+          text-align: justify;
+        }
+      }
+
+      p {
+        color: #ddd;
+        font-size: 14px;
+        // width: 300px;
+        // max-width: 400px;
+        line-height: 1.6;
+      }
+
+      .more {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+
+        .imdb {
           display: flex;
-          justify-content: center;
-          // flex: 1;
-          flex-direction: column;
-          gap: 12px;
-          padding: 20px;
-          height: 100%;
-          min-width: 100vw !important;
-          // border-radius: 10px;
-          background: linear-gradient(to top, rgba(0, 0, 0, 1), transparent);
+          span {
+            display: flex;
+            padding: 3px 10px;
+            border-radius: 10px;
+            background-color: rgba(orange, 0.7);
+            color: rgb(32, 32, 32);
+            font-size: 20px;
+          }
+        }
 
-          // background: radial-gradient(
-          //   circle,
-          //   rgba(0, 0, 0, 1) 0%,
-          //   rgba(0, 0, 0, 0.85) 45%,
-          //   transparent 90%
-          // );
+        .generList {
+          display: flex;
+          flex-wrap: wrap;
+          gap: 8px;
+
+          .lable {
+            font-size: 21px;
+            font-weight: bold;
+            // border: 1px solid red;
+          }
+
+          .generItem {
+            font-size: 18px;
+            padding: 4px 12px;
+            background: rgba(0, 0, 0, 0.6);
+            border-radius: 20px;
+            color: rgba(whitesmoke, 0.8);
+          }
+        }
+
+        .actions {
+          display: flex;
+          gap: 12px;
+          margin-top: 10px;
+          span {
+            font-size: 25px;
+            @include Tablet {
+              font-size: 20px;
+            }
+          }
+          .playBtn {
+            width: 55px;
+            height: 55px;
+            border-radius: 50%;
+            background: rgba(89, 79, 63, 1);
+            color: #fff;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: 0.3s;
+            border: 1px solid white;
+
+            &:hover {
+              border-color: #fff;
+            }
+          }
+        }
+      }
+
+      @include Mobile {
+        display: flex;
+        gap: 40px;
+        flex-direction: column !important;
+        // align-items: center !important;
+        // justify-content: center;
+
+        .title {
+          display: flex;
+          flex: none !important;
 
           span {
-            font-size: 42px;
-            font-weight: bold;
-            color: #fff;
+            font-size: 35px !important;
           }
 
-          p {
-            color: #ddd;
-            font-size: 14px;
-            line-height: 1.6;
+          .description {
+            font-weight: 250;
+            color: rgba(white, 1) !important;
+            width: 100%;
+            font-size: 14px !important;
           }
+        }
+
+        .more {
+          display: flex;
+          // flex-direction: column;
 
           .imdb {
-            color: #f5c518;
-            font-size: 15px;
+            span {
+              font-size: 14px !important;
+            }
           }
 
           .generList {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 8px;
+            .lable {
+              font-size: 14px !important;
+            }
+          }
 
-            .generItem {
-              font-size: 12px;
-              padding: 4px 12px;
-              background: rgba(0, 0, 0, 0.5);
-              border-radius: 20px;
-              color: #fff;
+          .generItem {
+            font-size: 14px !important;
+          }
+        }
+      }
+
+      @include Tablet {
+        height: calc(100vh - 100px);
+        display: flex;
+        flex-direction: row;
+
+        .title {
+          display: flex;
+          flex: 1;
+
+          // border: 1px solid yellow;
+          span {
+            font-size: 20px !important;
+          }
+
+          .description {
+            font-weight: 250;
+            color: rgba(white, 1) !important;
+            width: 100%;
+            font-size: 14px !important;
+          }
+        }
+
+        .more {
+          .imdb {
+            span {
+              font-size: 14px !important;
+            }
+          }
+
+          .generList {
+            .lable {
+              font-size: 14px !important;
             }
           }
 
           .actions {
-            display: flex;
-            gap: 12px;
-            margin-top: 10px;
-
             .playBtn {
-              width: 55px;
-              height: 55px;
-              border-radius: 50%;
-              border: 1px solid rgba(89, 79, 63, 1);
-              background: rgba(89, 79, 63, 1);
-              color: #fff;
-              cursor: pointer;
-              display: flex;
-              align-items: center;
-              justify-content: center;
-              transition: 0.3s;
-
-              &:hover {
-                border-color: #fff;
-              }
+              width: 45px;
+              height: 45px;
             }
+          }
+
+          .generItem {
+            font-size: 14px !important;
           }
         }
       }
     }
 
-    /* ===== PLAYER ===== */
     .player {
-      // flex: 0.15;
-      width: 100%;
-
+      flex: 1;
       justify-content: center;
       align-items: center;
       display: flex;
@@ -151,155 +270,12 @@
       }
     }
   }
-  /* ================= IMAGE ================= */
+
   .image {
     width: 100%;
     height: 100%;
-    object-fit: contain; // 🔥 تصویر کامل دیده شود
+    object-fit: contain;
     object-position: center;
     display: block;
-  }
-
-  /* ================= RESPONSIVE ================= */
-
-  @media (max-width:1280px) {
-
-    /* Small Mobile */
-    .main {
-      .player {
-        height: calc(100vh - 110px);
-
-        // width: 50vw;
-      }
-    }
-
-    .header {
-      padding: 0 10px;
-    }
-
-    .main {
-      span {
-        font-size: 15px !important;
-      }
-
-      p {
-        font-size: 5px;
-        overflow: hidden;
-        text-overflow: ellipsis;
-        display: -webkit-box;
-        -webkit-line-clamp: 2;
-        -webkit-box-orient: vertical;
-      }
-
-      .imdb {
-        font-size: 8px !important;
-      }
-
-      .generList {
-        p {
-          font-size: 8px !important;
-        }
-
-        .generItem {
-          font-size: 8px !important;
-          color: #fff;
-        }
-      }
-
-
-      // max-height: 100px;
-      .infoMovie {
-        // border: 1px solid red;
-        max-height: calc(100vh - 105px);
-        // padding-left: 1.5rem;
-
-        .info {
-          margin: 0;
-          gap: 2px;
-
-
-        }
-      }
-    }
-  }
-
-
-  @media (max-width: 896px) and (orientation: landscape) and (max-device-width: 896px) {
-    .main {
-      max-height: calc(100vh - 105px);
-      // border: 5px solid red;
-      .imageSection {
-        display: flex;
-        flex: 1;
-        height: 100%;
-        
-        .infoMovie {
-          display: flex;
-          flex: 1;
-          height: 100%;
-          width: 100%;
-          padding: 0;
-          
-          .info {
-            gap: 2px;
-            span {
-              font-size: 26px;
-            }
-
-            p {
-              font-size: 13px;
-            }
-          }
-        }
-      }
-
-      .player {
-        display: flex;
-        height: 100%;
-
-      }
-    }
-
-  }
-
-
- @media (max-width: 480px) {
-    .header {
-      padding: 12px 16px;
-    }
-
-    .main {
-      .imageSection {
-        display: flex;
-        flex: 1;
-        height: 100%;
-        
-        .infoMovie {
-          display: flex;
-          flex: 1;
-          height: 100%;
-          width: 100%;
-          // border: 5px solid red;
-          padding: 0;
-
-          .info {
-            span {
-              
-              font-size: 26px;
-            }
-
-            p {
-              font-size: 13px;
-            }
-          }
-        }
-      }
-
-      .player {
-        display: flex;
-        height: 100%;
-
-      }
-    }
   }
 }

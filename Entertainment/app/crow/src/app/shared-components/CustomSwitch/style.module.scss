@@ -1,0 +1,71 @@
+@use "src/styles/utils" as *;
+
+.switch-wrapper {
+    display: flex;
+    cursor: pointer;
+    align-items: center;
+    min-width: 80px;
+    box-shadow: inset 0 0 4px 2px rgb($info-main, .2);
+    border-radius: spacing(1.5);
+    padding: spacing(.2);
+    position: relative;
+    overflow: hidden;
+
+    >span {
+        flex: 0 0 50%;
+        padding: spacing(1);
+        text-align: center;
+        text-overflow: ellipsis;
+        overflow: hidden;
+
+        svg {
+            scale: .8;
+        }
+    }
+
+    &::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 50%;
+        height: 100%;
+        background: linear-gradient(to bottom,
+                rgb($info-main, .2),
+                rgb($info-main, .01),
+                rgb($info-main, .3),
+            );
+        transition: all .3s ease-in-out;
+        border-radius: 8px;
+    }
+
+    &.icon-mode {
+        padding: spacing(.5);
+
+        >span {
+            padding: 0;
+        }
+
+        &::before {
+            border-radius: 0;
+        }
+    }
+
+    &.checked {
+        &::before {
+            left: 50%;
+        }
+    }
+
+    span[data-checked=true] svg {
+        transition: all .3s ease-in;
+        color: rgb($primary-dark);
+        scale: 1;
+    }
+
+
+    &.disabled {
+        cursor: not-allowed;
+        opacity: .8;
+    }
+}

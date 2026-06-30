@@ -1,0 +1,73 @@
+@use "src/styles/utils" as *;
+
+.panel {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    background-color: rgb($background-paper);
+
+    .header {
+        @include centralize(row);
+        justify-content: space-between;
+        @include py(spacing(1.5));
+        padding-right: spacing(1.5);
+        border-bottom: 1px solid rgba($divider, 0.1);
+     
+        .title {
+           font-size: 14px;
+           font-weight: bold;
+           color: rgb($text-secondary);
+           >span {
+              padding: 15px;
+              background-image: linear-gradient(to right, rgba($primary-main, .4) 20%, rgba($primary-light, .01) 60%);
+     
+              @include ltr {
+                  background-image: linear-gradient(to left, rgba($primary-main, .4), rgba($primary-light, .01) 60%);
+              }
+          }
+        }
+    }
+
+    .body {
+        display: flex;
+        flex: 1;
+        flex-direction: column;
+        // border: 2px solid green;
+        overflow: auto;
+        position: relative;
+
+        .not-found {
+            width: 100%;
+            height: 100%;
+            @include centralize(column);
+            row-gap: spacing(2);
+
+            p {
+                font-size: 1.5rem;
+                font-weight: bold;
+                color: rgb($text-secondary, 0.7); // t($text--lc);
+                white-space: pre-line;
+                text-align: center;
+                line-height: 4rem;
+            }
+        }
+
+        .container {
+            display: flex;
+            flex: 1;
+            height: 100%;
+
+            .camera-list {
+                // border: 1px solid red;
+                display: flex;
+                flex: 1;
+                flex-direction: column;
+                row-gap: spacing(1);
+                overflow-y: auto;
+                padding: spacing(1);
+                transition: all .5s;
+            }
+        }
+
+    }
+}

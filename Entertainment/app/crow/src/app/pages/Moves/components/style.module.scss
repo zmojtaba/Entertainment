@@ -1,0 +1,74 @@
+@use "src/styles/utils" as *;
+@use "sass:math";
+
+@property --angle {
+    syntax: "<angle>";
+    initial-value: 0deg;
+    inherits: false;
+}
+
+@keyframes glowing-border {
+    from {
+        --angle: 0deg;
+    }
+
+    to {
+        --angle: 360deg;
+    }
+}
+
+.custom-modal {
+    position: relative;
+    overflow: visible !important;
+
+    &::before {
+        content: "";
+        position: absolute;
+        inset: -6px;
+        z-index: -1;
+        border-radius: 10px;
+        border-radius: inherit;
+        background: conic-gradient(from var(--angle), rgb($primary-dark), rgb($info-light, 1));
+        animation: glowing-border 5s linear infinite;
+    }
+
+}
+
+.dialog-content {
+    .show-file {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        flex: 1;
+        padding: 10px;
+        direction: ltr;
+        min-height: 10rem;
+        border: 2px dashed rgb($divider, 0.1);
+
+
+        .file {
+            display: flex;
+            flex-direction: row;
+            flex: 1;
+            gap: 10px;
+            color: rgb($text-secondary);
+
+            img {
+                width: 40px;
+                height: 40px;
+            }
+
+            .file-info {
+                display: flex;
+                flex-direction: column;
+                justify-content: space-between;
+
+                span:nth-child(2) {
+                    font-size: 9px;
+                }
+            }
+
+
+        }
+    }
+}

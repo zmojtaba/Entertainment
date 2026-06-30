@@ -1,215 +1,210 @@
-import { useEffect, useRef, useState, type SetStateAction } from "react";
+import { useEffect, useRef, useState } from "react";
 import classes from "./style.module.scss";
-// import images from '@assest/images/home.png'
 import { IoReturnUpBackOutline } from "react-icons/io5";
-import logoImage from '@assets/images/download.png'
-import { useLocation, useNavigate, useParams } from "react-router-dom";
+import logoImage from "@assets/images/download.png";
+import { useNavigate, useParams } from "react-router-dom";
 import clsx from "clsx";
 import type { Genre } from "@/store/types";
 import type { IAudioStory } from "../../types";
 import { API_CONFIG } from "@/constants/ApiConfig";
 import { filterByGenres, getGeners, getMovies } from "../../constant/api";
-
+import { FaFilter } from "react-icons/fa";
+import { IoMdCloseCircle } from "react-icons/io";
+import { Button, Grid, IconButton } from "@mui/material";
+import { BsFillPersonFill } from "react-icons/bs";
+import BarLoadingComponent from "@/shareComponents/loading";
+import { FaHeadphonesSimple } from "react-icons/fa6";
 
 export default function Slider() {
-    const sliderRef = useRef<HTMLDivElement>(null);
-    const cardRef = useRef<HTMLDivElement>(null);
-    const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
-    const [genres, setGerners] = useState<Genre>();
-    const [menuOpen, setMenuOpen] = useState(false);
-    const [language, setLanguage] = useState('');
-    const [movies, setMovies] = useState<IAudioStory[]>([]);
-    const [selectedGenre, setSelectedGenre] = useState('');
-    const [loading, setLoading] = useState(false)
-    const navigate = useNavigate()
-    const { category } = useParams();
+  const sliderRef = useRef<HTMLDivElement>(null);
+  const cardRef = useRef<HTMLDivElement>(null);
+  const [genres, setGerners] = useState<Genre>();
+  const [menuOpen, setMenuOpen] = useState(false);
+  const [language, setLanguage] = useState("");
+  const [movies, setMovies] = useState<IAudioStory[]>([]);
+  const [selectedGenre, setSelectedGenre] = useState("");
+  const [loading, setLoading] = useState(false);
+  const navigate = useNavigate();
+  const { category } = useParams();
 
-    console.log(category);
+  useEffect(() => {
+    let tempLanguage = "";
+    if (category == "Iranian_Audio_story") {
+      tempLanguage = "Persian";
+    } else tempLanguage = "English";
 
-    useEffect(() => {
-        let tempLanguage = '';
-        if (category == 'Iranian_Audio_story') {
-            tempLanguage = 'Persian';
-        } else
-            tempLanguage = '';
+    getMovies(tempLanguage, "")
+      // getMovies('', '')
+      .then((res) => {
+        setMovies(res.data);
+        // setLoading(false)
+        // console.log("dddddd", res.data)
+      })
+      .catch((_err) => {})
+      .finally(() => {
+        setLanguage(tempLanguage);
+        getGeners()
+          .then((res) => {
+            setGerners(res.data);
+          })
+          .catch((_err) => {});
+      });
+  }, []);
 
-        setLanguage(tempLanguage)
+  useEffect(() => {
+    const handleOrientationChange = () => {
+      if (sliderRef.current) {
+        // console.log('orientation changed → scrolling to top');
+        sliderRef.current.scrollLeft = 0;
+      }
+    };
 
-        setLoading(true)
-        getMovies(tempLanguage, '')
-            // getMovies('', '')
-            .then((res) => {
-                setMovies(res.data)
-                // setLoading(false)
-                // console.log("dddddd", res.data)
+    // اضافه کردن listener
+    window.addEventListener("orientationchange", handleOrientationChange);
+    window.addEventListener("resize", handleOrientationChange);
 
-            })
-            .catch((_err: any) => {
-                setLoading(false)
-            }).finally(() => {
-                getGeners()
-                    .then((res) => {
-                        setGerners(res.data)
-                        setLoading(false)
-                    })
-                    .catch((_err: any) => {
-                        setLoading(false)
-                    })
-            })
-    }, [])
+    // اجرا کردن یک بار موقع mount (اختیاری)
+    handleOrientationChange();
 
-    let scrollAmount = 0;
+    // cleanup
+    return () => {
+      window.removeEventListener("orientationchange", handleOrientationChange);
+      window.removeEventListener("resize", handleOrientationChange);
+    };
+  }, []);
 
-    const goNext = () => {
-        scrollAmount = window.innerWidth <= 481 ? (sliderRef.current?.scrollWidth! / movies.length) : (sliderRef.current?.scrollWidth! / movies.length) * 3
-        sliderRef.current?.scrollBy({ left: scrollAmount, behavior: "smooth" });
-    }
-    const goPrev = () => {
-        scrollAmount = window.innerWidth <= 481 ? (sliderRef.current?.scrollWidth! / movies.length) : (sliderRef.current?.scrollWidth! / movies.length) * 3
-        sliderRef.current?.scrollBy({ left: -scrollAmount, behavior: "smooth" });
-    }
+  const handleSetSelectedGenre = async (title: string) => {
+    setSelectedGenre(title);
+  };
+  const handleFilterByGeners = async () => {
+    setLoading(true);
+    setMenuOpen(false);
+    filterByGenres(language, selectedGenre)
+      .then(async (res) => {
+        await window.wait(1000);
+        setLoading(false);
+        setMovies(res.data);
+      })
+      .catch((err) => {
+        setLoading(false);
+      });
+  };
 
+  return (
+    <div className={classes.container}>
+      <div className={classes.header}>
+        <div
+          className={classes.backIcon}
+          onClick={() => navigate("/Audio_story")}
+        >
+          <IoReturnUpBackOutline size={25} title="Back" />
+        </div>
+        <div className={classes.logo}>
+          <img src={logoImage} width={100} height={40} />
+          <button
+            className={classes.hamburger}
+            onClick={() => setMenuOpen(!menuOpen)}
+          >
+            {/* {menuOpen ? 'x' : '☰'} */}
+            <FaFilter size="15px" />
+          </button>
+        </div>
+      </div>
 
-    useEffect(() => {
-        const handleOrientationChange = () => {
-            if (sliderRef.current) {
-                // console.log('orientation changed → scrolling to top');
-                sliderRef.current.scrollLeft = 0
-            }
-        };
-
-        // اضافه کردن listener
-        window.addEventListener('orientationchange', handleOrientationChange);
-        window.addEventListener('resize', handleOrientationChange);
-
-        // اجرا کردن یک بار موقع mount (اختیاری)
-        handleOrientationChange();
-
-        // cleanup
-        return () => {
-            window.removeEventListener('orientationchange', handleOrientationChange);
-            window.removeEventListener('resize', handleOrientationChange);
-        };
-    }, []);
-
-    // Scroll با موس
-    // useEffect(() => {
-    //     const slider = sliderRef.current;
-    //     if (!slider) return;
-
-    //     const handleWheel = (e: WheelEvent) => {
-    //         e.preventDefault();
-    //         // console.log("e.deltaY",e.deltaX);
-
-    //         slider.scrollBy({ left: e.deltaY, behavior: "smooth" });
-    //     };
-
-    //     slider.addEventListener("wheel", handleWheel, { passive: false });
-    //     return () => slider.removeEventListener("wheel", handleWheel);
-    // }, []);
-
-    const handleFilterByGeners = async (title: string) => {
-        setSelectedGenre(title)
-        setLoading(true)
-        filterByGenres(language, title)
-            .then(async res => {
-                // await window.wait(3000)
-                setMovies(res.data)
-                setLoading(false)
-            })
-            .catch(err => {
-                setLoading(false)
-            })
-    }
-
-    return (
-        <div className={classes.container} >
-            <div className={classes.header}>
-                <div className={classes.backIcon} onClick={() => navigate('/Audio_story')}>
-                    <IoReturnUpBackOutline size={25} title='Back' />
-                </div>
-                <div className={classes.logo}>
-                    <img src={logoImage} width={100} height={40} />
-                    <button
-                        className={classes.hamburger}
-                        onClick={() => setMenuOpen(!menuOpen)}
-                    >
-                        {menuOpen ? 'x' : '☰'}
-                    </button>
-                </div>
+      <div className={classes.main}>
+        <div className={`${classes.menu} ${menuOpen && classes.open}`}>
+          <div className={classes.menuContainer}>
+            <div className={classes.menuHeader}>
+              <div className={classes.title}>Filter by Genre</div>
+              <IconButton
+                title="Close"
+                className={classes.closeIcon}
+                onClick={() => setMenuOpen(false)}
+              >
+                <IoMdCloseCircle />
+              </IconButton>
             </div>
-            {/* Hamburger */}
+            <div className={classes.content}>
+              {genres?.genres?.length &&
+                genres?.genres?.map((genre, index) => (
+                  <div
+                    key={index}
+                    className={clsx(classes.menuItem, {
+                      [classes.isSelect]: selectedGenre == genre,
+                    })}
+                    onClick={() => handleSetSelectedGenre(genre)}
+                  >
+                    {genre}
+                  </div>
+                ))}
+            </div>
+          </div>
 
-            <div className={classes.main}>
-                <div className={`${classes.menu} ${menuOpen && classes.open}`}>
-                    <div className={classes.menuTitle}>
-                        <div className={classes.title}>Filter by Genre</div>
+          <Button
+            className={classes.filterBtn}
+            variant="contained"
+            onClick={handleFilterByGeners}
+          >
+            Filter
+          </Button>
+        </div>
 
-                        <button
-                            title="Close"
-                            className={classes.closeIcon}
-                            onClick={() => setMenuOpen(false)}
-                        >
-                            {menuOpen ? 'x' : '☰'}
-                        </button>
-                    </div>
-                    <div className={classes.menuContent}>
-                        {
-                            genres?.genres?.length &&
-                            genres?.genres?.map((genre, index) => (
-                                <div key={index} className={clsx(classes.menuItem, selectedGenre == genre.title && classes.isSelect)}
-                                    onClick={() => handleFilterByGeners(genre.title)}
-                                >{genre.title}</div>
-                            ))
-                        }
-                    </div>
-
-
-                </div>
-
-                {/* Slider */}
-                <div className={classes.netflixSlider}>
-                    <div className={classes.sliderTrack} ref={sliderRef}>
-                        {movies.map((m, idx) => (
-                            <div
-                                className={classes.movieCard}
-                                ref={cardRef}
-                                key={idx}
-                                onMouseEnter={() => setHoveredIndex(idx)}
-                                onMouseLeave={() => setHoveredIndex(null)}
-                                onClick={() => navigate(`/Audio_story/${category}/${m.id}`)}
-                            >
-                                <img src={`${API_CONFIG.movie}/media/${m.posterImageUrl.replaceAll('\\', '/')}`} alt={m.title} />
-
-                                <div className={classes.movieHover}>
-                                    <h3>{m.title}</h3>
-                                    {/* <div className={classes.genre}>{m.genres.map((g,index) => (<span key={index}>{g}</span>))}</div> */}
-                                    <div className={classes.desc}>{`Speahers : ${m.speakers.map(s => s.name)}`}</div>
-                                    {/* <button className={classes.playBtn}>▶ Play</button> */}
-                                </div>
-                            </div>
-                        ))}
-                    </div>
-
-                    {
-                        movies?.length ?
-                            <>
-
-                                <button className={`${classes.nav} ${classes.prev}`} onClick={goPrev}>
-                                    ❮
-                                </button>
-                                <button className={`${classes.nav} ${classes.next}`} onClick={goNext}>
-                                    ❯
-                                </button>
-                            </> : <></>
+        <div className={classes.cards}>
+          {movies.length ? (
+            <Grid
+              container
+              alignContent="flex-start"
+              flex={1}
+              sx={{ overflowY: "auto" }}
+              spacing={{ xs: 1, sm: 1, md: 1, lg: 0.5, xl: 2 }}
+              // columns={{ xs: 3, sm: 3, md: 1, lg: 12, xl: 12 }}
+            >
+              {movies.map((movie, index) => (
+                <Grid key={index} size={{ xs: 4, sm: 3, md: 4, lg: 2.2, xl: 2 }}>
+                  <div
+                    className={classes.cardItem}
+                    onClick={() =>
+                      navigate(`/Audio_story/${category}/${movie.id}`)
                     }
-                </div>
+                  >
+                    <div className={classes.cardHeader}>
+                      <img
+                        src={`${API_CONFIG.movie}/media/${movie.posterImageUrl.replaceAll("\\", "/")}`}
+                      />
+                      <span
+                        data-span
+                        className={clsx({
+                          [classes.showAnimation]: movie.title.length > 20,
+                        })}
+                      >
+                        {`${movie.title}`}
+                      </span>
+                    </div>
+
+                    <div className={classes.info}>
+                      <span
+                        className={clsx({
+                          [classes.showAnimation]: false,
+                          //   movie.singer.name.length + 10 > 30,
+                        })}
+                      >
+                        <BsFillPersonFill size={18} />
+                        {`   ${movie.speakers[0].name}`}
+                      </span>
+                    </div>
+                  </div>
+                </Grid>
+              ))}
+            </Grid>
+          ) : (
+            <div className={classes.notFound}>
+              <FaHeadphonesSimple size={100} />
+              <span>Audio story Not found</span>
             </div>
-            {/* <LoadingComponets
-                loading={loading}
-            // key={200}
-            // message="
-            /> */}
-        </div >
-    );
+          )}
+        </div>
+      </div>
+      <BarLoadingComponent loading={loading} />
+    </div>
+  );
 }

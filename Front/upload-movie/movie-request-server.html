@@ -1,0 +1,62 @@
+<form id="uploadForm">
+  <!-- Video Input -->
+  <label>Video:</label>
+  <input type="file" id="video" accept="video/*" /><br/>
+
+  <!-- NEW: Image Input -->
+  <label>Poster/Image:</label>
+  <input type="file" id="image" accept="image/*" /><br/>
+
+  <input type="text" id="title" placeholder="Title" />
+  <input type="text" id="description" placeholder="Description" />
+  <button type="submit">Upload</button>
+</form>
+<video
+  width="500"
+  height="500"
+  controls
+  preload="metadata"
+>
+  <source
+    src="http://localhost:5030/media/video\\movie\\new updated title_f78fcffd13a3417d82a454ed47bf1db6\\99c62119c0274486bd18aef170cce0dc_Test.mp4"
+    type="video/mp4"
+  />
+</video>
+
+
+<script>
+document.getElementById("uploadForm").addEventListener("submit", async (e) => {
+  e.preventDefault();
+
+  const fd = new FormData();
+
+  // 1. Append the Video
+  const videoFile = document.getElementById("video").files[0];
+  fd.append("video", videoFile);
+
+  const imageFile = document.getElementById("image").files[0];
+  fd.append("poster", imageFile); 
+
+  // 2. Append the Image (New)
+  // Ensure the key string "poster" matches exactly what your Backend DTO expects
+
+
+  // 3. Append other data
+  fd.append("Title", document.getElementById("title").value);
+  fd.append("Description", document.getElementById("description").value);
+  fd.append("PublishedDate", 106);
+  fd.append("AgeGroup", 10);
+  fd.append("ImdbRating", 8.6);
+  fd.append("Languages", JSON.stringify(["sundanese"]));
+  fd.append("Countries", JSON.stringify(["iran", "Iraq"]));
+  fd.append("Actors", JSON.stringify(["jamshidi", "vosughi"])); // Note: These look like genres, but matching your code
+  fd.append("Genres", JSON.stringify(["Drama", "Thriller"]));
+  fd.append("Directors", JSON.stringify(["Christopher Nolan", "jim carry"]));
+
+  await fetch("http://localhost:5031/api/video/movie", {
+    method: "POST",
+    body: fd
+  });
+});
+</script>
+

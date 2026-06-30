@@ -1,30 +1,49 @@
+@use "src/styles/utils" as *;
+
+:root {
+  --imdb-color-code: 255, 165, 0;
+  --imdb-color: rgba(255, 165, 0, 0.7);
+}
+
 .container {
   position: relative;
   background: #000;
   display: flex;
   flex-direction: column;
   flex: 1;
-  overflow-x: hidden;
+  // border: 1px solid red;
+  overflow: hidden;
+
+  @include Tablet {
+    height: calc(100vh - 55px);
+  }
 
   .header {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 15px 30px;
-    box-shadow: rgba(89, 79, 63, 1) 0px 5px 10px -3px, rgb(89, 79, 63) 0px 4px 6px -2px;
-    z-index: 50;
+    padding: 8px 20px;
+    box-shadow:
+      rgba(89, 79, 63, 1) 0px 5px 10px -3px,
+      rgb(89, 79, 63) 0px 4px 6px -2px;
+    z-index: 2;
+
+    @include Tablet {
+      padding: 2px 15px;
+    }
 
     .backIcon {
       cursor: pointer;
+      color: white;
     }
 
     .logo {
       display: flex;
-      gap: 10px;
+      // gap: 10px;
       align-items: center;
 
       .hamburger {
-        z-index: 5000;
+        // z-index: ;
         background: rgba(0, 0, 0, 0.7);
         color: white;
         border: none;
@@ -48,355 +67,306 @@
   .menu {
     position: fixed;
     top: 0;
-    right: -250px;
-    width: 250px;
+    right: -100%;
+    width: 400px;
     height: 100%;
-    background: rgba(0, 0, 0, 0.95);
+    backdrop-filter: blur(8px);
+    background: rgba(0, 0, 0, 0.2);
     padding: 20px;
     display: flex;
     flex-direction: column;
     gap: 5px;
-    border-radius: 10px 0 0 10px;
-    transition: all 0.3s ease;
+    transition: all 0.6s ease;
     z-index: 54;
+    box-shadow:
+      rgba(89, 79, 63, 1) 0px 5px 10px -3px,
+      rgb(89, 79, 63) 0px 4px 6px -2px;
+    display: flex;
+    justify-content: space-between;
 
-    .menuTitle {
+    @include Mobile {
+      width: 100%;
+    }
+
+    &.open {
+      right: 0;
+    }
+
+    &Container {
       display: flex;
-      align-items: end;
-      // color: rgb();
+      flex-direction: column;
+      flex: 1;
 
-      .closeIcon {
-        background: rgba(0, 0, 0, 0.7);
-        color: white;
-        border: none;
-        font-size: 25px;
-        width: 40px;
-        height: 40px;
-        border-radius: 50%;
-        cursor: pointer;
+      .menuHeader {
+        padding-bottom: 10px;
+        margin-bottom: 20px;
         display: flex;
         align-items: center;
-        justify-content: center;
-        transition: all 0.3s;
+        box-shadow:
+          rgba(89, 79, 63, 1) 0px 5px 10px -3px,
+          rgb(89, 79, 63) 0px 4px 6px -2px;
+
+        .title {
+          flex: 1;
+          display: flex;
+          align-items: start;
+          font-weight: bold;
+        }
+        .closeIcon {
+          color: whitesmoke;
+          font-size: 25px;
+          width: 40px;
+          height: 40px;
+          cursor: pointer;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          transition: all 0.3s;
+        }
       }
 
-      .title {
-        flex: 1;
+      .content {
         display: flex;
-        align-items: start;
-        border-bottom: 2px solid gray;
+        flex-wrap: wrap;
+        align-content: flex-start;
+        flex: 1;
+        gap: 10px;
+
+        // border: 1px solid red;
+        .menuItem {
+          color: whitesmoke;
+          cursor: pointer;
+          padding: 10px 15px;
+          border-radius: 20px;
+          transition: background-color 0.2s;
+          // border-top: 1px solid rgba( var(--imdb-color-code),.5);
+          // border-right: 1px solid rgba( var(--imdb-color-code),.5);
+          background-color: rgba(white, 0.2);
+          // border: 1px solid rgba( var(--imdb-color-code),.5);
+
+          &:hover {
+            background-color: rgba(var(--imdb-color-code), 0.7);
+            // color: white;
+          }
+        }
+        .isSelect {
+          background-color: var(--imdb-color);
+          // border-left: 3px solid whitesmoke;
+          // border-right: 3px solid whitesmoke;
+        }
       }
     }
-  }
-
-  .menu.open {
-    right: 0;
-  }
-
-  .menuItem {
-    color: whitesmoke;
-    cursor: pointer;
-    padding: 10px 15px;
-    border-radius: 6px;
-    transition: background 0.2s;
-
-
-    &:hover {
-      background: rgba(255, 255, 255, 0.1);
-      color: white;
-
+    .filterBtn {
+      text-transform: none;
+      border-radius: 10px;
+      background-color: var(--imdb-color);
     }
-  }
-
-  .isSelect {
-    border-left: 3px solid whitesmoke;
-    border-right: 3px solid whitesmoke;
   }
 
   .main {
     display: flex;
     flex-direction: column;
     flex: 1;
+    background-color: black;
+    // border: 3px solid red;
 
+    &::-webkit-scrollbar {
+      display: none;
+    }
 
-    .netflixSlider {
-      position: relative;
-      height: 100%;
-      padding: 0 50px;
-      // border: 1px solid blue;
+    .cards {
+      display: flex;
+      flex: 1;
+      scroll-behavior: smooth;
+      padding: 10px;
 
-      .sliderTrack {
+      &::-webkit-scrollbar {
+        display: none;
+      }
+        .notFound{
+        // border:1px solid red;
         display: flex;
-        flex: 1;
-        height: 100%;
-        overflow-x: hidden;
-        scroll-behavior: smooth;
-        gap: 50px;
-        padding: 10px;
-        // aspect-ratio: 16/9;
+        flex:1;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        font-size: 20px;
+        gap: 10px;
+        opacity: 0.8;
+      }
 
+      .cardItem {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        // min-height: 280px;
+        max-height: 270px;
+        // max-height: 300px;
+        color: whitesmoke;
+        background-color: rgba(white, 0.15);
+        padding: 7px;
+        border-radius: 10px;
+        overflow: hidden;
+        // white-space: nowrap;
+
+        @include Mobile {
+          max-height: 250px;
+        }
+
+        img {
+          flex: 1;
+        }
+
+        cursor: pointer;
         &::-webkit-scrollbar {
           display: none;
         }
-      }
 
-      .movieCard {
-        position: relative;
-        width: 570px;
-        height: 100%;
-        border-radius: 10px;
-        overflow: hidden;
-        flex-shrink: 0;
-        // border: 1px solid red;
-        cursor: pointer;
-        transition: transform 0.25s ease;
+        .cardHeader {
+          display: flex;
+          flex-direction: column;
 
-        &:hover {
-          z-index: 20;
-        }
-
-        &:hover .movieHover {
-          opacity: 1;
-          transform: translateY(0);
-        }
-
-        img,
-        .videoPreview {
-          width: 100%;
-          height: 100%;
-          object-fit: cover; // تصویر کل کارت را پر کند
-          object-position: center; // مرکز تصویر همیشه دیده شود
-          display: block;
-        }
-
-        .movieHover {
-          position: absolute;
-          bottom: 0;
-          left: 0;
-          right: 0;
-          background: linear-gradient(to top, rgba(0, 0, 0, 0.9), transparent);
-          padding: 15px;
-          opacity: 1;
-          // transform: translateY(20px);
-          transition: 0.3s ease;
-          color: white;
-
-          h3 {
-            font-size: 18px;
-            margin: 0;
+          span[data-span] {
+            width: 100%;
+            // border: 1px solid red;
+            display: inline-block;
+            justify-content: center;
+            align-items: center;
+            padding: 10px 0 0 0;
+            white-space: nowrap;
+            overflow: visible;
           }
         }
 
-        .genre {
-          font-size: 14px;
-          opacity: 0.8;
-          margin: 5px 0;
-        }
-
-        .desc {
-          font-size: 13px;
-          opacity: 0.9;
-          margin-bottom: 10px;
-        }
-
-        .playBtn {
-          background: white;
-          border: none;
-          padding: 6px 12px;
-          border-radius: 50px;
-          font-weight: bold;
-          cursor: pointer;
-
+        .showAnimation {
+          animation: marquee-desktop 8s linear infinite;
           &:hover {
-            background: #ddd;
+            animation-play-state: paused;
+          }
+          @include Mobile {
+            animation: marquee-mobile 8s linear infinite;
+          }
+        }
+
+        @keyframes marquee-desktop {
+          from {
+            transform: translateX(10%);
+          }
+          to {
+            transform: translateX(-100%);
+          }
+        }
+
+        @keyframes marquee-mobile {
+          from {
+            transform: translateX(10%);
+          }
+          to {
+            transform: translateX(-100%);
+          }
+        }
+
+        span {
+          padding-top: 5px;
+          color: rgba(white, 0.87);
+          font-size: 18px;
+          // font-weight: bold;
+          // max-width: 250px;
+          text-overflow: ellipsis;
+          overflow: hidden;
+
+          @include Mobile {
+            // color: red;
+            font-size: 10px;
+          }
+
+          @include Tablet {
+            font-size: 11px;
           }
         }
       }
 
-      .nav {
-        position: absolute;
-        bottom: 20px;
-        right: 20px;
-        width: 70px;
-        height: 70px;
-        border-radius: 50%;
-        background: rgba(0, 0, 0, 0.7);
-        color: white;
-        border: none;
-        font-size: 24px;
-        cursor: pointer;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        z-index: 50;
-        transition: background 0.3s;
-        border: 3px solid rgb(188, 189, 189) !important;
+      img {
+        border-radius: 10px;
+        min-height: 180px;
+        max-height: 180px;
+        object-fit: fill;
+        object-position: center;
+      }
 
-        &:hover {
-          background: rgba(0, 0, 0, 0.9);
+      div[data-divider] {
+        display: flex;
+        align-items: start;
+        border: 1px solid rgba(116, 116, 116, 0.473);
+        height: 17px;
+      }
+
+      .info {
+        display: flex;
+        justify-content: space-between;
+
+        @include Mobile {
+          div[data-divider] {
+            display: none;
+          }
+
+          // span:first-child {
+          //   display: none;
+          // }
+        }
+       
+        span {
+          display: flex;
+          gap: 5px;
+          align-items: center;
+          // border: 1px solid red;
+          font-size: 16px;
+          color: rgba(white, 0.6);
+
+          @include Tablet {
+            font-size: 10px;
+          }
+        }
+
+        div[data-imdb] {
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          padding: 0 8px;
+          border-radius: 10px;
+          letter-spacing: 1px;
+          background-color: rgba(orange, 0.7);
+
+          span {
+            padding: 0;
+            display: flex;
+            color: rgb(0, 0, 0);
+            font-size: 13px;
+          }
+
+          span:first-child {
+            font-weight: bold;
+            font-size: 14;
+          }
+
+          span:last-child {
+            letter-spacing: 0px;
+          }
+
+          @include Mobile {
+            span {
+              letter-spacing: 0px;
+            }
+          }
+
+          @include Tablet {
+            span {
+              // border: 1px solid red;
+              font-size: 8px !important;
+            }
+          }
         }
       }
-
-      .prev {
-        right: 250px;
-      }
-
-      .next {
-        right: 130px;
-      }
     }
   }
-
-  @media (max-width:1536px) {
-    .netflixSlider {
-      // border: 1px solid rgb(218, 11, 173);
-      padding: 20px !important;
-
-      .sliderTrack {
-        gap: 30px !important;
-      }
-
-      .movieCard {
-        // border: 3px solid rgb(239, 247, 16);
-        width: 420px !important;
-        height: 100px;
-        display: flex;
-      }
-
-      .nav {
-
-        width: 80px !important;
-        height: 80px !important;
-        font-size: 30px !important;
-      }
-
-      .prev {
-        right: 140px !important;
-      }
-
-      .next {
-        right: 20px !important;
-      }
-
-      .hamburger {
-        width: 40px !important;
-        height: 40px !important;
-        font-size: 22px !important;
-      }
-
-      .menu {
-        width: 200px;
-        padding: 15px;
-      }
-    }
-  }
-
-  @media (max-width:1280px) {
-    .header {
-      padding: 0;
-    }
-
-    .netflixSlider {
-      // border: 3px solid red;
-      padding: 20px !important;
-      max-height: calc(100vh - 100px);
-      // max-height: 100%;
-
-      .sliderTrack {
-        gap: 20px !important;
-      }
-
-      .movieCard {
-        width: 250px !important;
-        height: 50px;
-        display: flex;
-      }
-
-      .nav {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        width: 60px !important;
-        height: 60px !important;
-        font-size: 30px !important;
-      }
-
-      .prev {
-        right: 100px !important;
-      }
-
-      .next {
-        right: 20px !important;
-      }
-
-      .hamburger {
-        width: 40px !important;
-        height: 40px !important;
-        font-size: 22px !important;
-      }
-
-      .menu {
-        width: 200px;
-        padding: 15px;
-      }
-    }
-  }
-
-  @media (max-width: 480px) and (orientation: portrait) {
-    .header {
-      padding: 5px;
-    }
-
-    .netflixSlider {
-      max-height: calc(100vh - 150px);
-      // padding: 15px !important;
-      overflow: auto;
-      box-sizing: border-box;
-      // border: 3px solid red;
-      align-items: center;
-      justify-content: center;
-      display: flex;
-
-      .sliderTrack {
-        gap: 13px !important;
-        // align-items: center;
-        // justify-content: center;
-        display: flex;
-        // margin-top: 50px;
-
-
-        .movieCard {
-          width: 84vw !important;
-          height: 60vh;
-
-        }
-      }
-
-      .nav {
-        width: 80px !important;
-        height: 80px !important;
-        font-size: 16px;
-      }
-
-      .prev {
-        right: 120px !important;
-      }
-
-      .next {
-        right: 20px !important;
-      }
-
-      .hamburger {
-        width: 40px !important;
-        height: 40px !important;
-        font-size: 22px !important;
-      }
-
-      .menu {
-        width: 200px;
-        padding: 15px;
-      }
-    }
-  }
-
 }

@@ -1,0 +1,165 @@
+@use "src/styles/utils" as *;
+@use '../CameraItem/style.module.scss' as *;
+
+.panel {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  background-color: rgb($background-paper);
+  direction: ltr !important;
+
+  .header {
+    @include centralize(row);
+    flex-direction: row;
+    justify-content: space-between;
+    @include py(spacing(2));
+    padding-right: spacing(1.5);
+    border-bottom: 1px solid rgba($divider, 0.1);
+    div[data-connect]{
+      >span{
+        font-size: 14px;
+        font-weight: bold;
+        cursor: help;
+      }
+    }
+    
+    .title {
+      font-size: 14px;
+      font-weight: bold;
+      color: rgb($text-secondary);
+    
+      > span {
+        padding: 16px;
+        background-image: linear-gradient(
+          to right,
+          rgba($primary-main, 0.4) 20%,
+          rgba($primary-light, 0.01) 60%
+        );
+
+        @include ltr {
+          background-image: linear-gradient(
+            to right,
+            rgba($primary-main, 0.4),
+            rgba($primary-light, 0.01) 60%
+          );
+        }
+      }
+    }
+  }
+
+  .body {
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+    // border: 2px solid green;
+    overflow: auto;
+    position: relative;
+
+    .not-found {
+      width: 100%;
+      height: 100%;
+      @include centralize(column);
+      row-gap: spacing(2);
+
+      p {
+        font-size: 1.5rem;
+        font-weight: bold;
+        color: rgb($text-secondary, 0.7); // t($text--lc);
+        white-space: pre-line;
+        text-align: center;
+        line-height: 4rem;
+      }
+    }
+
+    .container {
+      display: flex;
+      flex: 1;
+      height: 100%;
+
+      .camera-list {
+        // border: 1px solid red;
+        display: flex;
+        flex: 1;
+        flex-direction: column;
+        row-gap: spacing(1);
+        overflow-y: auto;
+        padding: spacing(1);
+        transition: all 0.5s;
+
+        .cell {
+          @include px(spacing(0.5));
+          font-size: 1.5rem;
+          text-overflow: ellipsis;
+          text-align: center;
+          overflow: hidden;
+          color: rgb($text-primary);
+
+          svg {
+            display: flex;
+            flex: 1;
+            width: 100%;
+            color: rgb($info-dark, 0.9);
+            align-items: center;
+          }
+
+          span[data-span] {
+            font-size: 1.3rem;
+          }
+
+          &.direction {
+            direction: ltr;
+          }
+
+          direction: ltr;
+
+          .tags {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            gap: 3px;
+
+            .active-tag {
+              border: 1px solid rgb($primary-light);
+            }
+          }
+
+          svg {
+            font-size: 2rem;
+          }
+        }
+
+        .camera-list-item {
+            border: 1px solid rgb($info-dark, 0.9);
+          @include grid;
+          border-radius: spacing(2);
+          overflow: hidden;
+          align-items: center;
+          padding: spacing(1.5) spacing(0);
+          background: rgb($text-secondary, 0.07);
+          flex-shrink: 0;
+          // column-gap: 4px;
+
+          &.disabled {
+            // cursor: not-allowed;
+          }
+
+          &:hover:not(.disabled) {
+            // outline: 2px solid rgb($primary-light);
+            // &:hover {
+            // cursor: pointer;
+          }
+
+          &.selected {
+            background: rgba($info-main, 0.1);
+          }
+
+          &.pinned {
+            border-right: 5px solid rgb($info-main, 0.5);
+            border-left: 5px solid rgb($info-main, 0.5);
+          }
+        }
+      }
+    }
+  }
+}

@@ -1,24 +1,17 @@
 import React, { useEffect, useState } from 'react'
 import classes from './style.module.scss'
 import { motion } from "framer-motion";
-import { Outlet, useNavigate } from 'react-router-dom';
-// import LoadingComponets from '../../Components/Loading';
+import {  useNavigate } from 'react-router-dom';
 import logoImage from '@assets/images/download.png'
 import { IoReturnUpBackOutline } from "react-icons/io5";
 import { categoreyMusic } from '../constant/utils';
 import type { CategoryStory } from '../types';
-// import "../../styles/animate.css";
 
 function CategoryAudioStoryPage() {
     const [pos, setPos] = useState({ x: 50, y: 50 });
-    const [loading, setLoading] = useState(false)
-    const [categories, setCategories] = useState<CategoryStory[]>([])
+    const [categories, setCategories] = useState<CategoryStory[]>(categoreyMusic)
     const navigate = useNavigate()
 
-
-    useEffect(() => {
-        setCategories(categoreyMusic)
-    }, [])
 
     const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
         const rect = e.currentTarget.getBoundingClientRect();
@@ -80,7 +73,6 @@ function CategoryAudioStoryPage() {
                     })}
                 </div>
             </div>
-            {/* <LoadingComponets loading={loading} /> */}
         </div >
     )
 }

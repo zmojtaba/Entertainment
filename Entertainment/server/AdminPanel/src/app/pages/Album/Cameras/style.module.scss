@@ -1,0 +1,11 @@
+@use "src/styles/utils" as *;
+
+.mainPage {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    height: 100%;
+    column-gap: spacing(0.5);
+    background-color: rgb($background-paper);
+    direction: ltr !important;
+}

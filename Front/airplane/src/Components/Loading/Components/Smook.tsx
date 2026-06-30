@@ -12,13 +12,13 @@ const FluidCanvas = () => {
     canvas.height = canvas.clientHeight;
 
     const config = {
-      TEXTURE_DOWNSAMPLE: 1,
+      TEXTURE_DOWNSAMPLE: 2,
       DENSITY_DISSIPATION: 0.985,
       VELOCITY_DISSIPATION: 0.99,
       PRESSURE_DISSIPATION: 0.8,
       PRESSURE_ITERATIONS: 50,
-      CURL: 0,                      // ← فعال کردن گرداب‌های زیبا
-      SPLAT_RADIUS: 0.0007,
+      CURL: 0,                    
+      SPLAT_RADIUS: 0.0005,
     };
 
 
@@ -359,7 +359,7 @@ const FluidCanvas = () => {
       const dt = Math.min((Date.now() - lastTime) / 1000, 0.016);
       lastTime = Date.now();
       simTime += dt;
-      noiseOffset += dt * 5; // سرعت تغییر noise
+      noiseOffset += dt * 200; // سرعت تغییر noise
 
       gl.viewport(0, 0, textureWidth, textureHeight);
 

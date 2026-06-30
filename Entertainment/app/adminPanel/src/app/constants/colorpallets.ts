@@ -1,0 +1,592 @@
+export const pallets: PalletType[] =  [{
+    name: 'seagreen',
+    color: '#2E8B57',
+    rgb: '46,139,87',
+    fontColor: 'white'
+}, {
+    name: 'blue',
+    color: '#0000FF',
+    rgb: '0,0,255',
+    fontColor: 'white'
+}, {
+    name: 'red',
+    color: '#FF0000',
+    rgb: '255,0,0',
+    fontColor: 'white'
+}, {
+    name: 'darkturquoise',
+    color: '#00CED1',
+    rgb: '0,206,209'
+}, {
+    name: 'orange',
+    color: '#FFA500',
+    rgb: '255,165,0',
+    fontColor: 'white'
+}, {
+    name: 'salmon',
+    color: '#FA8072',
+    rgb: '250,128,114',
+    fontColor: 'white'
+}, {
+    name: 'sienna',
+    color: '#A0522D',
+    rgb: '160,82,45',
+    fontColor: 'white'
+}, {
+    name: 'forestgreen',
+    color: '#228B22',
+    rgb: '34,139,34'
+}, {
+    name: 'paleblue',
+    color: '#ADF5E6',
+    rgb: '253,245,230',
+    fontColor: 'black'
+}, {
+    name: 'rebeccapurple',
+    color: '#663399',
+    rgb: '102,51,153',
+    fontColor: 'white'
+}, {
+    name: 'peru',
+    color: '#CD853F',
+    rgb: '205,133,63',
+    fontColor: 'white'
+}, {
+    name: 'darkblue',
+    color: '#00008B',
+    rgb: '0,0,139',
+    fontColor: 'white'
+}, {
+    name: 'darkorchid',
+    color: '#9932CC',
+    rgb: '153,50,204',
+    fontColor: 'white'
+}, {
+    name: 'maroon',
+    color: '#800000',
+    rgb: '128,0,0',
+    fontColor: 'white'
+}, {
+    name: 'palevioletred',
+    color: '#DB7093',
+    rgb: '219,112,147',
+    fontColor: 'white'
+}, {
+    name: 'deepskyblue',
+    color: '#00BFFF',
+    rgb: '0,191,255',
+    fontColor: 'white'
+}, {
+    name: 'mediumaquamarine',
+    color: '#66CDAA',
+    rgb: '102,205,170',
+    fontColor: 'black'
+}, {
+    name: 'darkslategray',
+    color: '#2F4F4F',
+    rgb: '47,79,79',
+    fontColor: 'white'
+}, {
+    name: 'lavender',
+    color: '#E6E6FA',
+    rgb: '230,230,250'
+}, {
+    name: 'plum',
+    color: '#DDA0DD',
+    rgb: '221,160,221',
+    fontColor: 'black'
+}, {
+    name: 'darksalmon',
+    color: '#E9967A',
+    rgb: '233,150,122',
+    fontColor: 'black'
+}, {
+    name: 'firebrick',
+    color: '#B22222',
+    rgb: '178,34,34',
+    fontColor: 'white'
+}, {
+    name: 'fuchsia',
+    color: '#FF00FF',
+    rgb: '255,0,255',
+    fontColor: 'white'
+}, {
+    name: 'lavenderblush',
+    color: '#FFF0F5',
+    rgb: '255,240,245'
+}, {
+    name: 'yellowgreen',
+    color: '#9ACD32',
+    rgb: '154,205,50',
+    fontColor: 'white'
+}, {
+    name: 'coral',
+    color: '#FF7F50',
+    rgb: '255,127,80',
+    fontColor: 'white'
+}, {
+    name: 'violet',
+    color: '#EE82EE',
+    rgb: '238,130,238',
+    fontColor: 'white'
+}, {
+    name: 'indianred',
+    color: '#CD5C5C',
+    rgb: '205,92,92',
+    fontColor: 'white'
+}, {
+    name: 'darkcyan',
+    color: '#008B8B',
+    rgb: '0,139,139',
+    fontColor: 'white'
+}, {
+    name: 'cornflowerblue',
+    color: '#6495ED',
+    rgb: '100,149,237',
+    fontColor: 'white'
+}, {
+    name: 'dimgray',
+    color: '#696969',
+    rgb: '105,105,105',
+    fontColor: 'white'
+}, {
+    name: 'mistyrose',
+    color: '#FFE4E1',
+    rgb: '255,228,225'
+}, {
+    name: 'darkmagenta',
+    color: '#8B008B',
+    rgb: '139,0,139',
+    fontColor: 'white'
+}, {
+    name: 'sandybrown',
+    color: '#F4A460',
+    rgb: '244,164,96',
+    fontColor: 'white'
+}, {
+    name: 'royalblue',
+    color: '#4169E1',
+    rgb: '65,105,225',
+    fontColor: 'white'
+}, {
+    name: 'thistle',
+    color: '#D8BFD8',
+    rgb: '216,191,216 ',
+    fontColor: 'black'
+}, {
+    name: 'goldenrod',
+    color: '#DAA520',
+    rgb: '218,165,32',
+    fontColor: 'black'
+}, {
+    name: 'navy',
+    color: '#000080',
+    rgb: '0,0,128',
+    fontColor: 'white'
+}, {
+    name: 'linen',
+    color: '#FAF0E6',
+    rgb: '250,240,230'
+}, {
+    name: 'aqua',
+    color: '#00FFFF',
+    rgb: '0,255,255',
+    fontColor: 'black'
+}, {
+    name: 'darkred',
+    color: '#8B0000',
+    rgb: '139,0,0',
+    fontColor: 'white'
+}, {
+    name: 'darkslategrey',
+    color: '#2F4F4F',
+    rgb: '47,79,79',
+    fontColor: 'white'
+}, {
+    name: 'navajowhite',
+    color: '#FFDEAD',
+    rgb: '255,222,173',
+    fontColor: 'black'
+}, {
+    name: 'steelblue',
+    color: '#4682B4',
+    rgb: '70,130,180',
+    fontColor: 'white'
+}, {
+    name: 'orchid',
+    color: '#DA70D6',
+    rgb: '218,112,214',
+    fontColor: 'white'
+}, {
+    name: 'slategray',
+    color: '#708090',
+    rgb: '112,128,144',
+    fontColor: 'white'
+}, {
+    name: 'crimson',
+    color: '#DC143C',
+    rgb: '220,20,60',
+    fontColor: 'white'
+}, {
+    name: 'gainsboro',
+    color: '#DCDCDC',
+    rgb: '220,220,220'
+}, {
+    name: 'darkkhaki',
+    color: '#BDB76B',
+    rgb: '189,183,107'
+}, {
+    name: 'black',
+    color: '#000000',
+    rgb: '0,0,0',
+    fontColor: 'white'
+}, {
+    name: 'midnightblue',
+    color: '#191970',
+    rgb: '25,25,112',
+    fontColor: 'white'
+}, {
+    name: 'darkgrey',
+    color: '#A9A9A9',
+    rgb: '169,169,169'
+}, {
+    name: 'darkslateblue',
+    color: '#483D8B',
+    rgb: '72,61,139',
+    fontColor: 'white'
+}, {
+    name: 'lawngreen',
+    color: '#7CFC00',
+    rgb: '124,252,0'
+}, {
+    name: 'gray',
+    color: '#808080',
+    rgb: '128,128,128',
+    fontColor: 'white'
+}, {
+    name: 'palegreen',
+    color: '#98FB98',
+    rgb: '152,251,152'
+}, {
+    name: 'mediumorchid',
+    color: '#BA55D3',
+    rgb: '186,85,211'
+}, {
+    name: 'papayawhip',
+    color: '#FFEFD5',
+    rgb: '255,239,213'
+}, {
+    name: 'lightslategray',
+    color: '#778899',
+    rgb: '119,136,153'
+}, {
+    name: 'darkviolet',
+    color: '#9400D3',
+    rgb: '148,0,211',
+    fontColor: 'white'
+}, {
+    name: 'palegoldenrod',
+    color: '#EEE8AA',
+    rgb: '238,232,170'
+}, {
+    name: 'dimgrey',
+    color: '#696969',
+    rgb: '105,105,105',
+    fontColor: 'white'
+}, {
+    name: 'lightslategray',
+    color: '#778899',
+    rgb: '119,136,153',
+    fontColor: 'white'
+}, {
+    name: 'skyblue',
+    color: '#87CEEB',
+    rgb: '135,206,235'
+}, {
+    name: 'darkolivegreen',
+    color: '#556B2F',
+    rgb: '85,107,47',
+    fontColor: 'white'
+}, {
+    name: 'lightpink',
+    color: '#FFB6C1',
+    rgb: '255,182,193'
+}, {
+    name: 'burlywood',
+    color: '#DEB887',
+    rgb: '222,184,135'
+}, {
+    name: 'moccasin',
+    color: '#FFE4B5',
+    rgb: '255,228,181'
+}, {
+    name: 'limegreen',
+    color: '#32CD32',
+    rgb: '50,205,50'
+}, {
+    name: 'mediumpurple',
+    color: '#9370DB',
+    rgb: '147,112,219',
+    fontColor: 'white'
+}, {
+    name: 'saddlebrown',
+    color: '#8B4513',
+    rgb: '139,69,19',
+    fontColor: 'white'
+}, {
+    name: 'lightskyblue',
+    color: '#87CEFA',
+    rgb: '135,206,250'
+}, {
+    name: 'deeppink',
+    color: '#FF1493',
+    rgb: '255,20,147'
+}, {
+    name: 'lightgrey',
+    color: '#D3D3D3',
+    rgb: '211,211,211'
+}, {
+    name: 'brown',
+    color: '#A52A2A',
+    rgb: '165,42,42',
+    fontColor: 'white'
+}, {
+    name: 'bisque',
+    color: '#FFE4C4',
+    rgb: '255,228,196'
+}, {
+    name: 'hotpink',
+    color: '#FF69B4',
+    rgb: '255,105,180'
+}, {
+    name: 'paleturquoise',
+    color: '#AFEEEE',
+    rgb: '175,238,238'
+}, {
+    name: 'tan',
+    color: '#D2B48C',
+    rgb: '210,180,140'
+}, {
+    name: 'slategrey',
+    color: '#708090',
+    rgb: '112,128,144'
+}, {
+    name: 'green',
+    color: '#008000',
+    rgb: '0,128,0',
+    fontColor: 'white'
+}, {
+    name: 'purple',
+    color: '#800080',
+    rgb: '128,0,128',
+    fontColor: 'white'
+}, {
+    name: 'khaki',
+    color: '#F0E68C',
+    rgb: '240,230,140'
+}, {
+    name: 'springgreen',
+    color: '#00FF7F',
+    rgb: '0,255,127'
+}, {
+    name: 'chartreuse',
+    color: '#7FFF00',
+    rgb: '127,255,0'
+}, {
+    name: 'mediumblue',
+    color: '#0000CD',
+    rgb: '0,0,205',
+    fontColor: 'white'
+}, {
+    name: 'silver',
+    color: '#C0C0C0',
+    rgb: '192,192,192'
+}, {
+    name: 'blueviolet',
+    color: '#8A2BE2',
+    rgb: '138,43,226'
+}, {
+    name: 'rosybrown',
+    color: '#BC8F8F',
+    rgb: '188,143,143'
+}, {
+    name: 'darkgray',
+    color: '#A9A9A9',
+    rgb: '169,169,169'
+}, {
+    name: 'mediumslateblue',
+    color: '#7B68EE',
+    rgb: '123,104,238'
+}, {
+    name: 'yellow',
+    color: '#FFFF00',
+    rgb: '255,255,0'
+}, {
+    name: 'darkseagreen',
+    color: '#8FBC8F',
+    rgb: '143,188,143'
+}, {
+    name: 'antiquewhite',
+    color: '#FAEBD7',
+    rgb: '250,235,215'
+}, {
+    name: 'olivedrab',
+    color: '#6B8E23',
+    rgb: '107,142,35'
+}, {
+    name: 'dodgerblue',
+    color: '#1E90FF',
+    rgb: '30,144,255'
+}, {
+    name: 'turquoise',
+    color: '#40E0D0',
+    rgb: '64,224,208',
+    fontColor: 'white',
+    priority: 3
+}, {
+    name: 'orangered',
+    color: '#FF4500',
+    rgb: '255,69,0'
+}, {
+    name: 'lightslategrey',
+    color: '#778899',
+    rgb: '211,21'
+}, {
+    name: 'blanchedalmond',
+    color: '#FFEBCD',
+    rgb: '255,235,205'
+}, {
+    name: 'mediumseagreen',
+    color: '#3CB371',
+    rgb: '60,179,113'
+}, {
+    name: 'lightgray',
+    color: '#D3D3D3',
+    rgb: '211,211,211'
+}, {
+    name: 'tomato',
+    color: '#FF6347',
+    rgb: '255,99,71'
+}, {
+    name: 'lightsalmon',
+    color: '#FFA07A',
+    rgb: '255,160,122'
+}, {
+    name: 'lightseagreen',
+    color: '#20B2AA',
+    rgb: '32,178,170'
+}, {
+    name: 'darkorange',
+    color: '#FF8C00',
+    rgb: '255,140,0'
+}, {
+    name: 'darkgreen',
+    color: '#006400',
+    rgb: '0,100,0',
+    fontColor: 'white'
+}, {
+    name: 'mediumturquoise',
+    color: '#48D1CC',
+    rgb: '72,209,204'
+}, {
+    name: 'slateblue',
+    color: '#6A5ACD',
+    rgb: '106,90,205'
+}, {
+    name: 'darkgoldenrod',
+    color: '#B8860B',
+    rgb: '184,134,11'
+}, {
+    name: 'olive',
+    color: '#808000',
+    rgb: '128,128,0'
+}, {
+    name: 'lightcyan',
+    color: '#E0FFFF',
+    rgb: '224,255,255'
+}, {
+    name: 'pink',
+    color: '#FFC0CB',
+    rgb: '255,192,203'
+}, {
+    name: 'lightcoral',
+    color: '#F08080',
+    rgb: '240,128,128'
+}, {
+    name: 'cadetblue',
+    color: '#5F9EA0',
+    rgb: '95,158,160'
+}, {
+    name: 'teal',
+    color: '#008080',
+    rgb: '0,128,128',
+    fontColor: 'white'
+}, {
+    name: 'mediumvioletred',
+    color: '#C71585',
+    rgb: '199,21,133',
+    fontColor: 'white'
+}, {
+    name: 'indigo',
+    color: '#4B0082',
+    rgb: '75,0,130',
+    fontColor: 'white'
+}, {
+    name: 'chocolate',
+    color: '#D2691E',
+    rgb: '210,105,30',
+    fontColor: 'white'
+}, {
+    name: 'peachpuff',
+    color: '#FFDAB9',
+    rgb: '255,218,185'
+}, {
+    name: 'magenta',
+    color: '#FF00FF',
+    rgb: '255,0,255',
+    fontColor: 'white'
+}, {
+    name: 'honeydew',
+    color: '#F0FFF0',
+    rgb: '240,255,240'
+}, {
+    name: 'aliceblue',
+    color: '#F0F8FF',
+    rgb: '240,248,255'
+}, {
+    name: 'azure',
+    color: '#F0FFFF',
+    rgb: '240,255,255'
+}, {
+    name: 'lightyellow',
+    color: '#FFFFE0',
+    rgb: '255,255,224'
+}, {
+    name: 'whitesmoke',
+    color: '#F5F5F5',
+    rgb: '245,245,245'
+}, {
+    name: 'mintcream',
+    color: '#F5FFFA',
+    rgb: '245,255,250'
+}, {
+    name: 'ghostwhite',
+    color: '#F8F8FF',
+    rgb: '248,248,255'
+}, {
+    name: 'floralwhite',
+    color: '#FFFAF0',
+    rgb: '255,250,240'
+}, {
+    name: 'white',
+    color: '#FFFFFF',
+    rgb: '255,255,255'
+}]
+
+export interface PalletType {
+    name: string;
+    color: string;
+    rgb: string;
+    fontColor?: string;
+    priority?: number
+}

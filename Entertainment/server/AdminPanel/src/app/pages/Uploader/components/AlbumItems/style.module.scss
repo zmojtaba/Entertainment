@@ -1,0 +1,23 @@
+@use "src/styles/utils" as *;
+
+.container {
+    // border: 1px solid red;
+  svg {
+    display: flex;
+    // flex: 1;
+    width: 100%;
+    color: rgb($info-dark, 0.9);
+    align-items: center;
+  }
+  .item{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: rgb($text-secondary, .07);
+    padding: 16px 9% 0px 10%;
+    border-radius:spacing(2);
+    span{
+        font-size: 15px;
+    }
+  }
+}

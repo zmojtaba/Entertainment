@@ -1,0 +1,27 @@
+@use "src/styles/utils" as *;
+
+.circ {
+    opacity: 0;
+    stroke-dasharray: 130;
+    stroke-dashoffset: 130;
+    animation: animate 1s ease forwards;
+    fill: rgb($background-paper);
+    stroke: rgb($success-main);
+
+}
+
+.tick {
+    stroke-dasharray: 50;
+    stroke-dashoffset: 50;
+    animation: animate 1s .5s ease-out forwards;
+
+    fill: rgb($background-paper);
+    stroke: rgb($success-main);
+}
+
+@keyframes animate {
+    100% {
+        opacity: 1;
+        stroke-dashoffset: 0;
+    }
+}

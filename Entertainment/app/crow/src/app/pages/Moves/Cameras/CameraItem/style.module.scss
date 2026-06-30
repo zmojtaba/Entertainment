@@ -1,0 +1,120 @@
+@use "src/styles/utils" as *;
+
+// @mixin grid {
+//     display: grid;
+//     grid-template-columns:
+//         repeat(3, minmax(100px, 1fr))
+//          repeat(2, 0.2fr);
+//     column-gap: 4px;
+// }
+
+@mixin grid {
+    display: grid;
+    gap: 12px;
+    grid-template-columns: repeat(auto-fit, minmax(50px, 1fr));
+
+    // برای دو ستون آخر که می‌خوای باریک‌تر باشن، می‌تونی از کلاس جداگانه استفاده کنی
+    // یا در دسکتاپ بزرگ با media query دوباره اعمال کنی
+    @media (min-width: 1280px) {
+        grid-template-columns: 
+            repeat(3, minmax(100px, 1fr)) 
+            0.2fr 0.2fr;
+    }
+}
+
+@mixin responsive-grid {
+    display: grid;
+    column-gap: 8px; // کمی بزرگ‌تر کردم که بهتر دیده بشه
+    row-gap: 16px;   // اختیاری: فاصله بین ردیف‌ها
+
+    // موبایل کوچک (تا 480px)
+    @media (max-width: 480px) {
+        grid-template-columns: 1fr; // همه ستون‌ها زیر هم (یک ستون)
+    }
+
+    // موبایل بزرگ و تبلت کوچک (481px - 768px)
+    @media (min-width: 481px) and (max-width: 768px) {
+        grid-template-columns: repeat(2, 1fr); // دو ستون مساوی
+    }
+
+    // تبلت (769px - 1024px)
+    @media (min-width: 769px) and (max-width: 1024px) {
+        grid-template-columns: repeat(3, 1fr); // سه ستون مساوی
+    }
+
+    // دسکتاپ کوچک (1025px - 1280px)
+    @media (min-width: 1025px) and (max-width: 1280px) {
+        grid-template-columns: repeat(4, 1fr); // چهار ستون مساوی
+    }
+
+    // دسکتاپ بزرگ (1281px به بالا) - حالت اصلی شما
+    @media (min-width: 1281px) {
+        grid-template-columns: 
+            repeat(3, minmax(100px, 1fr)) 
+            repeat(2, 0.2fr);
+    }
+
+    // حالت پیش‌فرض (اگر مرورگر media query رو پشتیبانی نکنه یا برای پایه)
+    grid-template-columns: repeat(2, 1fr); // یک حالت امن برای موبایل/تبلت
+}
+
+
+
+.table-header {
+    @include grid();
+    height: auto;
+    border-radius: 8px;
+    font-weight: 500;
+    box-shadow: 0 4px 4px rgb($info-dark, .1);
+    background: rgb($info-dark, .01);
+    backdrop-filter: blur(12px);
+    @include px(spacing(1));
+    @include py(spacing(2));
+    z-index: 1000;
+    position: sticky;
+    top: 0;
+    overflow: visible;
+}
+
+.cell {
+    @include px(spacing(.5));
+    font-size: 1.2rem;
+    text-overflow: ellipsis;
+    text-align: center;
+    overflow: hidden;
+    color: rgb($text-primary);
+    span{        
+        font-size: 1rem;
+    }
+    &.direction {
+        direction: ltr;
+    }
+    direction: ltr;
+
+    .tags {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        text-align: center;
+        gap: 3px;
+
+
+        .active-tag {
+            border: 1px solid rgb($primary-light);
+        }
+    }
+
+    svg {
+        font-size: 2rem;
+    }
+}
+
+.camera-list-item {
+    @include grid;
+    border-radius: spacing(2);
+    overflow: hidden;
+    align-items: center;
+    padding: spacing(1.5) spacing(0);
+    background: rgb($text-secondary, .07);
+    flex-shrink: 0;
+}

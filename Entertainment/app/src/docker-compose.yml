@@ -1,0 +1,85 @@
+services:
+  # ==================== backend ====================
+  app:
+    build:
+      context: .
+    container_name: entertainment_app
+    image: entertainment-app
+    restart: always
+    ports:
+      - "5030:5030"
+    environment:
+      ASPNETCORE_ENVIRONMENT: Development
+      APP_HOST_URL: "http://192.168.151.2:5030/"
+      BaseMediaApi: "http://192.168.151.2:5031/"
+      ASPNETCORE_URLS: http://+:5030
+      DOTNET_RUNNING_IN_CONTAINER: "true"
+      DOTNET_USE_POLLING_FILE_WATCHER: "1"
+      ConnectionStrings__DefaultConnection: Host=db;Port=5432;Database=entertainment-app;Username=postgres;Password=postgres
+      BaseStoragePath: /app/storage
+      JWT__Issuer: yourIssuer
+      JWT__Audience: yourAudience
+      JWT__SigningKey: yourSecretKeyformorethanfivehundredandtwelvebyteaaaaddddssssddddsssddddsssaaa
+
+
+    volumes:
+      - /etc/timezone:/etc/timezone:ro
+      - /etc/localtime:/etc/localtime:ro
+      - ./storage:/app/storage
+
+    # networks:
+    #   - app_network
+
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://192.168.151.2:5030/health"]
+      interval: 10s
+      retries: 5
+      timeout: 5s
+      start_period: 30s
+
+
+    depends_on:
+      db:
+        condition: service_healthy
+
+  # ==================== db ====================
+  db:
+    image: postgres:16
+    container_name: backend_db_app
+    restart: always
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: entertainment-app
+    ports:
+      - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres -d entertainment-app"]
+      interval: 5s
+      retries: 5
+      timeout: 5s
+    # networks:
+    #   - app_network
+
+
+
+# ==================== Frontend ====================
+  # frontend:
+  #   image: web:v1.3
+  #   ports:
+  #     - "3000:80"
+  #   restart: always
+  #   depends_on:
+  #     app:
+  #       condition: service_started
+  #   networks:
+  #     - app_network
+
+volumes:
+  pgdata:
+
+# networks:
+#   app_network:
+#     external: true

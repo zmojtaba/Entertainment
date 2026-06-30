@@ -12,12 +12,8 @@ import type { CategoryMagazin } from '../types';
 function CategoryMagzinPage() {
     const [pos, setPos] = useState({ x: 50, y: 50 });
     const [loading, setLoading] = useState(false)
-    const [categories, setCategories] = useState<CategoryMagazin[]>([])
+    const [categories, setCategories] = useState<CategoryMagazin[]>(categoreyMagazin)
     const navigate = useNavigate()
-
-    useEffect(() => {
-        setCategories(categoreyMagazin)
-    }, [])
 
     const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
         const rect = e.currentTarget.getBoundingClientRect();

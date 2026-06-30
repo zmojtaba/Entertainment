@@ -1,0 +1,97 @@
+@use "src/styles/utils" as *;
+
+@mixin grid {
+    display: grid;
+    grid-template-columns: 1fr 2fr 1fr;
+    column-gap: 4px;
+}
+
+.table-header {
+    @include grid();
+    height: auto;
+    border-radius: 8px;
+    font-weight: 500;
+    box-shadow: 0 4px 4px rgb($info-dark, .1);
+    background: rgb($info-dark, .01);
+    backdrop-filter: blur(12px);
+    @include px(spacing(1));
+    @include py(spacing(2));
+    z-index: 1000;
+    position: sticky;
+    top: 0;
+    overflow: visible;
+}
+
+.cell {
+    @include px(spacing(.5));
+    font-size: 1.5rem;
+    text-overflow: ellipsis;
+    text-align: center;
+    overflow: hidden;
+    color: rgb($text-primary);
+ 
+    svg{
+        display: flex;
+        flex: 1;
+        width: 100%;
+        color: rgb($info-dark, 0.9);
+        align-items: center;
+    }
+
+    span[data-span] {
+        font-size: 1.3rem;
+    }
+
+    &.direction {
+        direction: ltr;
+    }
+
+    direction: ltr;
+
+    .tags {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        text-align: center;
+        gap: 3px;
+
+
+        .active-tag {
+            border: 1px solid rgb($primary-light);
+        }
+    }
+
+    svg {
+        font-size: 2rem;
+    }
+}
+
+.camera-list-item {
+    @include grid;
+    border-radius: spacing(2);
+    overflow: hidden;
+    align-items: center;
+    padding: spacing(1.5) spacing(0);
+    background: rgb($text-secondary, .07);
+    flex-shrink: 0;
+    // column-gap: 4px;
+
+    &.disabled {
+        // cursor: not-allowed;
+    }
+
+    &:hover:not(.disabled) {
+        // outline: 2px solid rgb($primary-light);
+        // &:hover {
+        // cursor: pointer;
+    }
+
+    &.selected {
+        background: rgba($info-main, .1);
+    }
+
+    &.pinned {
+        border-right: 5px solid rgb($info-main, .5);
+        border-left: 5px solid rgb($info-main, .5);
+    }
+}

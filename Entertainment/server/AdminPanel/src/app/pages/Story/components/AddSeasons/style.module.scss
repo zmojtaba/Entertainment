@@ -1,0 +1,27 @@
+@use "src/styles/utils" as *;
+
+.dialog-content {
+    padding: 1px;
+    overflow-y: auto;
+
+    .container {
+        display: flex;
+        flex: 1;
+        height: 100%;
+        gap: 10px;
+        flex-direction: column;
+
+        .not-found {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            flex: 1;
+            gap:10px;
+            p{
+                font-size: 13px;
+                opacity: 0.8;
+            }
+        }
+    }
+}

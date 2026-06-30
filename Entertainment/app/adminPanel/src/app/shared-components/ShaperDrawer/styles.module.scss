@@ -1,0 +1,30 @@
+@use "src/styles/utils" as *;
+
+.container {
+    position: relative;
+    margin: 0 auto;
+
+    .tool-box {
+        position: absolute;
+        top: 10px;
+        left: 10px;
+        z-index: 99999999999;
+        transition: all 1s ease;
+        display: flex;
+        flex-direction: column;
+        row-gap: spacing(2);
+
+        &.right {
+            left: unset;
+            right: 10px;
+
+            &.go-out {
+                transform: translateX(calc(100% + 15px));
+            }
+        }
+
+        &.go-out {
+            transform: translateX(calc(-100% - 15px));
+        }
+    }
+}

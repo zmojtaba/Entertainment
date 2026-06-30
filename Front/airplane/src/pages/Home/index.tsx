@@ -1,14 +1,13 @@
 import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import "../../App.css";
-import imaes from '@assets/images/iceland1.jpg'
 import { type Categorys } from "../../store/types";
 import LoadingComponets from "../../Components/Loading";
 import { categoreys } from "../../constants/utilis";
 import { Outlet, useNavigate } from "react-router-dom";
 import classes from './style.module.scss'
 import logoImage from '@assets/images/download.png'
-import ice from '/iceland1.jpg'
+import ice from '@assets/images/iceland1.jpg'
 
 export default function Dashboard() {
     const [categories, setCategories] = useState<Categorys[]>([])
@@ -16,14 +15,14 @@ export default function Dashboard() {
     const [pos, setPos] = useState({ x: 50, y: 50 });
     const navigate = useNavigate()
     useEffect(() => {
-        setLoading(true)
+        const showLoading = async () => {
+            await window.wait(4000);
+            setLoading(false)
+            setCategories(categoreys)
+        }
         showLoading()
     }, [])
-    const showLoading = async () => {
-        await window.wait(5000);
-        setLoading(false)
-        setCategories(categoreys)
-    }
+    
 
     const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
         const rect = e.currentTarget.getBoundingClientRect();

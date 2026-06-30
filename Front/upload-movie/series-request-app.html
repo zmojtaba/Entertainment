@@ -1,0 +1,83 @@
+<!-- <form id="uploadForm">
+  <input type="file" id="video" />
+  <input type="text" id="title" />
+  <input type="text" id="description" />
+  <button type="submit">Upload</button>
+</form>
+
+<h2> hellow </h>
+
+<script>
+document.getElementById("uploadForm").addEventListener("submit", async (e) => {
+  e.preventDefault();
+
+  const fd = new FormData();
+  fd.append("video", document.getElementById("video").files[0]);
+  fd.append("Title", document.getElementById("title").value);
+  fd.append("Description", document.getElementById("description").value);
+  fd.append("PublishedDate", 16);
+  fd.append("AgeGroup", 16);
+  fd.append("ImdbRating", 8.6);
+  fd.append("Languages", JSON.stringify(["Sundanese"]) );
+  fd.append("Countries", JSON.stringify(["Iran", "Iraq"]) );
+  fd.append("Actors", JSON.stringify(["Drama", "Thriller"]) );
+  fd.append("Genres", JSON.stringify(["Drama", "Thriller"]));
+  fd.append("Directors", JSON.stringify(["Christopher Nolan", "jim carry"]));
+
+  await fetch("http://localhost:5030/api/movie", {
+    method: "POST",
+    body: fd
+  });
+});
+</script> -->
+
+
+
+<form id="uploadForm">
+  <!-- Video Input -->
+  <label>Video:</label>
+  <input type="file" id="video" accept="video/*" /><br/>
+
+  <input type="text" id="guid" placeholder="guid" />
+  <input type="number" id="EpisodeNumber" placeholder="EpisodeNumber" />
+  <input type="number" id="SeasonNumber" placeholder="SeasonNumber" />
+  <button type="submit">Upload</button>
+</form>
+<video
+  width="500"
+  height="500"
+  controls
+  preload="metadata"
+>
+
+  <source
+    src="http://0.0.0.0:5030/media/video//series//stringmobile_d45bd489c7f447f8bf06ced2d6d2687f//a6c8f60a8cfe458d9466062a4e608769_VID-20251215-WA0001.mp4"
+    type="video/mp4"
+  />
+</video>
+
+
+<script>
+document.getElementById("uploadForm").addEventListener("submit", async (e) => {
+  e.preventDefault();
+
+  const fd = new FormData();
+
+  // 1. Append the Video
+  const videoFile = document.getElementById("video").files[0];
+  fd.append("video", videoFile);
+
+  // 2. Append the Image (New)
+  // Ensure the key string "poster" matches exactly what your Backend DTO expects
+  // 3. Append other data
+  fd.append("SeriesId", document.getElementById("guid").value);
+  fd.append("EpisodeNumber", document.getElementById("EpisodeNumber").value);
+  fd.append("SeasonNumber", document.getElementById("SeasonNumber").value);
+// http://localhost:5030/api/video/series/season
+  await fetch("http://localhost:5030/api/video/series/season", {
+    method: "POST",
+    body: fd
+  });
+});
+</script>
+

@@ -1,0 +1,104 @@
+@use 'sass:list';
+@use "sass:map";
+@use "sass:string";
+
+
+$mode: var(--mode);
+$text-primary: var(--text-primary);
+$text-secondary: var(--text-secondary);
+$text-disabled: var(--text-disabled);
+$primary-light1: var(--main-200);
+$primary-light: var(--primary-light);
+$primary-main: var(--primary-main);
+$primary-dark: var(--primary-dark);
+$primary-contrastText: var(--primary-contrastText);
+$secondary-light: var(--secondary-light);
+$secondary-main: var(--secondary-main);
+$secondary-dark: var(--secondary-dark);
+$secondary-contrastText: var(--secondary-contrastText);
+$background-paper: var(--background-paper);
+$background-default: var(--background-default);
+$error-50: var(--error-50);
+$error-100: var(--error-100);
+$error-200: var(--error-200);
+$error-300: var(--error-300);
+$error-400: var(--error-400);
+$error-500: var(--error-500);
+$error-600: var(--error-600);
+$error-700: var(--error-700);
+$error-800: var(--error-800);
+$error-900: var(--error-900);
+$error-A100: var(--error-A100);
+$error-A200: var(--error-A200);
+$error-A400: var(--error-A400);
+$error-A700: var(--error-A700);
+$error-main: var(--error-main);
+$error-light: var(--error-light);
+$error-dark: var(--error-dark);
+$error-contrastText: var(--error-contrastText);
+$common-black: var(--common-black);
+$common-white: var(--common-white);
+$warning-main: var(--warning-main);
+$warning-light: var(--warning-light);
+$warning-dark: var(--warning-dark);
+$warning-contrastText: var(--warning-contrastText);
+$info-main: var(--info-main);
+$info-light: var(--info-light);
+$info-dark: var(--info-dark);
+$info-contrastText: var(--info-contrastText);
+$success-main: var(--success-main);
+$success-light: var(--success-light);
+$success-dark: var(--success-dark);
+$success-contrastText: var(--success-contrastText);
+$grey-50: var(--grey-50);
+$grey-100: var(--grey-100);
+$grey-200: var(--grey-200);
+$grey-300: var(--grey-300);
+$grey-400: var(--grey-400);
+$grey-500: var(--grey-500);
+$grey-600: var(--grey-600);
+$grey-700: var(--grey-700);
+$grey-800: var(--grey-800);
+$grey-900: var(--grey-900);
+$grey-A100: var(--grey-A100);
+$grey-A200: var(--grey-A200);
+$grey-A400: var(--grey-A400);
+$grey-A700: var(--grey-A700);
+$contrastThreshold: var(--contrastThreshold);
+$tonalOffset: var(--tonalOffset);
+$divider: var(--divider);
+$action-active: var(--action-active);
+$action-hover: var(--action-hover);
+$action-hoverOpacity: var(--action-hoverOpacity);
+$action-selected: var(--action-selected);
+$action-selectedOpacity: var(--action-selectedOpacity);
+$action-disabled: var(--action-disabled);
+$action-disabledBackground: var(--action-disabledBackground);
+$action-disabledOpacity: var(--action-disabledOpacity);
+$action-focus: var(--action-focus);
+$action-focusOpacity: var(--action-focusOpacity);
+$action-activatedOpacity: var(--action-activatedOpacity);
+
+
+$all_variables: (
+    --common-black,
+    --common-white,
+    --warning-main,
+    --warning-light,
+    --warning-dark,
+);
+
+@function slice($x) {
+    @return string.slice(#{$x}, 3, 100);
+}
+
+$colors: (
+);
+
+@each $v in $all_variables {
+    $colors: map.set($colors, slice($v), var($v));
+}
+
+@function vars($color) {
+    @return map.get($colors, $color)
+}
